@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import ToolCard from '@/components/ToolCard';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 import toolsData from '@/data/tools.json';
@@ -26,7 +27,9 @@ export default function Home() {
       <header className={styles.header}>
         <div className="container">
           <nav className={styles.nav}>
-            <Link href="/" className={styles.logo}>APEX BLUE SKY</Link>
+            <Link href="/" className={styles.logo}>
+              <Image src="/logo.png" alt="Apex Blue Sky Logo" width={540} height={135} style={{ objectFit: 'contain' }} priority />
+            </Link>
             <div className={styles.navLinks}>
               {categories.map(cat => (
                 <button
@@ -66,7 +69,9 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className="container">
           <div className={styles.footerContent}>
-            <div className={styles.footerLogo}>APEX BLUE SKY</div>
+            <div className={styles.footerLogo}>
+              <Image src="/logo.png" alt="Apex Blue Sky Logo" width={450} height={120} style={{ objectFit: 'contain' }} />
+            </div>
             <div style={{ display: 'flex', gap: '2rem' }}>
               <Link href="/about" className={styles.copy}>About</Link>
               <Link href="/privacy" className={styles.copy}>Privacy</Link>

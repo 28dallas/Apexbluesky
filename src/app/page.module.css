@@ -9,7 +9,7 @@
 }
 
 .header {
-  height: 90px;
+  height: 160px;
   display: flex;
   align-items: center;
   background: rgba(11, 15, 26, 0.8);
@@ -100,7 +100,7 @@
 }
 
 .hero {
-  padding: 8rem 0 4rem;
+  padding: 10rem 0 4rem;
   text-align: center;
 }
 
