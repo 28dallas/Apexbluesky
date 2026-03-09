@@ -1,66 +1,81 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useState } from 'react';
+import ToolCard from '@/components/ToolCard';
+import Link from 'next/link';
+import styles from './page.module.css';
+
+import toolsData from '@/data/tools.json';
+
+const tools = Object.entries(toolsData).map(([id, data]) => ({
+  id,
+  ...(data as any)
+}));
+
+const categories = ['All', 'PDF', 'Images', 'Writing', 'Video/Social', 'Technical', 'Education', 'Health'];
 
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const filteredTools = activeCategory === 'All'
+    ? tools
+    : tools.filter(t => t.category.includes(activeCategory));
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className={styles.main}>
+      <header className={styles.header}>
+        <div className="container">
+          <nav className={styles.nav}>
+            <Link href="/" className={styles.logo}>APEX BLUE SKY</Link>
+            <div className={styles.navLinks}>
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  className={`${styles.navPill} ${activeCategory === cat ? styles.activeNavPill : ''}`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+            <div className={styles.auth}>
+              <Link href="/login" className={styles.navLink}>LOGIN</Link>
+              <Link href="/signup" className="btn-primary">SIGN UP</Link>
+            </div>
+          </nav>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      <section className={styles.hero}>
+        <div className="container">
+          <h1 className={styles.heroTitle}>Every tool you need to work with files in one place</h1>
+          <p className={styles.heroSub}>33+ tools to use PDFs and other files, at your fingertips. All are 100% FREE and easy to use!</p>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section id="tools" className={styles.toolsSection}>
+        <div className="container">
+          <div className={styles.grid}>
+            {filteredTools.map((tool) => (
+              <ToolCard key={tool.id} {...tool} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className={styles.footer}>
+        <div className="container">
+          <div className={styles.footerContent}>
+            <div className={styles.footerLogo}>APEX BLUE SKY</div>
+            <div style={{ display: 'flex', gap: '2rem' }}>
+              <Link href="/about" className={styles.copy}>About</Link>
+              <Link href="/privacy" className={styles.copy}>Privacy</Link>
+              <Link href="/contact" className={styles.copy}>Contact</Link>
+            </div>
+            <div className={styles.copy}>&copy; 2026 ApexBlueSky Tools. All rights reserved.</div>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 }

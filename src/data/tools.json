@@ -1,0 +1,1349 @@
+{
+    "merge-pdf": {
+        "title": "Merge PDF",
+        "description": "Combine multiple PDF files into one in seconds.",
+        "icon": "📄",
+        "category": "PDF",
+        "buttonText": "Merge PDFs",
+        "action": "mergePDFs",
+        "inputPlaceholder": "Select PDF files to merge",
+        "seo": {
+            "title": "Free PDF Merger Online – Combine PDF Files Instantly",
+            "description": "Merge multiple PDF files into a single document in seconds. Fast, free, and secure – all processing done in your browser.",
+            "howTo": "Click the upload area to select two or more PDF files. Arrange them in order, then click 'Merge PDFs'. Your combined document will download automatically.",
+            "faqs": [
+                {
+                    "q": "Is there a file size limit for merging PDFs?",
+                    "a": "No fixed limit – performance depends on your browser and device memory."
+                },
+                {
+                    "q": "Is my data sent to a server?",
+                    "a": "No. All processing is done locally in your browser. Your files never leave your device."
+                },
+                {
+                    "q": "Can I merge password-protected PDFs?",
+                    "a": "You will need to unlock the PDF first before merging."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Adobe Acrobat",
+            "logo": "📄",
+            "text": "Edit, sign, and collaborate on PDFs with Adobe Acrobat — the world's most trusted PDF tool.",
+            "url": "https://www.adobe.com/acrobat.html",
+            "cta": "Try Adobe Acrobat Free",
+            "features": [
+                "Edit, sign & protect PDFs",
+                "Convert to Word, Excel, PPT",
+                "Cloud collaboration tools",
+                "Mobile app for iOS & Android"
+            ]
+        }
+    },
+    "split-pdf": {
+        "title": "Split PDF",
+        "description": "Extract pages from a PDF or split it into multiple files.",
+        "icon": "✂️",
+        "category": "PDF",
+        "buttonText": "Split PDF",
+        "action": "splitPDF",
+        "inputPlaceholder": "Upload PDF, specify range (e.g. 1-3)",
+        "seo": {
+            "title": "Split PDF Online – Extract Pages from PDF for Free",
+            "description": "Easily split a large PDF into smaller files or extract specific pages with our free online tool. No registration required.",
+            "howTo": "Upload your PDF and enter the page range you want to extract (e.g. 1-5). Click 'Split PDF' to download your new document.",
+            "faqs": [
+                {
+                    "q": "Can I extract a single page?",
+                    "a": "Yes, just enter the single page number (e.g. 3)."
+                },
+                {
+                    "q": "Will the original PDF be modified?",
+                    "a": "No, the original file is never changed. We only create a new extracted version."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Adobe Acrobat",
+            "logo": "📄",
+            "text": "Edit, sign, and collaborate on PDFs with Adobe Acrobat — the world's most trusted PDF tool.",
+            "url": "https://www.adobe.com/acrobat.html",
+            "cta": "Try Adobe Acrobat Free"
+        }
+    },
+    "pdf-to-word": {
+        "title": "PDF to Word",
+        "description": "Convert PDF documents to editable Microsoft Word files.",
+        "icon": "📝",
+        "category": "PDF",
+        "buttonText": "Convert to Word",
+        "action": "pdfToWord",
+        "inputPlaceholder": "Upload a PDF file to convert",
+        "seo": {
+            "title": "PDF to Word Converter – Free Online DOCX Conversion",
+            "description": "Convert any PDF to an editable Word document online. Fast, free, and privacy-first – no sign-up needed.",
+            "howTo": "Upload your PDF file and click 'Convert to Word'. The resulting .docx file will download automatically.",
+            "faqs": [
+                {
+                    "q": "Does the formatting stay intact?",
+                    "a": "Basic formatting is preserved. Complex layouts may need minor manual adjustment."
+                },
+                {
+                    "q": "What is the output format?",
+                    "a": "The tool outputs a .docx file compatible with Microsoft Word and Google Docs."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Microsoft 365",
+            "logo": "📝",
+            "text": "Edit your Word doc anywhere with Microsoft 365 — the world's favorite productivity suite.",
+            "url": "https://www.microsoft.com/en-us/microsoft-365",
+            "cta": "Get Microsoft 365"
+        }
+    },
+    "compress-pdf": {
+        "title": "Compress PDF",
+        "description": "Reduce the size of your PDF files without losing quality.",
+        "icon": "🗜️",
+        "category": "PDF",
+        "buttonText": "Compress PDF",
+        "action": "compressPDF",
+        "inputPlaceholder": "Upload a PDF to compress",
+        "seo": {
+            "title": "Compress PDF Online – Reduce File Size for Free",
+            "description": "Reduce large PDF file sizes for easy email sharing and storage. Our browser-based tool is fast and completely private.",
+            "howTo": "Upload your PDF file and click 'Compress PDF'. The optimized file will be ready to download instantly.",
+            "faqs": [
+                {
+                    "q": "How much can I reduce the file size?",
+                    "a": "Compression varies by content, but you can typically reduce file size by 20–80%."
+                },
+                {
+                    "q": "Is quality affected?",
+                    "a": "The tool uses lossless compression techniques to preserve visual quality."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Adobe Acrobat",
+            "logo": "📄",
+            "text": "For advanced PDF compression and editing, Adobe Acrobat Pro is the industry standard.",
+            "url": "https://www.adobe.com/acrobat.html",
+            "cta": "Try Adobe Acrobat"
+        }
+    },
+    "image-compressor": {
+        "title": "Image Compressor",
+        "description": "Reduce image file size while maintaining visual quality.",
+        "icon": "📉",
+        "category": "Images",
+        "buttonText": "Compress Image",
+        "action": "imageCompressor",
+        "inputPlaceholder": "Upload an image (JPG, PNG, WebP)",
+        "seo": {
+            "title": "Free Image Compressor Online – Reduce Image Size Instantly",
+            "description": "Compress JPG, PNG, and WebP images to reduce file size without visible quality loss. Perfect for faster websites.",
+            "howTo": "Upload your image file and click 'Compress Image'. The optimized image will download automatically.",
+            "faqs": [
+                {
+                    "q": "What image formats are supported?",
+                    "a": "JPG, PNG, and WebP files are supported."
+                },
+                {
+                    "q": "Will there be visible quality loss?",
+                    "a": "Our tool uses smart compression. At default settings, quality loss is not visible to the eye."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Design stunning visuals with Canva — free templates, brand kits, and one-click image enhancements.",
+            "url": "https://www.canva.com",
+            "cta": "Try Canva Free",
+            "features": [
+                "Drag & drop image editor",
+                "10,000+ free templates",
+                "One-click background remover",
+                "Brand kit & Magic Resize"
+            ]
+        }
+    },
+    "background-remover": {
+        "title": "Background Remover",
+        "description": "Automatically remove the background from any image.",
+        "icon": "🎭",
+        "category": "Images",
+        "buttonText": "Remove Background",
+        "action": "backgroundRemover",
+        "inputPlaceholder": "Upload an image (portrait, product, etc.)",
+        "seo": {
+            "title": "Free Background Remover – Remove Image Background Online",
+            "description": "Remove backgrounds from photos instantly. Perfect for product images, profile pictures, and design assets.",
+            "howTo": "Upload your image and click 'Remove Background'. The transparent PNG will be ready to download.",
+            "faqs": [
+                {
+                    "q": "What types of images work best?",
+                    "a": "Portraits and product photos with clear subjects on distinct backgrounds work best."
+                },
+                {
+                    "q": "What is the output format?",
+                    "a": "The output is a transparent PNG file."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Remove backgrounds, add effects, and design anything with Canva's free photo editor.",
+            "url": "https://www.canva.com/photo-editor/",
+            "cta": "Edit Photos in Canva"
+        }
+    },
+    "image-resizer": {
+        "title": "Image Resizer",
+        "description": "Resize images to any exact width and height dimensions.",
+        "icon": "📐",
+        "category": "Images",
+        "buttonText": "Resize Image",
+        "action": "imageResizer",
+        "inputPlaceholder": "Upload image, enter width and height",
+        "seo": {
+            "title": "Online Image Resizer – Change Photo Dimensions for Free",
+            "description": "Resize any image to custom dimensions in seconds. Ideal for social media banners, icons, or web assets.",
+            "howTo": "Upload your image, enter the target width and height in the input, then click 'Resize Image'.",
+            "faqs": [
+                {
+                    "q": "Will the aspect ratio be preserved?",
+                    "a": "Custom dimensions are applied as specified. To preserve aspect ratio, calculate proportional dimensions first."
+                },
+                {
+                    "q": "What is the output format?",
+                    "a": "The resized image is returned in the original format (JPG or PNG)."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Resize images for every platform in one click with Canva's Magic Resize feature.",
+            "url": "https://www.canva.com/features/magic-resize/",
+            "cta": "Try Magic Resize"
+        }
+    },
+    "jpg-png-converter": {
+        "title": "JPG to PNG",
+        "description": "Convert JPG images to transparent-friendly PNG format.",
+        "icon": "🔄",
+        "category": "Images",
+        "buttonText": "Convert to PNG",
+        "action": "convertJPGtoPNG",
+        "inputPlaceholder": "Upload a JPG image to convert",
+        "seo": {
+            "title": "JPG to PNG Converter – Free Online Format Conversion",
+            "description": "Convert JPEG images to PNG format instantly. Get lossless quality and transparency support in one click.",
+            "howTo": "Upload your JPG file and click 'Convert to PNG'. Your PNG file will download automatically.",
+            "faqs": [
+                {
+                    "q": "Why convert JPG to PNG?",
+                    "a": "PNG supports transparency and lossless compression, making it ideal for logos and graphics."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Edit and export any image format with Canva — free and no software install needed.",
+            "url": "https://www.canva.com",
+            "cta": "Try Canva Free"
+        }
+    },
+    "essay-generator": {
+        "title": "Essay Generator",
+        "description": "Generate well-structured essays on any topic instantly.",
+        "icon": "📚",
+        "category": "Writing",
+        "buttonText": "Generate Essay",
+        "action": "essayGenerator",
+        "initialValue": "The impact of AI on education",
+        "inputPlaceholder": "Enter your essay topic...",
+        "seo": {
+            "title": "Free AI Essay Generator – Write Essays on Any Topic Instantly",
+            "description": "Get a well-structured essay draft in seconds using our AI writer. Great for students, bloggers, and writers.",
+            "howTo": "Type your essay topic into the input field and click 'Generate Essay'. Edit the draft as needed.",
+            "faqs": [
+                {
+                    "q": "Is the generated essay plagiarism-free?",
+                    "a": "Yes, content is algorithmically generated and unique. Always review before submission."
+                },
+                {
+                    "q": "What topics are supported?",
+                    "a": "Any topic! Academic, creative, opinion-based, or technical essays are all supported."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Write confidently with Grammarly — real-time grammar, clarity, and plagiarism checks.",
+            "url": "https://www.grammarly.com",
+            "cta": "Try Grammarly Free",
+            "features": [
+                "Advanced grammar & clarity AI",
+                "Built-in plagiarism detection",
+                "Tone & writing style suggestions",
+                "Works in Chrome, Word & more"
+            ]
+        }
+    },
+    "paraphraser": {
+        "title": "AI Paraphraser",
+        "description": "Rewrite and rephrase any text to make it more unique.",
+        "icon": "✍️",
+        "category": "Writing",
+        "buttonText": "Paraphrase",
+        "action": "paraphraseText",
+        "initialValue": "The quick brown fox jumps over the lazy dog.",
+        "inputPlaceholder": "Paste the text you want to paraphrase...",
+        "seo": {
+            "title": "Free AI Paraphrasing Tool – Rewrite Text Online Instantly",
+            "description": "Instantly reword and rephrase any text while keeping the original meaning. Perfect for avoiding plagiarism.",
+            "howTo": "Paste your text into the input field and click 'Paraphrase'. Review and copy the rewritten version.",
+            "faqs": [
+                {
+                    "q": "Does paraphrasing change the meaning?",
+                    "a": "The core meaning is preserved. The vocabulary and sentence structure are changed."
+                },
+                {
+                    "q": "Is there a character limit?",
+                    "a": "The tool works best with paragraphs of up to 1000 characters for optimal results."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Paraphrase smarter and check plagiarism with Grammarly Premium's advanced writing tools.",
+            "url": "https://www.grammarly.com",
+            "cta": "Try Grammarly Free"
+        }
+    },
+    "grammar-checker": {
+        "title": "Grammar Checker",
+        "description": "Detect and fix grammar, spelling, and punctuation errors.",
+        "icon": "✅",
+        "category": "Writing",
+        "buttonText": "Check Grammar",
+        "action": "grammarChecker",
+        "initialValue": "i love to codes and building stuff",
+        "inputPlaceholder": "Paste your text here to check grammar...",
+        "seo": {
+            "title": "Free Online Grammar Checker – Fix Writing Errors Instantly",
+            "description": "Check and correct grammar, spelling, and punctuation for free. Write with confidence using our AI-powered checker.",
+            "howTo": "Paste your text into the input field and click 'Check Grammar'. Review the corrected version.",
+            "faqs": [
+                {
+                    "q": "Does it work for academic writing?",
+                    "a": "Yes, it handles formal, academic, and casual writing styles."
+                },
+                {
+                    "q": "Is my text stored?",
+                    "a": "No. Text is processed in your browser session and is not stored."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Grammarly catches errors your basic checker misses. Used by 30M+ writers worldwide.",
+            "url": "https://www.grammarly.com",
+            "cta": "Get Grammarly Free"
+        }
+    },
+    "yt-title-gen": {
+        "title": "YouTube Title Gen",
+        "description": "Create SEO-optimized, click-worthy YouTube video titles.",
+        "icon": "🏷️",
+        "category": "Video/Social",
+        "buttonText": "Generate Titles",
+        "action": "ytTitleGenerator",
+        "initialValue": "Next.js Tutorial for Beginners",
+        "inputPlaceholder": "Describe your video topic...",
+        "seo": {
+            "title": "YouTube Title Generator – Create Viral Video Titles Free",
+            "description": "Generate click-worthy, SEO-optimized YouTube titles in seconds. Boost views and CTR with powerful title ideas.",
+            "howTo": "Describe your video topic and click 'Generate Titles'. Pick the best title for your content.",
+            "faqs": [
+                {
+                    "q": "How many title suggestions do I get?",
+                    "a": "The tool generates multiple title variations to choose from."
+                },
+                {
+                    "q": "Are these titles SEO-optimized?",
+                    "a": "Yes, titles are crafted using high-CTR keyword patterns."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "TubeBuddy",
+            "logo": "📺",
+            "text": "Grow your YouTube channel faster with TubeBuddy — the #1 YouTube SEO & management toolkit.",
+            "url": "https://www.tubebuddy.com",
+            "cta": "Try TubeBuddy Free",
+            "features": [
+                "A/B test thumbnails & titles",
+                "Keyword research for YouTube",
+                "Bulk video SEO optimization",
+                "Competitor analysis tools"
+            ]
+        }
+    },
+    "youtube-tags": {
+        "title": "YouTube Tag Gen",
+        "description": "Generate relevant tags to boost your YouTube video ranking.",
+        "icon": "📺",
+        "category": "Video/Social",
+        "buttonText": "Generate Tags",
+        "action": "generateYouTubeTags",
+        "initialValue": "How to build a SaaS product",
+        "inputPlaceholder": "Enter your video title or topic...",
+        "seo": {
+            "title": "YouTube Tags Generator – Get Trending Tags for Videos",
+            "description": "Find the best tags for your YouTube videos to improve discoverability and ranking on YouTube search.",
+            "howTo": "Enter your video title or main topic and click 'Generate Tags'. Copy the tags to your YouTube upload form.",
+            "faqs": [
+                {
+                    "q": "How many tags should I use?",
+                    "a": "YouTube allows up to 500 characters of tags. Focus on 10–15 highly relevant tags."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "TubeBuddy",
+            "logo": "📺",
+            "text": "Find the best YouTube tags and keywords with TubeBuddy's powerful SEO data.",
+            "url": "https://www.tubebuddy.com",
+            "cta": "Try TubeBuddy Free"
+        }
+    },
+    "yt-thumb-downloader": {
+        "title": "Thumbnail Downloader",
+        "description": "Download high-resolution thumbnails from any YouTube video.",
+        "icon": "🖼️",
+        "category": "Video/Social",
+        "buttonText": "Get Thumbnail",
+        "action": "thumbnailDownloader",
+        "initialValue": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "inputPlaceholder": "Paste a YouTube video URL...",
+        "seo": {
+            "title": "YouTube Thumbnail Downloader – Get HD Thumbnails Free",
+            "description": "Download full-resolution thumbnails from any YouTube video in seconds. Get HD, SD, and default quality options.",
+            "howTo": "Paste the full YouTube video URL and click 'Get Thumbnail'. Links to all available resolution thumbnails will appear.",
+            "faqs": [
+                {
+                    "q": "Is this legal to use?",
+                    "a": "Thumbnail images may be copyrighted. Use them for personal or educational reference only."
+                },
+                {
+                    "q": "What resolutions are available?",
+                    "a": "Thumbnails are available in up to 1280x720 (HD) resolution."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🖼️",
+            "text": "Create professional YouTube thumbnails that get more clicks using Canva's free templates.",
+            "url": "https://www.canva.com/create/youtube-thumbnails/",
+            "cta": "Make a Thumbnail Free"
+        }
+    },
+    "seo-density": {
+        "title": "Keyword Density",
+        "description": "Analyze how often keywords appear in your content.",
+        "icon": "🔍",
+        "category": "Technical",
+        "buttonText": "Check Density",
+        "action": "keywordDensity",
+        "initialValue": "This Next.js project is a great Next.js example for developers.",
+        "inputPlaceholder": "Paste your article or blog post content here...",
+        "seo": {
+            "title": "Keyword Density Checker – Analyze SEO Content for Free",
+            "description": "Check how often keywords appear in your text. Optimize content for SEO by avoiding over or under-use of keywords.",
+            "howTo": "Paste your article content into the field and click 'Check Density'. The top keywords and their frequency percentage appear.",
+            "faqs": [
+                {
+                    "q": "What is ideal keyword density?",
+                    "a": "Most SEO experts recommend 1–2% keyword density for your primary keyword."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "SEMrush",
+            "logo": "🔍",
+            "text": "Go beyond keyword density. SEMrush gives you full SEO audits, backlinks, and competitor data.",
+            "url": "https://www.semrush.com",
+            "cta": "Try SEMrush Free",
+            "features": [
+                "Full website SEO audit",
+                "Keyword & backlink research",
+                "Competitor traffic analysis",
+                "Content marketing toolkit"
+            ]
+        }
+    },
+    "meta-tag-gen": {
+        "title": "Meta Tag Gen",
+        "description": "Generate HTML meta tags for SEO, social, and Open Graph.",
+        "icon": "📑",
+        "category": "Technical",
+        "buttonText": "Generate Meta Tags",
+        "action": "metaTagGenerator",
+        "initialValue": "My Awesome Site, The best free tools online, tools, web tools, developer",
+        "inputPlaceholder": "Title, Description, Keywords (comma-separated)",
+        "seo": {
+            "title": "SEO Meta Tag Generator – Create HTML Meta Tags Free",
+            "description": "Generate complete HTML meta tags including title, description, Open Graph, and Twitter Card tags instantly.",
+            "howTo": "Enter your site title, description, and keywords. Click 'Generate Meta Tags' to get ready-to-paste HTML.",
+            "faqs": [
+                {
+                    "q": "What meta tags are generated?",
+                    "a": "Title, description, keywords, Open Graph (og:) and Twitter Card tags."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "SEMrush",
+            "logo": "🔍",
+            "text": "SEMrush generates meta tags AND shows you which ones your competitors rank for.",
+            "url": "https://www.semrush.com",
+            "cta": "Try SEMrush Free"
+        }
+    },
+    "sitemap-gen": {
+        "title": "Sitemap Gen",
+        "description": "Generate an XML sitemap for your website for Google indexing.",
+        "icon": "🗺️",
+        "category": "Technical",
+        "buttonText": "Generate Sitemap",
+        "action": "sitemapGenerator",
+        "initialValue": "mywebsite.com",
+        "inputPlaceholder": "Enter your domain (e.g. mysite.com)",
+        "seo": {
+            "title": "XML Sitemap Generator – Free SEO Sitemap Tool",
+            "description": "Create an XML sitemap for your website to help Google and other search engines find and index all your pages.",
+            "howTo": "Enter your website's domain name and click 'Generate Sitemap'. Submit the result to Google Search Console.",
+            "faqs": [
+                {
+                    "q": "What is an XML sitemap?",
+                    "a": "An XML sitemap lists all important pages on your site, helping search engines discover them faster."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Hostinger",
+            "logo": "🌐",
+            "text": "Host your website and submit your sitemap to Google with Hostinger — fast hosting from $2.99/mo.",
+            "url": "https://www.hostinger.com",
+            "cta": "Get Web Hosting"
+        }
+    },
+    "json-formatter": {
+        "title": "JSON Formatter",
+        "description": "Prettify, validate, and format raw JSON instantly.",
+        "icon": "💻",
+        "category": "Technical",
+        "buttonText": "Format JSON",
+        "action": "formatJSON",
+        "initialValue": "{\"user\":\"Nathan\",\"role\":\"developer\",\"active\":true}",
+        "inputPlaceholder": "Paste raw JSON here...",
+        "seo": {
+            "title": "Free JSON Formatter Online – Prettify & Debug JSON Code",
+            "description": "Format and validate JSON data with instant syntax highlighting. Built for developers, runs entirely in your browser.",
+            "howTo": "Paste your raw or minified JSON into the input area and click 'Format JSON'. The output is properly indented.",
+            "faqs": [
+                {
+                    "q": "Does the tool validate my JSON?",
+                    "a": "Yes, invalid JSON will surface an error message so you can debug it."
+                },
+                {
+                    "q": "Is my data stored?",
+                    "a": "No. All processing is session-based and runs locally in your browser."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "GitHub Copilot",
+            "logo": "💻",
+            "text": "Speed up your coding with GitHub Copilot — AI-powered code completion for any language.",
+            "url": "https://github.com/features/copilot",
+            "cta": "Try Copilot Free"
+        }
+    },
+    "css-minifier": {
+        "title": "CSS Minifier",
+        "description": "Minify CSS to reduce file size and improve page load speed.",
+        "icon": "🎨",
+        "category": "Technical",
+        "buttonText": "Minify CSS",
+        "action": "cssMinifier",
+        "initialValue": "body {\n  background: #0a0a0a;\n  color: white;\n  font-family: sans-serif;\n}",
+        "inputPlaceholder": "Paste your CSS code here...",
+        "seo": {
+            "title": "CSS Minifier Online – Shrink CSS for Faster Websites",
+            "description": "Minify CSS code by removing whitespace and comments. Faster CSS means faster page loads and better SEO scores.",
+            "howTo": "Paste your CSS into the input field and click 'Minify CSS'. Copy the minified output to use in production.",
+            "faqs": [
+                {
+                    "q": "Is minified CSS still readable?",
+                    "a": "Minified CSS removes whitespace and is harder to read. Keep your original file for development."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Hostinger",
+            "logo": "🚀",
+            "text": "Deploy your optimized CSS instantly. Hostinger offers blazing-fast NVMe SSD hosting.",
+            "url": "https://www.hostinger.com",
+            "cta": "Get Web Hosting"
+        }
+    },
+    "html-beautifier": {
+        "title": "HTML Beautifier",
+        "description": "Format and clean up messy or minified HTML code.",
+        "icon": "🌐",
+        "category": "Technical",
+        "buttonText": "Beautify HTML",
+        "action": "htmlBeautifier",
+        "initialValue": "<div><h1>Hello</h1><p>World</p><ul><li>One</li><li>Two</li></ul></div>",
+        "inputPlaceholder": "Paste your HTML code here...",
+        "seo": {
+            "title": "HTML Beautifier Online – Format & Indent HTML Free",
+            "description": "Clean up ugly or minified HTML code. Instantly add proper indentation and formatting for readable source code.",
+            "howTo": "Paste your HTML into the input field and click 'Beautify HTML'. The formatted code appears below the button.",
+            "faqs": [
+                {
+                    "q": "Does it work with partial HTML snippets?",
+                    "a": "Yes, you can paste any HTML fragment and it will be indented correctly."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "GitHub Copilot",
+            "logo": "💻",
+            "text": "Write cleaner HTML faster with GitHub Copilot — AI pair programming for developers.",
+            "url": "https://github.com/features/copilot",
+            "cta": "Try Copilot Free"
+        }
+    },
+    "age-calculator": {
+        "title": "Age Calculator",
+        "description": "Calculate your exact age in years, months, and days.",
+        "icon": "🎂",
+        "category": "Technical",
+        "buttonText": "Calculate Age",
+        "action": "ageCalculator",
+        "initialValue": "1995-05-15",
+        "inputPlaceholder": "Enter birthdate (YYYY-MM-DD)",
+        "seo": {
+            "title": "Free Age Calculator – Find Your Exact Age Online",
+            "description": "Calculate your exact age from your date of birth in years, months, and days. Fast and accurate.",
+            "howTo": "Enter your date of birth in the YYYY-MM-DD format and click 'Calculate Age'. Your exact age is displayed instantly.",
+            "faqs": [
+                {
+                    "q": "Does it account for leap years?",
+                    "a": "Yes, leap years and varying month lengths are all accounted for."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "MyHeritage",
+            "logo": "🎂",
+            "text": "Discover your family history and DNA ancestry with MyHeritage.",
+            "url": "https://www.myheritage.com",
+            "cta": "Explore MyHeritage"
+        }
+    },
+    "loan-calculator": {
+        "title": "Loan Calculator",
+        "description": "Calculate monthly payments and total interest on any loan.",
+        "icon": "💰",
+        "category": "Technical",
+        "buttonText": "Calculate Loan",
+        "action": "loanCalculator",
+        "initialValue": "10000, 5, 3",
+        "inputPlaceholder": "Principal (e.g. 10000), Rate % (e.g. 5), Years (e.g. 3)",
+        "seo": {
+            "title": "Loan Calculator Online – Estimate Monthly Payments Free",
+            "description": "Calculate monthly loan payments, total interest paid, and repayment schedule. Great for mortgages, car loans, and more.",
+            "howTo": "Enter the loan principal amount, annual interest rate (%), and loan term in years, then click 'Calculate Loan'.",
+            "faqs": [
+                {
+                    "q": "What types of loans can I calculate?",
+                    "a": "Any fixed-rate loan: mortgage, car loan, personal loan, student loan, etc."
+                },
+                {
+                    "q": "Is the calculation accurate?",
+                    "a": "Yes, we use the standard amortization formula used by banks."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Wise",
+            "logo": "💸",
+            "text": "Transfer money internationally at the real exchange rate with Wise — save on fees today.",
+            "url": "https://wise.com",
+            "cta": "Try Wise Free"
+        }
+    },
+    "bmi-calculator": {
+        "title": "BMI Calculator",
+        "description": "Calculate your Body Mass Index to assess your health category.",
+        "icon": "⚖️",
+        "category": "Health",
+        "buttonText": "Calculate BMI",
+        "action": "calculateBMI",
+        "initialValue": "70, 1.75",
+        "inputPlaceholder": "Weight in kg, Height in meters (e.g. 70, 1.75)",
+        "seo": {
+            "title": "BMI Calculator – Check Your Body Mass Index Free",
+            "description": "Instantly calculate your BMI using weight and height. Understand if you are underweight, normal, overweight, or obese.",
+            "howTo": "Enter your weight in kilograms and height in meters (e.g. '70, 1.75') and click 'Calculate BMI'.",
+            "faqs": [
+                {
+                    "q": "What is a healthy BMI for adults?",
+                    "a": "A BMI between 18.5 and 24.9 is generally considered a healthy weight for adults."
+                },
+                {
+                    "q": "Is BMI accurate for everyone?",
+                    "a": "BMI is a general indicator. It may not account for muscle mass, age, or ethnicity."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "MyFitnessPal",
+            "logo": "⚖️",
+            "text": "Track your nutrition and exercise to hit your health goals with MyFitnessPal — free app.",
+            "url": "https://www.myfitnesspal.com",
+            "cta": "Try MyFitnessPal Free",
+            "features": [
+                "Track calories & macros",
+                "14M+ food database",
+                "Exercise & step logging",
+                "Personalized health goals"
+            ]
+        }
+    },
+    "mp4-to-mp3": {
+        "title": "MP4 to MP3",
+        "description": "Extract audio from video files instantly.",
+        "icon": "🎵",
+        "category": "Technical",
+        "buttonText": "Extract Audio",
+        "action": "mp4ToMp3",
+        "inputPlaceholder": "Upload an MP4 video file",
+        "seo": {
+            "title": "MP4 to MP3 Converter – Extract Audio from Video Free",
+            "description": "Convert MP4 videos to MP3 audio files instantly in your browser. No uploads, no account required.",
+            "howTo": "Upload your MP4 video file and click 'Extract Audio'. The MP3 file will download automatically.",
+            "faqs": [
+                {
+                    "q": "Is audio quality preserved?",
+                    "a": "Yes, audio is extracted at the source quality of the original video."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Spotify for Creators",
+            "logo": "🎵",
+            "text": "Share your audio content on Spotify and reach millions of listeners for free.",
+            "url": "https://podcasters.spotify.com",
+            "cta": "Publish on Spotify"
+        }
+    },
+    "pdf-to-jpg": {
+        "title": "PDF to JPG",
+        "description": "Convert PDF pages into high-quality JPG images.",
+        "icon": "📷",
+        "category": "Technical",
+        "buttonText": "Convert to JPG",
+        "action": "pdfToJpg",
+        "inputPlaceholder": "Upload a PDF to convert to images",
+        "seo": {
+            "title": "PDF to JPG Converter – Export PDF Pages as Images Free",
+            "description": "Convert every page of your PDF into a high-resolution JPG image. Fast, free, and private.",
+            "howTo": "Upload your PDF and click 'Convert to JPG'. Each page will be extracted as a separate JPEG image.",
+            "faqs": [
+                {
+                    "q": "What image resolution will I get?",
+                    "a": "Pages are rendered at high DPI for crisp, clear images suitable for printing."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🖼️",
+            "text": "Edit and enhance your extracted images in Canva — free, professional, and browser-based.",
+            "url": "https://www.canva.com/photo-editor/",
+            "cta": "Edit Images in Canva"
+        }
+    },
+    "png-to-webp": {
+        "title": "PNG to WebP",
+        "description": "Convert PNG images to the modern WebP format for better web performance.",
+        "icon": "🕸️",
+        "category": "Technical",
+        "buttonText": "Convert to WebP",
+        "action": "pngToWebP",
+        "inputPlaceholder": "Upload a PNG image to convert",
+        "seo": {
+            "title": "PNG to WebP Converter – Optimize Images for the Web Free",
+            "description": "Convert PNG images to WebP format to reduce file size by up to 50%. Improve your website's Core Web Vitals score.",
+            "howTo": "Upload your PNG image and click 'Convert to WebP'. The optimized file will download instantly.",
+            "faqs": [
+                {
+                    "q": "Why use WebP over PNG?",
+                    "a": "WebP files are typically 25–50% smaller than equivalent PNG files at the same quality."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Hostinger",
+            "logo": "🚀",
+            "text": "Deploy WebP-optimized sites on Hostinger for blazing-fast page load speeds.",
+            "url": "https://www.hostinger.com",
+            "cta": "Get Web Hosting"
+        }
+    },
+    "hashtag-gen": {
+        "title": "Hashtag Generator",
+        "description": "Generate trending hashtags to grow your social media reach.",
+        "icon": "#️",
+        "category": "Video/Social",
+        "buttonText": "Generate Hashtags",
+        "action": "generateHashtags",
+        "initialValue": "Just launched my new coding project",
+        "inputPlaceholder": "Describe your post or enter keywords...",
+        "seo": {
+            "title": "Free Hashtag Generator – Get Viral Tags for Instagram, TikTok & X",
+            "description": "Instantly generate relevant hashtags to boost your content reach on Instagram, TikTok, LinkedIn, and X (Twitter).",
+            "howTo": "Enter a few keywords or a description of your post and click 'Generate Hashtags'. Copy and paste the tags to your post.",
+            "faqs": [
+                {
+                    "q": "How many hashtags should I use on Instagram?",
+                    "a": "3–10 highly specific hashtags typically perform better than 30 generic ones."
+                },
+                {
+                    "q": "Does it work for TikTok hashtags?",
+                    "a": "Yes, the tool generates tags suitable for TikTok, Instagram, and X."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Later",
+            "logo": "📱",
+            "text": "Schedule your hashtag-optimized posts with Later — the #1 social media scheduling tool.",
+            "url": "https://later.com",
+            "cta": "Try Later Free"
+        }
+    },
+    "bio-gen": {
+        "title": "Bio Generator",
+        "description": "Create a professional and catchy social media bio in seconds.",
+        "icon": "👤",
+        "category": "Video/Social",
+        "buttonText": "Generate Bio",
+        "action": "bioGenerator",
+        "initialValue": "Full-stack Developer & Content Creator",
+        "inputPlaceholder": "Enter your niche, profession, or interests...",
+        "seo": {
+            "title": "AI Social Media Bio Generator – Write a Catchy Bio Free",
+            "description": "Generate a professional Instagram, LinkedIn, or Twitter bio in one click. Stand out with a compelling profile description.",
+            "howTo": "Enter your niche, profession, or interests and click 'Generate Bio'. Use the output to update your social profiles.",
+            "faqs": [
+                {
+                    "q": "Which platforms is this for?",
+                    "a": "Works great for Instagram, TikTok, LinkedIn, X, and any other profile bio."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "👤",
+            "text": "Design a stunning profile picture to match your new bio — free with Canva.",
+            "url": "https://www.canva.com/create/profile-pictures/",
+            "cta": "Create Profile Pic"
+        }
+    },
+    "tiktok-caption": {
+        "title": "TikTok Caption",
+        "description": "Generate catchy captions that make your TikTok videos go viral.",
+        "icon": "🎵",
+        "category": "Video/Social",
+        "buttonText": "Generate Caption",
+        "action": "tiktokCaption",
+        "initialValue": "Morning Routine Life Hacks",
+        "inputPlaceholder": "Describe your TikTok video topic...",
+        "seo": {
+            "title": "TikTok Caption Generator – Get Viral Captions for Free",
+            "description": "Create engaging TikTok captions with trending phrases and call-to-actions. Boost saves, comments, and shares.",
+            "howTo": "Describe your video content and click 'Generate Caption'. Pick the best caption and paste it into TikTok.",
+            "faqs": [
+                {
+                    "q": "How long should TikTok captions be?",
+                    "a": "Captions of 100–150 characters tend to perform well. Include 3–5 hashtags at the end."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "TubeBuddy",
+            "logo": "🎵",
+            "text": "Manage your social content pipeline across YouTube and TikTok with TubeBuddy.",
+            "url": "https://www.tubebuddy.com",
+            "cta": "Try TubeBuddy Free"
+        }
+    },
+    "gpa-calculator": {
+        "title": "GPA Calculator",
+        "description": "Calculate your semester or cumulative Grade Point Average.",
+        "icon": "🎓",
+        "category": "Education",
+        "buttonText": "Calculate GPA",
+        "action": "calculateGPA",
+        "initialValue": "{\"Mathematics\": 4.0, \"English\": 3.5, \"Physics\": 3.7}",
+        "inputPlaceholder": "Enter grades as JSON: {\"Subject\": grade_point}",
+        "seo": {
+            "title": "GPA Calculator Online – Calculate Your Grade Average Free",
+            "description": "Calculate your semester GPA or cumulative GPA instantly. Enter your course grades and get your overall GPA score.",
+            "howTo": "Enter your subjects and grade points in JSON format (e.g. {\"Math\": 4.0, \"English\": 3.5}) and click 'Calculate GPA'.",
+            "faqs": [
+                {
+                    "q": "What GPA scale does this use?",
+                    "a": "The calculator uses the standard 4.0 GPA scale used by most universities."
+                },
+                {
+                    "q": "Can I calculate a weighted GPA?",
+                    "a": "Enter the same subject multiple times with different credit weights to simulate weighted GPA."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Coursera",
+            "logo": "🎓",
+            "text": "Boost your GPA with expert-led courses from Coursera — 7,000+ courses from top universities.",
+            "url": "https://www.coursera.org",
+            "cta": "Browse Courses Free",
+            "features": [
+                "7,000+ university courses",
+                "Professional certificates",
+                "Self-paced learning",
+                "Free enrollment available"
+            ]
+        }
+    },
+    "citation-gen": {
+        "title": "Citation Generator",
+        "description": "Generate accurate citations and references in multiple formats.",
+        "icon": "🔖",
+        "category": "Education",
+        "buttonText": "Generate Citation",
+        "action": "citationGenerator",
+        "initialValue": "Doe, John, The Art of Code, 2021",
+        "inputPlaceholder": "Author, Title, Year (comma-separated)",
+        "seo": {
+            "title": "Free Citation Generator – APA, MLA, Harvard Reference Tool",
+            "description": "Instantly generate properly formatted citations for books, articles, and websites. Perfect for essays and research papers.",
+            "howTo": "Enter the author name, title, and year of publication and click 'Generate Citation'. Copy the citation into your paper.",
+            "faqs": [
+                {
+                    "q": "Which citation styles are supported?",
+                    "a": "APA, MLA, and Harvard citation formats are generated."
+                },
+                {
+                    "q": "Can I cite websites?",
+                    "a": "Yes, include the URL as part of the author field and the tool will format it correctly."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Coursera",
+            "logo": "🔖",
+            "text": "Access millions of research papers and academic resources. Enroll in university-grade courses on Coursera.",
+            "url": "https://www.coursera.org",
+            "cta": "Browse Courses Free"
+        }
+    },
+    "study-planner": {
+        "title": "Study Planner",
+        "description": "Generate a personalized study schedule based on your learning goal.",
+        "icon": "📅",
+        "category": "Education",
+        "buttonText": "Create Study Plan",
+        "action": "studyPlanner",
+        "initialValue": "Learn Next.js in 30 days",
+        "inputPlaceholder": "Enter your learning goal or subject...",
+        "seo": {
+            "title": "AI Study Planner – Create a Personalized Study Schedule Free",
+            "description": "Get a custom weekly study plan based on your goals. Great for students preparing for exams or learning new skills.",
+            "howTo": "Enter your learning goal or subject (e.g. 'Pass my biology exam') and click 'Create Study Plan'.",
+            "faqs": [
+                {
+                    "q": "How detailed is the study plan?",
+                    "a": "The plan breaks down topics into daily sessions with recommended resources."
+                },
+                {
+                    "q": "Can I customize the plan?",
+                    "a": "The generated plan is text-based. You can copy it and adjust to fit your schedule."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Coursera",
+            "logo": "📅",
+            "text": "Turn your study plan into real credentials — enroll free on Coursera and earn certificates.",
+            "url": "https://www.coursera.org",
+            "cta": "Start Learning Free"
+        }
+    },
+    "mpesa-to-pdf": {
+        "title": "M-Pesa Statement PDF",
+        "description": "Convert your M-Pesa SMS messages into a clean, branded PDF statement.",
+        "icon": "📱",
+        "category": "PDF",
+        "buttonText": "Generate PDF Statement",
+        "action": "mpesaToPDF",
+        "initialValue": "QA12BT3456 Confirmed. You have received Ksh 5,000.00 from JOHN DOE 0712345678 on 1/3/2024 at 10:22 AM. New M-PESA balance is Ksh 8,250.00.",
+        "inputPlaceholder": "Paste your M-Pesa SMS messages here, one per line...",
+        "seo": {
+            "title": "M-Pesa Statement to PDF – Free Online Converter Kenya",
+            "description": "Convert M-Pesa SMS transaction messages into a professional PDF bank statement. Perfect for loan applications and financial records.",
+            "howTo": "Copy your M-Pesa SMS messages from your phone, paste them into the input, then click 'Generate PDF Statement'. A branded PDF downloads instantly.",
+            "faqs": [
+                {
+                    "q": "Is this tool affiliated with Safaricom?",
+                    "a": "No. This is an unofficial tool built for convenience. Always verify transactions on the official Safaricom portal."
+                },
+                {
+                    "q": "Can I use this for a bank loan application?",
+                    "a": "This document is unofficial. Check with your bank whether they accept it alongside official M-Pesa statements."
+                },
+                {
+                    "q": "Is my financial data safe?",
+                    "a": "Yes. All processing happens locally in your browser. Nothing is uploaded or stored."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Equity Bank",
+            "logo": "🏦",
+            "text": "Open an Equity Bank account and manage your finances smarter across all mobile money platforms.",
+            "url": "https://www.equitybank.co.ke",
+            "cta": "Open Account Free",
+            "features": [
+                "M-Pesa integration built-in",
+                "Free mobile banking app",
+                "Instant loans via Eazzy Banking",
+                "Savings & investment options"
+            ]
+        }
+    },
+    "logo-generator": {
+        "title": "Logo Generator",
+        "description": "Generate a logo concept with color palettes, font pairings, and a direct link to Canva Logo Maker.",
+        "icon": "🎨",
+        "category": "Images",
+        "buttonText": "Generate Logo Concept",
+        "action": "logoGenerator",
+        "initialValue": "ApexBlueSky, tech, modern",
+        "inputPlaceholder": "Brand name, style (e.g. Apple, minimal, elegant)",
+        "seo": {
+            "title": "Free AI Logo Generator – Logo Design Ideas & Canva Integration",
+            "description": "Get instant logo concept recommendations: color palette, font pairs, and design tips. Then build it professionally in Canva.",
+            "howTo": "Enter your brand name and style keywords (e.g. 'Nike, bold, athletic') and click 'Generate Logo Concept'. Follow the Canva link to build your actual logo.",
+            "faqs": [
+                {
+                    "q": "Does this tool actually create an image logo?",
+                    "a": "This tool generates a concept card with design guidelines. Use the Canva link provided to create the actual visual logo."
+                },
+                {
+                    "q": "Is Canva free to use?",
+                    "a": "Canva has a free plan with hundreds of logo templates. Canva Pro unlocks advanced features."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Design your logo professionally with Canva — 900,000+ free templates, drag & drop, no skills needed.",
+            "url": "https://www.canva.com/create/logos/",
+            "cta": "Design Logo in Canva Free",
+            "features": [
+                "900,000+ logo templates",
+                "Drag & drop editor",
+                "Download in PNG, SVG, PDF",
+                "Brand kit & style guide"
+            ]
+        }
+    },
+    "password-generator": {
+        "title": "Password Generator",
+        "description": "Generate strong, secure, and random passwords instantly.",
+        "icon": "🔐",
+        "category": "Developer",
+        "buttonText": "Generate Password",
+        "action": "generatePassword",
+        "seo": {
+            "title": "Strong Random Password Generator - ApexBlueSky Tools",
+            "description": "Create highly secure, random passwords with custom lengths and character types in your browser.",
+            "howTo": "Select length and character types (uppercase, numbers, symbols) and click Generate.",
+            "faqs": [
+                {
+                    "q": "Are the passwords saved?",
+                    "a": "No, all generation happens locally in your browser."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "NordPass",
+            "logo": "🛡️",
+            "text": "Store all your new passwords securely with NordPass.",
+            "url": "https://nordpass.com",
+            "cta": "Get NordPass Free"
+        }
+    },
+    "qrcode-generator": {
+        "title": "QR Code Generator",
+        "description": "Create custom QR codes from URLs, text, or phone numbers.",
+        "icon": "📱",
+        "category": "Developer",
+        "buttonText": "Generate QR Code",
+        "action": "generateQRCode",
+        "seo": {
+            "title": "Free Custom QR Code Generator - ApexBlueSky Tools",
+            "description": "Generate high-quality QR codes instantly for links, vCards, text, and more. Free and no signup.",
+            "howTo": "Enter your URL or text and click Generate to download the QR code image.",
+            "faqs": [
+                {
+                    "q": "Do these QR codes expire?",
+                    "a": "No, static QR codes generated here never expire."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Hostinger",
+            "logo": "🚀",
+            "text": "Looking to host the website for your QR code? Get fast SSD hosting.",
+            "url": "https://www.hostinger.com",
+            "cta": "Start Hosting"
+        }
+    },
+    "uuid-generator": {
+        "title": "UUID/GUID Generator",
+        "description": "Generate random v4 UUIDs for your database or application.",
+        "icon": "🆔",
+        "category": "Developer",
+        "buttonText": "Generate UUID",
+        "action": "generateUUID",
+        "seo": {
+            "title": "Random UUID/GUID Generator (v4) - ApexBlueSky Tools",
+            "description": "Instantly generate valid RFC 4122 version 4 UUIDs (Universally Unique Identifiers) in bulk.",
+            "howTo": "Click the button to generate a new crypto-secure v4 UUID.",
+            "faqs": [
+                {
+                    "q": "What version of UUID is this?",
+                    "a": "It generates Version 4 (random) UUIDs."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "DigitalOcean",
+            "logo": "☁️",
+            "text": "Deploy your database and apps on scalable cloud infrastructure.",
+            "url": "https://www.digitalocean.com",
+            "cta": "Get Free Cloud Credit"
+        }
+    },
+    "word-counter": {
+        "title": "Word & Character Counter",
+        "description": "Count words, characters, sentences, and paragraphs in real time.",
+        "icon": "🔤",
+        "category": "Content",
+        "buttonText": "Count Words",
+        "action": "wordCount",
+        "seo": {
+            "title": "Free Word and Character Counter Tool - ApexBlueSky Tools",
+            "description": "Instantly count words, characters with/without spaces, and reading time.",
+            "howTo": "Paste your text into the box to see instant real-time statistics.",
+            "faqs": [
+                {
+                    "q": "Does it count spaces as characters?",
+                    "a": "Yes, we provide metrics for both characters with and without spaces."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Write confidently with Grammarly — real-time grammar, clarity, and plagiarism checks.",
+            "url": "https://www.grammarly.com",
+            "cta": "Try Grammarly Free"
+        }
+    },
+    "color-picker": {
+        "title": "Color Picker & HEX/RGB Converter",
+        "description": "Pick colors visually and convert between HEX, RGB, and HSL values.",
+        "icon": "🎨",
+        "category": "Web Design",
+        "buttonText": "Open Color Picker",
+        "action": "colorPicker",
+        "seo": {
+            "title": "HTML Color Picker & RGB to HEX Converter - ApexBlueSky Tools",
+            "description": "Find the perfect color for your project with our visual color picker. Get instant HEX, RGB, and HSL codes.",
+            "howTo": "Click the color swatch to pick a color, and copy the formatted code.",
+            "faqs": [
+                {
+                    "q": "Can I pick colors from an image?",
+                    "a": "This tool is a visual palette for generating color codes."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Use your new color codes in Canva to build stunning visual designs.",
+            "url": "https://www.canva.com",
+            "cta": "Try Canva Free"
+        }
+    },
+    "png-to-jpg": {
+        "title": "PNG to JPG Converter",
+        "description": "Convert images from PNG format to JPG/JPEG instantly in your browser.",
+        "icon": "🔄",
+        "category": "Images",
+        "buttonText": "Convert to JPG",
+        "action": "pngToJpg",
+        "seo": {
+            "title": "Fast PNG to JPG/JPEG Converter - No Quality Loss",
+            "description": "Convert PNG images to JPG format for smaller file sizes without uploading files to a server.",
+            "howTo": "Upload a PNG file, and download the converted JPG file immediately.",
+            "faqs": [
+                {
+                    "q": "Will transparency be kept?",
+                    "a": "JPG does not support transparency; transparent areas will become white."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Adobe Creative Cloud",
+            "logo": "☁️",
+            "text": "Need advanced image editing? Try Adobe Creative Cloud.",
+            "url": "https://www.adobe.com/creativecloud.html",
+            "cta": "Try Adobe Free"
+        }
+    },
+    "image-cropper": {
+        "title": "Image Cropper",
+        "description": "Crop images perfectly for social media, avatars, or custom sizes.",
+        "icon": "🖼️",
+        "category": "Images",
+        "buttonText": "Crop Image",
+        "action": "cropImage",
+        "seo": {
+            "title": "Free Online Image Cropper - ApexBlueSky Tools",
+            "description": "Easily crop, resize, and trim your images perfectly in your browser. Complete privacy.",
+            "howTo": "Upload your photo, drag the crop handles to frame it, and save the cropped image.",
+            "faqs": [
+                {
+                    "q": "Are my images uploaded to a server?",
+                    "a": "No, cropping happens 100% in your browser for absolute privacy."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Design stunning visuals with Canva — perfect for customized cropping templates.",
+            "url": "https://www.canva.com",
+            "cta": "Try Canva Free"
+        }
+    },
+    "watermark-maker": {
+        "title": "Watermark Maker",
+        "description": "Add text or logo watermarks to your images to protect your copyright.",
+        "icon": "©️",
+        "category": "Images",
+        "buttonText": "Add Watermark",
+        "action": "addWatermark",
+        "seo": {
+            "title": "Free Image Watermark Tool - Bulk Watermarker",
+            "description": "Protect your photos by accurately placing a text or logo watermark on them instantly.",
+            "howTo": "Upload your image, type your watermark text, adjust opacity, and download.",
+            "faqs": [
+                {
+                    "q": "Can I remove the watermark later?",
+                    "a": "No, the watermark is baked into the downloaded image."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Adobe Photoshop",
+            "logo": "📸",
+            "text": "For advanced non-destructive watermarking, try Adobe Photoshop.",
+            "url": "https://www.adobe.com/products/photoshop.html",
+            "cta": "Try Photoshop"
+        }
+    },
+    "base64-encoder": {
+        "title": "Base64 Encoder / Decoder",
+        "description": "Encode text to Base64 format or decode Base64 back to raw text.",
+        "icon": "🔠",
+        "category": "Developer",
+        "buttonText": "Encode/Decode",
+        "action": "base64EncodeDecode",
+        "seo": {
+            "title": "Base64 Encoder and Decoder Online Tool",
+            "description": "Easily encode string/text to Base64 format or convert Base64 format strings back to normal text.",
+            "howTo": "Paste your text or Base64 string and select Encode or Decode.",
+            "faqs": [
+                {
+                    "q": "Is Base64 encryption?",
+                    "a": "No, it is an encoding scheme, not a secure encryption method."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "NordVPN",
+            "logo": "🔒",
+            "text": "Base64 isn't encryption. For real security, use NordVPN.",
+            "url": "https://nordvpn.com",
+            "cta": "Get Secure VPN"
+        }
+    },
+    "url-encoder": {
+        "title": "URL Encoder / Decoder",
+        "description": "Safely encode or decode URLs to ensure special characters pass correctly.",
+        "icon": "🔗",
+        "category": "Developer",
+        "buttonText": "Encode/Decode URL",
+        "action": "urlEncodeDecode",
+        "seo": {
+            "title": "URL Encode and Decode Tool Online",
+            "description": "Encode URLs to safely transmit data, or decode URL-encoded strings back into readable text.",
+            "howTo": "Paste your URL or encoded string and choose Encode or Decode.",
+            "faqs": [
+                {
+                    "q": "Why encode a URL?",
+                    "a": "URLs can only be sent over the Internet using the ASCII character-set. Encoding converts unsafe characters."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "SEMrush",
+            "logo": "🔍",
+            "text": "Optimize your URLs and rank higher on Google with SEMrush.",
+            "url": "https://www.semrush.com",
+            "cta": "Try SEMrush Free"
+        }
+    }
+}
