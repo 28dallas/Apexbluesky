@@ -9,7 +9,13 @@ import styles from './ChatWidget.module.css';
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    const { messages, input = '', handleInputChange, handleSubmit, isLoading } = (useChat as any)({
+    const {
+        messages = [],
+        input = '',
+        handleInputChange = () => { },
+        handleSubmit = (e: any) => e.preventDefault(),
+        isLoading = false
+    } = (useChat as any)({
         api: '/api/chat',
         initialMessages: [
             {
