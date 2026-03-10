@@ -8,6 +8,10 @@ export const maxDuration = 30;
 export async function POST(req: Request) {
     const { messages } = await req.json();
 
+    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+        return new Response('Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable', { status: 400 });
+    }
+
     // Build a concise knowledge base from tools.json
     const toolsInfo = Object.values(toolsData).map(tool => ({
         name: (tool as any).title,
