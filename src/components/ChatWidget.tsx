@@ -16,7 +16,7 @@ export default function ChatWidget() {
             {
                 id: 'welcome',
                 role: 'assistant',
-                content: 'Hi! I\'m ApexAI. I know everything about our 33+ tools. How can I help you today?',
+                content: 'Hi! I\'m Blue. I know everything about our 33+ tools. How can I help you today?',
             },
         ],
     });
@@ -43,7 +43,7 @@ export default function ChatWidget() {
                             <div className={styles.headerTitle}>
                                 <div className={styles.onlineIndicator} />
                                 <Sparkles size={18} className="gradient-text" style={{ color: 'var(--accent-primary)' }} />
-                                <span>ApexAI Assistant</span>
+                                <span>Blue Assistant</span>
                             </div>
                             <button onClick={() => setIsOpen(false)} className={styles.closeButton}>
                                 <X size={20} />
@@ -64,7 +64,7 @@ export default function ChatWidget() {
                                             <Bot size={12} style={{ opacity: 0.7 }} />
                                         )}
                                         <span style={{ fontSize: '10px', fontWeight: 700, opacity: 0.5, textTransform: 'uppercase' }}>
-                                            {m.role === 'user' ? 'You' : 'ApexAI'}
+                                            {m.role === 'user' ? 'You' : 'Blue'}
                                         </span>
                                     </div>
                                     {m.content}
@@ -73,7 +73,7 @@ export default function ChatWidget() {
                             {isLoading && (
                                 <div className={styles.typing}>
                                     <Bot size={14} />
-                                    <span>ApexAI is thinking...</span>
+                                    <span>Blue is thinking...</span>
                                 </div>
                             )}
                         </div>

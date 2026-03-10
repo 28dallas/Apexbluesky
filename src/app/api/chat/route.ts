@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }));
 
     const systemPrompt = `
-    You are "ApexAI", the official assistant for ApexBlueSky Tools (apexblueskytools.online).
+    You are "Blue", the official assistant for ApexBlueSky Tools (apexblueskytools.online).
     Your goal is to help users navigate the website and find the right tools for their tasks.
     
     WEBSITE CONTEXT:
