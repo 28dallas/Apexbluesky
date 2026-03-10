@@ -3,16 +3,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, User, Sparkles } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Sparkles, AlertCircle } from 'lucide-react';
 import styles from './ChatWidget.module.css';
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const [errorStatus, setErrorStatus] = useState<string | null>(null);
 
-    // Using useChat for the backend logic, but managing input state manually for reliability
     const { messages, append, isLoading } = (useChat as any)({
         api: '/api/chat',
+        onError: (err: any) => {
+            console.error('Blue Chat Error:', err);
+            setErrorStatus("Blue is having trouble connecting. Make sure your GOOGLE_GENERATIVE_AI_API_KEY is set.");
+        },
         initialMessages: [
             {
                 id: 'welcome',
@@ -30,15 +34,32 @@ export default function ChatWidget() {
         }
     }, [messages]);
 
-    const handleSend = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!inputValue.trim() || isLoading) return;
+    const handleSend = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
 
-        append({
-            role: 'user',
-            content: inputValue,
-        });
-        setInputValue('');
+        const textToSubmit = inputValue.trim();
+        if (!textToSubmit || isLoading) return;
+
+        console.log('Blue: Sending message...', textToSubmit);
+        setErrorStatus(null);
+
+        try {
+            setInputValue(''); // Clear immediately for UX
+            await append({
+                role: 'user',
+                content: textToSubmit,
+            });
+        } catch (err) {
+            console.error('Blue: Failed to send:', err);
+            setErrorStatus("Failed to send message. Please try again.");
+            setInputValue(textToSubmit); // Restore text on failure
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value;
+        console.log('Blue: Input change:', val);
+        setInputValue(val);
     };
 
     return (
@@ -82,10 +103,20 @@ export default function ChatWidget() {
                                     {m.content}
                                 </div>
                             ))}
+
                             {isLoading && (
                                 <div className={styles.typing}>
                                     <Bot size={14} />
                                     <span>Blue is thinking...</span>
+                                </div>
+                            )}
+
+                            {errorStatus && (
+                                <div className={`${styles.message} ${styles.aiMessage}`} style={{ borderColor: 'var(--error)', background: 'rgba(239, 68, 68, 0.1)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--error)' }}>
+                                        <AlertCircle size={14} />
+                                        <span style={{ fontSize: '0.85rem' }}>{errorStatus}</span>
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -94,15 +125,23 @@ export default function ChatWidget() {
                             <div className={styles.inputWrapper}>
                                 <input
                                     value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
+                                    onChange={handleInputChange}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSend();
+                                        }
+                                    }}
                                     placeholder="Ask me about our tools..."
                                     className={styles.input}
                                     autoComplete="off"
+                                    id="blue-chat-input"
                                 />
                                 <button
                                     type="submit"
                                     disabled={isLoading || !inputValue.trim()}
                                     className={styles.sendButton}
+                                    aria-label="Send message"
                                 >
                                     <Send size={18} />
                                 </button>
@@ -117,6 +156,7 @@ export default function ChatWidget() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(!isOpen)}
                 className={styles.chatBubble}
+                aria-label="Open chat"
             >
                 {isOpen ? <X size={28} /> : <MessageSquare size={28} />}
             </motion.button>
