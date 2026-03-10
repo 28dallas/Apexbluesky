@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-// @ts-expect-error - AI SDK types can be tricky
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 import { type UIMessage } from 'ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, User, Sparkles } from 'lucide-react';
@@ -10,7 +9,7 @@ import styles from './ChatWidget.module.css';
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+    const { messages, input, handleInputChange, handleSubmit, isLoading } = (useChat as any)({
         api: '/api/chat',
         initialMessages: [
             {
