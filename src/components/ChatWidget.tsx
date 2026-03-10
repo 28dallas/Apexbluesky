@@ -2,16 +2,16 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { type UIMessage } from 'ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, User, Sparkles } from 'lucide-react';
 import styles from './ChatWidget.module.css';
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
+    const [inputValue, setInputValue] = useState('');
 
-    // Using any for the hook to bypass version-specific typing issues that break reactivity
-    const chat = (useChat as any)({
+    // Using useChat for the backend logic, but managing input state manually for reliability
+    const { messages, append, isLoading } = (useChat as any)({
         api: '/api/chat',
         initialMessages: [
             {
@@ -22,8 +22,6 @@ export default function ChatWidget() {
         ],
     });
 
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = chat;
-
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -31,6 +29,17 @@ export default function ChatWidget() {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
     }, [messages]);
+
+    const handleSend = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!inputValue.trim() || isLoading) return;
+
+        append({
+            role: 'user',
+            content: inputValue,
+        });
+        setInputValue('');
+    };
 
     return (
         <div className={styles.widgetContainer}>
@@ -81,17 +90,18 @@ export default function ChatWidget() {
                             )}
                         </div>
 
-                        <form onSubmit={handleSubmit} className={styles.inputArea}>
+                        <form onSubmit={handleSend} className={styles.inputArea}>
                             <div className={styles.inputWrapper}>
                                 <input
-                                    value={input || ''}
-                                    onChange={handleInputChange}
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
                                     placeholder="Ask me about our tools..."
                                     className={styles.input}
+                                    autoComplete="off"
                                 />
                                 <button
                                     type="submit"
-                                    disabled={isLoading || !input?.trim()}
+                                    disabled={isLoading || !inputValue.trim()}
                                     className={styles.sendButton}
                                 >
                                     <Send size={18} />
