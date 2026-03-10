@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 // Replace ca-pub-XXXXXXXXXXXXXXXXX with your actual AdSense Publisher ID
-const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID || 'ca-pub-XXXXXXXXXXXXXXXXX';
+const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID || 'ca-pub-7586264347899672';
 
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -54,7 +54,6 @@ export default function RootLayout({
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
           crossOrigin="anonymous"
-          strategy="lazyOnload"
         />
       </body>
     </html>
