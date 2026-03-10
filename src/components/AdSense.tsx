@@ -9,7 +9,7 @@ interface AdSlotProps {
     style?: React.CSSProperties;
 }
 
-const ADSENSE_PUBLISHER_ID = 'ca-pub-XXXXXXXXXXXXXXXXX';
+const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_ID || 'ca-pub-XXXXXXXXXXXXXXXXX';
 
 declare global {
     interface Window {

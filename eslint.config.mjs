@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored browser assets (PDF.js worker, ffmpeg core) should not be linted.
+    "public/vendor/**",
   ]),
 ]);
 

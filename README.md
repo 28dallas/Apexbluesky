@@ -16,6 +16,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Server-Side Processing (Vercel)
+
+Some tools can optionally run via Next.js API routes (useful for Vercel deployments):
+
+- `Merge PDF`, `Split PDF`, `Compress PDF`, `PDF to Word` (text-only DOCX) have server routes under `src/app/api/tools/*`.
+- `PDF to JPG` and `MP4 to MP3` server routes return `501` on Vercel; use the browser-based converters for those.
+
+Enable server processing from the browser UI by setting:
+
+```bash
+NEXT_PUBLIC_USE_SERVER_PROCESSING=1
+```
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

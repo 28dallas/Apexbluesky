@@ -72,10 +72,11 @@ export default function Home() {
             <div className={styles.footerLogo}>
               <Image src="/logo.png" alt="Apex Blue Sky Logo" width={450} height={120} style={{ objectFit: 'contain' }} />
             </div>
-            <div style={{ display: 'flex', gap: '2rem' }}>
+            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
               <Link href="/about" className={styles.copy}>About</Link>
               <Link href="/privacy" className={styles.copy}>Privacy</Link>
               <Link href="/contact" className={styles.copy}>Contact</Link>
+              <Link href="/disclosure" className={styles.copy}>Affiliate Disclosure</Link>
             </div>
             <div className={styles.copy}>&copy; 2026 ApexBlueSky Tools. All rights reserved.</div>
           </div>

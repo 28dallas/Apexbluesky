@@ -6,9 +6,62 @@
 import { PDFDocument } from 'pdf-lib';
 import imageCompression from 'browser-image-compression';
 
+const USE_SERVER_PROCESSING = process.env.NEXT_PUBLIC_USE_SERVER_PROCESSING === '1';
+
+async function apiPostBlob(path: string, form: FormData): Promise<Blob | string> {
+  try {
+    const res = await fetch(path, { method: 'POST', body: form });
+    const ct = res.headers.get('content-type') || '';
+    if (!res.ok) {
+      if (ct.includes('application/json')) {
+        const j = await res.json().catch(() => null);
+        return `Error: ${j?.error || `Request failed (${res.status})`}`;
+      }
+      const text = await res.text().catch(() => '');
+      return `Error: ${text || `Request failed (${res.status})`}`;
+    }
+    return await res.blob();
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e);
+    return `Error: ${message}`;
+  }
+}
+
+let pdfjsConfigured = false;
+async function getPdfJs() {
+  const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  if (!pdfjsConfigured) {
+    (pdfjs as any).GlobalWorkerOptions.workerSrc = '/vendor/pdfjs/pdf.worker.min.mjs';
+    pdfjsConfigured = true;
+  }
+  return pdfjs as any;
+}
+
+let ffmpegInstance: any | null = null;
+let ffmpegLoadPromise: Promise<void> | null = null;
+async function getFfmpeg() {
+  const { FFmpeg } = await import('@ffmpeg/ffmpeg');
+  if (!ffmpegInstance) ffmpegInstance = new FFmpeg();
+  if (!ffmpegLoadPromise) {
+    ffmpegLoadPromise = ffmpegInstance.load({
+      coreURL: '/vendor/ffmpeg/ffmpeg-core.js',
+      wasmURL: '/vendor/ffmpeg/ffmpeg-core.wasm',
+    });
+  }
+  await ffmpegLoadPromise;
+  return ffmpegInstance;
+}
+
 // --- 1. PDF TOOLS ---
 export async function mergePDFs(files: File[]) {
   try {
+    if (USE_SERVER_PROCESSING) {
+      const form = new FormData();
+      for (const f of files || []) form.append('files', f);
+      const serverRes = await apiPostBlob('/api/tools/merge-pdf', form);
+      if (serverRes instanceof Blob) return serverRes;
+      // fall back to client-side merge
+    }
     if (!Array.isArray(files) || files.length < 2) throw new Error("At least 2 files required.");
     const mergedPdf = await PDFDocument.create();
     for (const file of files) {
@@ -28,6 +81,13 @@ export async function splitPDF(input: any) {
   const file = input as File;
   if (!file) return "Error: No file uploaded.";
   try {
+    if (USE_SERVER_PROCESSING) {
+      const form = new FormData();
+      form.append('file', file);
+      const serverRes = await apiPostBlob('/api/tools/split-pdf', form);
+      if (serverRes instanceof Blob) return serverRes;
+      // fall back to client-side split
+    }
     const bytes = await file.arrayBuffer();
     const pdf = await PDFDocument.load(bytes);
     // For simplicity, we'll just split the first page as a demo of "splitting"
@@ -41,13 +101,71 @@ export async function splitPDF(input: any) {
 }
 
 export async function pdfToWord(filename: string) {
-  if (!filename.endsWith('.pdf')) return "Error: Not a PDF file.";
-  return filename.replace('.pdf', '.docx');
+  const file = typeof filename === 'string' ? null : (filename as any as File);
+  if (!file) return "Error: Please upload a PDF file.";
+  if (!file.name.toLowerCase().endsWith('.pdf')) return "Error: Not a PDF file.";
+
+  try {
+    if (USE_SERVER_PROCESSING) {
+      const form = new FormData();
+      form.append('file', file);
+      const serverRes = await apiPostBlob('/api/tools/pdf-to-word', form);
+      if (serverRes instanceof Blob) return serverRes;
+      // fall back to client-side extraction
+    }
+    const pdfjs = await getPdfJs();
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const pdf = await pdfjs.getDocument({ data: bytes }).promise;
+
+    const pageTexts: string[] = [];
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const page = await pdf.getPage(p);
+      const content = await page.getTextContent();
+      const strings = (content.items || []).map((it: any) => (it?.str ?? '').toString()).filter(Boolean);
+      const text = strings.join(' ').replace(/\s+/g, ' ').trim();
+      if (text) pageTexts.push(text);
+    }
+
+    const { Document, Packer, Paragraph, TextRun } = await import('docx');
+    const children = pageTexts.length
+      ? pageTexts.flatMap((t, i) => ([
+        new Paragraph({ children: [new TextRun({ text: `Page ${i + 1}`, bold: true })] }),
+        new Paragraph({ children: [new TextRun({ text: t })] }),
+        new Paragraph({ children: [new TextRun({ text: '' })] }),
+      ]))
+      : [new Paragraph({ children: [new TextRun({ text: '(No extractable text found in PDF.)' })] })];
+
+    const doc = new Document({
+      sections: [{ properties: {}, children }],
+    });
+
+    return await Packer.toBlob(doc);
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 export async function compressPDF(filename: string) {
-  if (!filename.endsWith('.pdf')) return "Error: Not a PDF file.";
-  return `Simulated compression: ${filename} (Reduced by 45%)`;
+  const file = typeof filename === 'string' ? null : (filename as any as File);
+  if (!file) return "Error: Please upload a PDF file.";
+  if (!file.name.toLowerCase().endsWith('.pdf')) return "Error: Not a PDF file.";
+
+  try {
+    if (USE_SERVER_PROCESSING) {
+      const form = new FormData();
+      form.append('file', file);
+      const serverRes = await apiPostBlob('/api/tools/compress-pdf', form);
+      if (serverRes instanceof Blob) return serverRes;
+      // fall back to client-side re-save
+    }
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFDocument.load(bytes);
+    // This is a "re-save" optimization. It can reduce size for some PDFs, but won't match Ghostscript-style compression.
+    const out = await pdf.save({ useObjectStreams: true });
+    return new Blob([out as any], { type: 'application/pdf' });
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 // --- 2. IMAGE TOOLS ---
@@ -60,8 +178,97 @@ export async function imageCompressor(file: any) {
   } catch (e: any) { return `Error: ${e.message}`; }
 }
 
-export function backgroundRemover(filename: string) {
-  return `Simulated background removal for ${filename}. Output: ${filename.split('.')[0]}_nobg.png`;
+export async function backgroundRemover(input: File | File[]) {
+  const file = Array.isArray(input) ? input[0] : input;
+  if (!file) return "Error: No file selected.";
+  if (!file.type.startsWith('image/') && !file.name.toLowerCase().match(/\.(png|jpe?g|webp)$/)) {
+    return "Error: Please select an image file.";
+  }
+
+  try {
+    const img = await fileToImage(file);
+
+    // For performance and memory: cap max dimension.
+    const maxDim = 2000;
+    const naturalW = img.naturalWidth || img.width;
+    const naturalH = img.naturalHeight || img.height;
+    const scale = Math.min(1, maxDim / Math.max(naturalW, naturalH));
+    const width = Math.max(1, Math.round(naturalW * scale));
+    const height = Math.max(1, Math.round(naturalH * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return "Error: Canvas is not supported in this browser.";
+
+    ctx.drawImage(img, 0, 0, width, height);
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const data = imageData.data;
+
+    // Estimate background color from the corners (average of a small sample).
+    const sampleSize = Math.max(3, Math.round(Math.min(width, height) * 0.02));
+    const samples: number[] = [];
+    const pushSample = (sx: number, sy: number) => {
+      for (let y = sy; y < Math.min(height, sy + sampleSize); y++) {
+        for (let x = sx; x < Math.min(width, sx + sampleSize); x++) {
+          const idx = (y * width + x) * 4;
+          samples.push(data[idx], data[idx + 1], data[idx + 2]);
+        }
+      }
+    };
+    pushSample(0, 0);
+    pushSample(Math.max(0, width - sampleSize), 0);
+    pushSample(0, Math.max(0, height - sampleSize));
+    pushSample(Math.max(0, width - sampleSize), Math.max(0, height - sampleSize));
+
+    let bgR = 255, bgG = 255, bgB = 255;
+    if (samples.length >= 3) {
+      let r = 0, g = 0, b = 0;
+      for (let i = 0; i < samples.length; i += 3) {
+        r += samples[i];
+        g += samples[i + 1];
+        b += samples[i + 2];
+      }
+      const n = samples.length / 3;
+      bgR = Math.round(r / n);
+      bgG = Math.round(g / n);
+      bgB = Math.round(b / n);
+    }
+
+    // Remove pixels close to the estimated background color.
+    // This is a simple heuristic suitable for solid backgrounds (product shots, headshots, etc.).
+    const threshold = 38;     // lower: more strict background match
+    const feather = 18;       // soften edges around the threshold
+    const thr2 = threshold * threshold;
+    const fea2 = (threshold + feather) * (threshold + feather);
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const a = data[i + 3];
+      if (a === 0) continue;
+
+      const dr = r - bgR;
+      const dg = g - bgG;
+      const db = b - bgB;
+      const dist2 = dr * dr + dg * dg + db * db;
+
+      if (dist2 <= thr2) {
+        data[i + 3] = 0;
+      } else if (dist2 < fea2) {
+        // Feather alpha between threshold..threshold+feather
+        const t = (Math.sqrt(dist2) - threshold) / feather; // 0..1
+        data[i + 3] = Math.round(a * Math.min(1, Math.max(0, t)));
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    return await canvasToBlob(canvas, 'image/png');
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 export async function imageResizer(input: any) {
@@ -75,8 +282,47 @@ export async function imageResizer(input: any) {
   } catch (e: any) { return `Error: ${e.message}`; }
 }
 
-export function convertJPGtoPNG(filename: string) {
-  return filename.toLowerCase().replace('.jpg', '.png').replace('.jpeg', '.png');
+async function fileToImage(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Failed to read file."));
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("Failed to decode image."));
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function canvasToBlob(canvas: HTMLCanvasElement, type: string, quality?: number): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) return reject(new Error("Conversion failed (canvas.toBlob returned null)."));
+      resolve(blob);
+    }, type, quality);
+  });
+}
+
+export async function convertJPGtoPNG(input: File | File[]) {
+  const file = Array.isArray(input) ? input[0] : input;
+  if (!file) return "Error: No file selected.";
+  if (!file.type.includes('jpeg') && !file.name.toLowerCase().match(/\.(jpe?g)$/)) {
+    return "Error: Please select a JPG/JPEG image.";
+  }
+  try {
+    const img = await fileToImage(file);
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth || img.width;
+    canvas.height = img.naturalHeight || img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return "Error: Canvas is not supported in this browser.";
+    ctx.drawImage(img, 0, 0);
+    return await canvasToBlob(canvas, 'image/png');
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 // --- 3. AI WRITING TOOLS ---
@@ -111,8 +357,45 @@ export function generateYouTubeTags(title: string) {
 }
 
 export function thumbnailDownloader(url: string) {
-  if (!url.includes('youtube.com')) return "Error: Invalid YouTube URL.";
-  return `Simulated download link: https://img.youtube.com/vi/ID/maxresdefault.jpg`;
+  const raw = (url || '').trim();
+  if (!raw) return "Error: Please paste a YouTube URL.";
+
+  const extractId = (u: string): string | null => {
+    try {
+      // Allow bare IDs as a convenience.
+      if (/^[a-zA-Z0-9_-]{11}$/.test(u)) return u;
+      const parsed = new URL(u);
+      const host = parsed.hostname.replace(/^www\./, '');
+      if (host === 'youtu.be') {
+        const id = parsed.pathname.split('/').filter(Boolean)[0];
+        return id && /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
+      }
+      if (host.endsWith('youtube.com')) {
+        const v = parsed.searchParams.get('v');
+        if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
+        const parts = parsed.pathname.split('/').filter(Boolean);
+        const i = parts.findIndex(p => p === 'shorts' || p === 'embed' || p === 'live');
+        if (i >= 0 && parts[i + 1] && /^[a-zA-Z0-9_-]{11}$/.test(parts[i + 1])) return parts[i + 1];
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  };
+
+  const id = extractId(raw);
+  if (!id) return "Error: Invalid YouTube URL (could not extract video ID).";
+
+  const base = `https://img.youtube.com/vi/${id}`;
+  return [
+    `Video ID: ${id}`,
+    ``,
+    `Max resolution: ${base}/maxresdefault.jpg`,
+    `High quality: ${base}/hqdefault.jpg`,
+    `Medium quality: ${base}/mqdefault.jpg`,
+    `Standard def: ${base}/sddefault.jpg`,
+    `Default: ${base}/default.jpg`,
+  ].join('\n');
 }
 
 import * as prettier from 'prettier/standalone';
@@ -211,15 +494,84 @@ export async function calculateBMI(input: string) {
 
 // --- 8. FILE CONVERTERS ---
 export async function mp4ToMp3(file: any) {
-  return file instanceof File ? file.name.replace('.mp4', '.mp3') : "output.mp3";
+  if (!(file instanceof File)) return "Error: Please upload an MP4 file.";
+  if (!file.type.includes('video') && !file.name.toLowerCase().endsWith('.mp4')) return "Error: Please upload an MP4 video.";
+
+  try {
+    const ffmpeg = await getFfmpeg();
+    const { fetchFile } = await import('@ffmpeg/util');
+
+    const suffix = Math.random().toString(36).slice(2);
+    const inName = `input_${suffix}.mp4`;
+    const outName = `output_${suffix}.mp3`;
+
+    await ffmpeg.writeFile(inName, await fetchFile(file));
+    await ffmpeg.exec(['-i', inName, '-vn', '-acodec', 'libmp3lame', '-q:a', '2', outName]);
+    const data = await ffmpeg.readFile(outName);
+    const u8 = data instanceof Uint8Array ? data : new Uint8Array(data as any);
+
+    try { await ffmpeg.deleteFile(inName); } catch { }
+    try { await ffmpeg.deleteFile(outName); } catch { }
+
+    return new Blob([u8], { type: 'audio/mpeg' });
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 export async function pdfToJpg(file: any) {
-  return file instanceof File ? file.name.replace('.pdf', '.jpg') : "output.jpg";
+  if (!(file instanceof File)) return "Error: Please upload a PDF file.";
+  if (!file.name.toLowerCase().endsWith('.pdf')) return "Error: Not a PDF file.";
+
+  try {
+    const pdfjs = await getPdfJs();
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const pdf = await pdfjs.getDocument({ data: bytes }).promise;
+
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+
+    const scale = 2; // balances quality vs speed
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const page = await pdf.getPage(p);
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.ceil(viewport.width);
+      canvas.height = Math.ceil(viewport.height);
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return "Error: Canvas is not supported in this browser.";
+
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      const blob = await canvasToBlob(canvas, 'image/jpeg', 0.92);
+      zip.file(`page-${p}.jpg`, await blob.arrayBuffer());
+    }
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    return new Blob([await zipBlob.arrayBuffer()], { type: 'application/zip' });
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 export async function pngToWebP(file: any) {
-  return file instanceof File ? file.name.replace('.png', '.webp') : "output.webp";
+  const input = file as File | File[];
+  const f = Array.isArray(input) ? input[0] : input;
+  if (!f) return "Error: No file selected.";
+  if (!f.type.includes('png') && !f.name.toLowerCase().endsWith('.png')) {
+    return "Error: Please select a PNG image.";
+  }
+  try {
+    const img = await fileToImage(f);
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth || img.width;
+    canvas.height = img.naturalHeight || img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return "Error: Canvas is not supported in this browser.";
+    ctx.drawImage(img, 0, 0);
+    return await canvasToBlob(canvas, 'image/webp', 0.92);
+  } catch (e: any) {
+    return `Error: ${e.message}`;
+  }
 }
 
 // --- 9. SOCIAL TOOLS ---
@@ -513,4 +865,3 @@ export async function urlEncodeDecode(input: string) {
 export async function colorPicker() { return ""; }
 export async function cropImage() { return ""; }
 export async function addWatermark() { return ""; }
-

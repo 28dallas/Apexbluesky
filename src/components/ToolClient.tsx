@@ -53,20 +53,78 @@ const actionMap: Record<string, any> = {
     "urlEncodeDecode": t.urlEncodeDecode
 };
 
+import { useState } from 'react';
+import LimitModal from './LimitModal';
+
 export default function ToolClient({ tool, id }: { tool: any, id: string }) {
     const action = actionMap[tool.action];
+    const [limitReason, setLimitReason] = useState<string | null>(null);
 
     if (id === 'image-cropper') return <ImageCropperTool tool={tool} id={id} />;
     if (id === 'color-picker') return <ColorPickerTool tool={tool} id={id} />;
     if (id === 'watermark-maker') return <WatermarkTool tool={tool} id={id} />;
 
+    const fileActions = new Set([
+        'mergePDFs',
+        'splitPDF',
+        'pdfToWord',
+        'compressPDF',
+        'pdfToJpg',
+        'imageCompressor',
+        'backgroundRemover',
+        'imageResizer',
+        'convertJPGtoPNG',
+        'pngToWebP',
+        'pngToJpg',
+        'mp4ToMp3',
+    ]);
+
+    const inputType = tool.action === 'mergePDFs'
+        ? 'files'
+        : fileActions.has(tool.action)
+            ? 'file'
+            : 'text';
+
+    const accept = (() => {
+        if (inputType === 'text') return '*/*';
+        switch (tool.action) {
+            case 'mergePDFs':
+            case 'splitPDF':
+            case 'pdfToWord':
+            case 'compressPDF':
+            case 'pdfToJpg':
+                return '.pdf,application/pdf';
+            case 'mp4ToMp3':
+                return 'video/mp4,video/*';
+            case 'convertJPGtoPNG':
+                return 'image/jpeg,image/jpg';
+            case 'pngToWebP':
+            case 'pngToJpg':
+                return 'image/png';
+            case 'backgroundRemover':
+            case 'imageCompressor':
+            case 'imageResizer':
+                return 'image/*';
+            default:
+                return '*/*';
+        }
+    })();
+
     return (
-        <ToolInterface
-            {...tool}
-            id={id}
-            onAction={action}
-            inputType={id.includes('merge-pdf') || id.includes('image-compressor') || id.includes('image-resizer') || id.includes('jpg-png') || id.includes('background-remover') || id.includes('mp4') || id.includes('pdf-to-jpg') || id.includes('png-to-webp') || id === 'png-to-jpg' ? (id.includes('merge') ? 'files' : 'file') : 'text'}
-            accept={id.includes('pdf') && id !== 'mpesa-to-pdf' ? '.pdf' : id.includes('image') || id.includes('png-to-jpg') ? 'image/*' : '*/*'}
-        />
+        <>
+            <ToolInterface
+                {...tool}
+                id={id}
+                onAction={action}
+                inputType={inputType}
+                accept={accept}
+                onLimitReached={setLimitReason}
+            />
+            <LimitModal
+                isOpen={!!limitReason}
+                onClose={() => setLimitReason(null)}
+                reason={limitReason || ''}
+            />
+        </>
     );
 }
