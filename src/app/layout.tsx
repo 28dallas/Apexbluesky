@@ -37,7 +37,11 @@ export const metadata: Metadata = {
 // Replace ca-pub-XXXXXXXXXXXXXXXXX with your actual AdSense Publisher ID
 const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID || 'ca-pub-7586264347899672';
 
+// Replace G-XXXXXXXXXX with your actual GA Measurement ID
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX';
+
 import { AuthProvider } from "@/context/AuthContext";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -47,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <GoogleAnalytics GA_MEASUREMENT_ID={GA_ID} />
         <AuthProvider>
           {children}
         </AuthProvider>

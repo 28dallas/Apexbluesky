@@ -46,10 +46,17 @@ export default function AboutPage() {
                         </p>
                     </div>
 
-                    <div className="glass" style={{ padding: '3rem' }}>
+                    <div className="glass" style={{ padding: '3rem', marginBottom: '3rem' }}>
                         <h2 style={{ color: '#fff', marginBottom: '1.5rem' }}>Privacy First</h2>
                         <p>
-                            We believe your data belongs to you. Most of our tools process data locally in your browser, meaning your sensitive documents and code snippets never touch a server.
+                            We believe your data belongs to you. Most of our tools process data locally in your browser, meaning your sensitive documents and code snippets never touch our servers.
+                        </p>
+                    </div>
+
+                    <div className="glass" style={{ padding: '3rem' }}>
+                        <h2 style={{ color: '#fff', marginBottom: '1.5rem' }}>Affiliate Partnerships</h2>
+                        <p>
+                            To keep this platform free and sustainable, we partner with industry-leading tools like Adobe, Canva, and Grammarly. When you click on a referral link, we may earn a small commission at no extra cost to you. We only recommend tools that provide genuine value to our users.
                         </p>
                     </div>
                 </div>

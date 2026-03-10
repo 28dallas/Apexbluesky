@@ -634,15 +634,27 @@ export async function mpesaToPDF(input: string): Promise<Blob | string> {
 
     lines.forEach(line => {
       const refMatch = line.match(/([A-Z0-9]{10,})/);
-      const amountMatch = line.match(/Ksh\s?([\d,]+\.?\d*)/gi);
-      const dateMatch = line.match(/(\d{1,2}\/\d{1,2}\/\d{2,4}|\d{1,2}\s\w+\s\d{4})/i);
+      // More robust amount matching: look for "Ksh" followed by digits, commas, and dots
+      const amountMatch = line.match(/Ksh\s?([\d,]+\.\d{2})/i);
+      const balanceMatch = line.match(/New M-PESA balance is Ksh([\d,]+\.\d{2})/i);
+      const dateMatch = line.match(/on (\d{1,2}\/\d{1,2}\/\d{2,4}) at (\d{1,2}:\d{2} [AP]M)/i);
+
       if (refMatch && amountMatch) {
+        // Extract description: usually the text between the Ref and the word "Sent/Paid/Received"
+        let desc = "Transaction";
+        if (line.includes("Sent to")) desc = "Money Sent";
+        else if (line.includes("Paid to")) desc = "Merchant Payment";
+        else if (line.includes("received")) desc = "Money Received";
+        else if (line.includes("Withdraw")) desc = "Withdrawal";
+        else if (line.includes("Give working")) desc = "Deposit";
+        else if (line.includes("Airtime")) desc = "Airtime Purchase";
+
         transactions.push({
           ref: refMatch[1],
-          desc: line.substring(0, 50).replace(refMatch[1], '').trim(),
-          amount: amountMatch[0] || 'N/A',
-          balance: amountMatch[1] || 'N/A',
-          date: dateMatch ? dateMatch[0] : 'N/A',
+          desc: desc,
+          amount: amountMatch[1] || '0.00',
+          balance: balanceMatch ? balanceMatch[1] : 'N/A',
+          date: dateMatch ? `${dateMatch[1]} ${dateMatch[2]}` : 'N/A',
         });
       }
     });
@@ -657,14 +669,15 @@ export async function mpesaToPDF(input: string): Promise<Blob | string> {
     page.drawRectangle({ x: 0, y: height - 80, width, height: 80, color: rgb(0.03, 0.63, 0.22) });
     page.drawText('M-PESA STATEMENT', { x: 40, y: height - 35, size: 22, font: boldFont, color: rgb(1, 1, 1) });
     page.drawText(`Generated: ${new Date().toLocaleDateString('en-KE')}`, { x: 40, y: height - 58, size: 11, font, color: rgb(0.9, 0.9, 0.9) });
-    page.drawText('ApexBlueSky Tools | apexblueskytools.com', { x: width - 250, y: height - 58, size: 9, font, color: rgb(0.9, 0.9, 0.9) });
+    page.drawText('ApexBlueSky Tools | apexblueskytools.online', { x: width - 250, y: height - 58, size: 9, font, color: rgb(0.9, 0.9, 0.9) });
 
     // Table Header
     let y = height - 110;
     page.drawText('REF', { x: 40, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
-    page.drawText('DESCRIPTION', { x: 150, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
-    page.drawText('AMOUNT', { x: 370, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
-    page.drawText('DATE', { x: 460, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText('DESCRIPTION', { x: 130, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText('DATE/TIME', { x: 250, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText('AMOUNT', { x: 400, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText('BALANCE', { x: 490, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
 
     y -= 5;
     page.drawLine({ start: { x: 40, y }, end: { x: width - 40, y }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
@@ -678,14 +691,15 @@ export async function mpesaToPDF(input: string): Promise<Blob | string> {
         y -= 16;
       });
     } else {
-      transactions.slice(0, 25).forEach((tx, i) => {
+      transactions.slice(0, 30).forEach((tx, i) => {
         if (y < 60) return;
-        const bg = i % 2 === 0 ? rgb(0.97, 0.97, 0.97) : rgb(1, 1, 1);
+        const bg = i % 2 === 0 ? rgb(0.98, 0.98, 0.98) : rgb(1, 1, 1);
         page.drawRectangle({ x: 38, y: y - 4, width: width - 76, height: 18, color: bg });
-        page.drawText(tx.ref.substring(0, 12), { x: 40, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
-        page.drawText(tx.desc.substring(0, 28), { x: 150, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
-        page.drawText(tx.amount.substring(0, 14), { x: 370, y, size: 8, font, color: rgb(0.03, 0.5, 0.1) });
-        page.drawText(tx.date, { x: 460, y, size: 8, font, color: rgb(0.4, 0.4, 0.4) });
+        page.drawText(tx.ref.substring(0, 10), { x: 40, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
+        page.drawText(tx.desc, { x: 130, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
+        page.drawText(tx.date, { x: 250, y, size: 8, font, color: rgb(0.4, 0.4, 0.4) });
+        page.drawText(tx.amount, { x: 400, y, size: 8, font, color: rgb(0.03, 0.5, 0.1) });
+        page.drawText(tx.balance, { x: 490, y, size: 8, font, color: rgb(0.4, 0.4, 0.4) });
         y -= 22;
       });
     }
@@ -711,6 +725,9 @@ export async function logoGenerator(input: string): Promise<string> {
     elegant: ['#7C3AED (Violet)', '#1F2937 (Charcoal)', '#F3F4F6 (Platinum)'],
     minimal: ['#374151 (Cool Gray)', '#F9FAFB (Light)', '#10B981 (Emerald)'],
     tech: ['#06B6D4 (Cyan)', '#0F172A (Navy)', '#94A3B8 (Silver)'],
+    luxury: ['#B45309 (Gold)', '#111827 (Black)', '#4B5563 (Slate Gray)'],
+    eco: ['#15803D (Forest Green)', '#F0FDF4 (Mint)', '#A8A29E (Stone)'],
+    vintage: ['#991B1B (Burgundy)', '#FEF3C7 (Cream)', '#78350F (Rust)'],
   };
 
   const fonts: Record<string, string[]> = {
@@ -719,13 +736,16 @@ export async function logoGenerator(input: string): Promise<string> {
     elegant: ['Playfair Display (Serif)', 'Lato Light (Body)'],
     minimal: ['DM Sans (Primary)', 'Space Grotesk (Secondary)'],
     tech: ['Space Mono (Display)', 'IBM Plex Sans (Body)'],
+    luxury: ['Cinzel (Display)', 'Cormorant Garamond (Serif)'],
+    eco: ['Quicksand (Rounded)', 'Cabin (Sans)'],
+    vintage: ['Abril Fatface (Display)', 'Courier Prime (Monospace)'],
   };
 
   const styleKey = Object.keys(colorPalettes).find(k => style.toLowerCase().includes(k)) || 'modern';
   const palette = colorPalettes[styleKey];
   const fontPair = fonts[styleKey];
 
-  const canvaUrl = `https://www.canva.com/create/logos/?query=${encodeURIComponent(brand)}`;
+  const canvaUrl = `https://www.canva.com/create/logos/?query=${encodeURIComponent(brand)}+${styleKey}+logo`;
 
   return [
     `🎨 LOGO CONCEPT FOR: ${brand.toUpperCase()}`,
