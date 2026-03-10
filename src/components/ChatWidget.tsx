@@ -9,22 +9,20 @@ import styles from './ChatWidget.module.css';
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    const {
-        messages = [],
-        input = '',
-        handleInputChange = () => { },
-        handleSubmit = (e: any) => e.preventDefault(),
-        isLoading = false
-    } = (useChat as any)({
+
+    // Using any for the hook to bypass version-specific typing issues that break reactivity
+    const chat = (useChat as any)({
         api: '/api/chat',
         initialMessages: [
             {
                 id: 'welcome',
                 role: 'assistant',
-                content: 'Hi! I\'m Blue. I know everything about our 33+ tools. How can I help you today?',
+                content: "Hi! I'm Blue. I know everything about our 33+ tools. How can I help you today?",
             },
         ],
     });
+
+    const { messages, input, handleInputChange, handleSubmit, isLoading } = chat;
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +54,7 @@ export default function ChatWidget() {
                         </div>
 
                         <div className={styles.messagesContainer} ref={scrollRef}>
-                            {messages.map((m: any) => (
+                            {(messages || []).map((m: any) => (
                                 <div
                                     key={m.id}
                                     className={`${styles.message} ${m.role === 'user' ? styles.userMessage : styles.aiMessage
@@ -86,7 +84,7 @@ export default function ChatWidget() {
                         <form onSubmit={handleSubmit} className={styles.inputArea}>
                             <div className={styles.inputWrapper}>
                                 <input
-                                    value={input}
+                                    value={input || ''}
                                     onChange={handleInputChange}
                                     placeholder="Ask me about our tools..."
                                     className={styles.input}
