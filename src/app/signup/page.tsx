@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
-import styles from './Auth.module.css';
+import styles from '../login/Auth.module.css';
 
 export default function SignupPage() {
     const [email, setEmail] = useState('');
