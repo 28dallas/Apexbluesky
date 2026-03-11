@@ -7,6 +7,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 
 import toolsData from '@/data/tools.json';
+import AppDownloadSection from '@/components/AppDownloadSection';
 
 const tools = Object.entries(toolsData).map(([id, data]) => ({
   id,
@@ -65,6 +66,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <AppDownloadSection />
 
       <footer className={styles.footer}>
         <div className="container">

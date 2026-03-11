@@ -21,7 +21,7 @@ export default function ChatWidget() {
             {
                 id: 'welcome',
                 role: 'assistant',
-                content: "Hi! I'm Blue. I know everything about our 33+ tools. How can I help you today?",
+                content: "Hi! I'm Blue, Nathan's assistant. I can help you with our 33+ tools. Also, check out our TikTok @apex_bluesky for tutorials!",
             },
         ],
     });

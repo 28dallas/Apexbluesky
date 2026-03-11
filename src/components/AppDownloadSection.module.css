@@ -1,0 +1,275 @@
+.section {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    padding: 4rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 32px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.description {
+    font-size: 1.125rem;
+    color: #94a3b8;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.smsForm {
+    width: 100%;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 0.5rem;
+    transition: var(--transition);
+}
+
+.inputWrapper:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+.countryBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.flag {
+    font-size: 1.25rem;
+}
+
+.code {
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.9375rem;
+}
+
+.input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    outline: none;
+    width: 100%;
+}
+
+.sendButton {
+    background: var(--accent-gradient);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.sendButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.sendButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sentButton {
+    background: var(--success);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.successNote {
+    margin-top: 1rem;
+    color: var(--success);
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.visuals {
+    flex-shrink: 0;
+}
+
+.phoneMockup {
+    position: relative;
+    width: 240px;
+    height: 320px;
+}
+
+.qrCard {
+    position: relative;
+    z-index: 2;
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.qrHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+}
+
+.qrFrame {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.qrImage {
+    display: block;
+    filter: invert(1);
+    /* Ensure it contrasts if background is dark, but here it's on white */
+}
+
+/* Override qrImage filter as we generated white on transparent */
+.qrFrame {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.qrImage {
+    filter: none;
+}
+
+.qrTag {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9375rem;
+}
+
+.phoneGlow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+    z-index: 1;
+}
+
+.loader {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 968px) {
+    .wrapper {
+        flex-direction: column;
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+
+    .content {
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 2.25rem;
+    }
+
+    .inputWrapper {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .phoneMockup {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .inputWrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .countryBadge {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        justify-content: center;
+        padding-bottom: 0.5rem;
+    }
+
+    .sendButton {
+        width: 100%;
+        justify-content: center;
+    }
+}
