@@ -6,27 +6,28 @@ import toolsData from '@/data/tools.json';
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-    const { messages } = await req.json();
+    try {
+        const { messages } = await req.json();
 
-    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
-        return new Response('Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable', { status: 400 });
-    }
+        if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+            return new Response('Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable', { status: 400 });
+        }
 
-    // Build a concise knowledge base from tools.json
-    const toolsInfo = Object.values(toolsData).map(tool => ({
-        name: (tool as any).title,
-        category: (tool as any).category,
-        description: (tool as any).description,
-        affiliate: (tool as any).affiliate?.name
-    }));
+        // Build a concise knowledge base from tools.json
+        const toolsInfo = Object.values(toolsData).map(tool => ({
+            name: (tool as any).title,
+            category: (tool as any).category,
+            description: (tool as any).description,
+            affiliate: (tool as any).affiliate?.name
+        }));
 
-    const systemPrompt = `
+        const systemPrompt = `
     You are "Blue", the official assistant for ApexBlueSky Tools (apexblueskytools.online).
     Your goal is to help users navigate the website and find the right tools for their tasks.
     
     WEBSITE CONTEXT:
     - Founder: Nathan Krop (Phone: 0702605566, Email: apexbluesky6@gmail.com).
-    - Tech Stack: Next.js, TypeScript, Tailwind CSS (Vanilla CSS modules used for components).
+    - Tech Stack: Next.js, TypeScript.
     - Privacy: Most tools run locally in the browser (client-side).
     
     ENGAGEMENT GOALS:
@@ -44,11 +45,18 @@ export async function POST(req: Request) {
     5. Always mention that our tools are "Privacy First" and process data locally where applicable.
   `;
 
-    const result = streamText({
-        model: google('gemini-1.5-flash'),
-        system: systemPrompt,
-        messages,
-    });
+        const result = streamText({
+            model: google('gemini-3-flash-preview'),
+            system: systemPrompt,
+            messages,
+        });
 
-    return result.toTextStreamResponse();
+        return result.toTextStreamResponse();
+    } catch (error: any) {
+        console.error('Chat API Error:', error);
+        return new Response(JSON.stringify({ error: 'Blue is currently busy. Please try again in a moment.' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
 }

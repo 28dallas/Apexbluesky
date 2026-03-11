@@ -14,8 +14,7 @@ export default function ChatWidget() {
     const { messages, append, isLoading } = (useChat as any)({
         api: '/api/chat',
         onError: (err: any) => {
-            console.error('Blue Chat Error:', err);
-            setErrorStatus("Blue is having trouble connecting. Make sure your GOOGLE_GENERATIVE_AI_API_KEY is set.");
+            setErrorStatus("Blue is currently busy or experiencing high demand. Please try again in a moment.");
         },
         initialMessages: [
             {
@@ -40,7 +39,6 @@ export default function ChatWidget() {
         const textToSubmit = inputValue.trim();
         if (!textToSubmit || isLoading) return;
 
-        console.log('Blue: Sending message...', textToSubmit);
         setErrorStatus(null);
 
         try {
@@ -50,16 +48,13 @@ export default function ChatWidget() {
                 content: textToSubmit,
             });
         } catch (err) {
-            console.error('Blue: Failed to send:', err);
             setErrorStatus("Failed to send message. Please try again.");
             setInputValue(textToSubmit); // Restore text on failure
         }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        console.log('Blue: Input change:', val);
-        setInputValue(val);
+        setInputValue(e.target.value);
     };
 
     return (
