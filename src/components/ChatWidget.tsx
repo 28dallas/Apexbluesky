@@ -14,7 +14,13 @@ export default function ChatWidget() {
     const { messages, append, isLoading } = (useChat as any)({
         api: '/api/chat',
         onError: (err: any) => {
-            setErrorStatus("Blue is currently busy or experiencing high demand. Please try again in a moment.");
+            console.error('Chat error:', err);
+            try {
+                const parsed = JSON.parse(err.message);
+                setErrorStatus(parsed.details || parsed.error || "Blue is currently busy. Please try again.");
+            } catch {
+                setErrorStatus("Blue is currently busy or experiencing high demand. Please try again in a moment.");
+            }
         },
         initialMessages: [
             {

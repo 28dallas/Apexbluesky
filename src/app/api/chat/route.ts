@@ -1,6 +1,10 @@
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import toolsData from '@/data/tools.json';
+
+const googleProvider = createGoogleGenerativeAI({
+    apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || '',
+});
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -49,15 +53,22 @@ export async function POST(req: Request) {
   `;
 
         const result = streamText({
-            model: google('gemini-1.5-flash'),
+            model: googleProvider('gemini-1.5-flash'),
             system: systemPrompt,
             messages,
         });
 
         return result.toTextStreamResponse();
     } catch (error: any) {
-        console.error('Chat API Error:', error);
-        return new Response(JSON.stringify({ error: 'Blue is currently busy. Please try again in a moment.' }), {
+        console.error('Chat API Error details:', {
+            message: error.message,
+            stack: error.stack,
+            cause: error.cause
+        });
+        return new Response(JSON.stringify({
+            error: 'Blue is currently busy. Please try again in a moment.',
+            details: error.message
+        }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
         });
