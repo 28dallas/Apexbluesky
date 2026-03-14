@@ -10,7 +10,10 @@ export async function POST(req: Request) {
         const { messages } = await req.json();
 
         if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
-            return new Response('Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable', { status: 400 });
+            return new Response(JSON.stringify({ error: 'Missing GOOGLE_GENERATIVE_AI_API_KEY. Please add it to your environment variables.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
 
         // Build a concise knowledge base from tools.json
@@ -46,7 +49,7 @@ export async function POST(req: Request) {
   `;
 
         const result = streamText({
-            model: google('gemini-3-flash-preview'),
+            model: google('gemini-1.5-flash'),
             system: systemPrompt,
             messages,
         });
