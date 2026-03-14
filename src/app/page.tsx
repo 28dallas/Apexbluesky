@@ -30,10 +30,10 @@ export default function Home() {
           <nav className={styles.nav}>
             <Link href="/" className={styles.logo}>
               <Image
-                src="/logo.png"
+                src="/logo/logo.png"
                 alt="ApexBlueSky"
-                width={540}
-                height={135}
+                width={480}
+                height={120}
                 className={styles.logoImage}
                 priority
               />
@@ -82,10 +82,10 @@ export default function Home() {
             <div className={styles.footerLogo}>
               <Link href="/">
                 <Image
-                  src="/logo.png"
+                  src="/logo/logo.png"
                   alt="ApexBlueSky"
-                  width={400}
-                  height={100}
+                  width={360}
+                  height={90}
                   className={styles.logoImage}
                 />
               </Link>
