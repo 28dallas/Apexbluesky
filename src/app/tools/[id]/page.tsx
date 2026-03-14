@@ -198,7 +198,14 @@ export default async function ToolPage({ params }: Props) {
                 <div className="container">
                     <nav className={styles.nav}>
                         <Link href="/" className={styles.logo}>
-                            <Image src="/logo.png" alt="Apex Blue Sky Logo" width={540} height={135} style={{ objectFit: 'contain' }} priority />
+                            <Image
+                                src="/logo/logo.png"
+                                alt="ApexBlueSky"
+                                width={480}
+                                height={120}
+                                className={styles.logoImage}
+                                priority
+                            />
                         </Link>
                         <div className={styles.auth}>
                             <Link href="/login" className={styles.navLink}>LOGIN</Link>
@@ -303,7 +310,15 @@ export default async function ToolPage({ params }: Props) {
                 <div className="container">
                     <div className={styles.footerContent}>
                         <div className={styles.footerLogo}>
-                            <Image src="/logo.png" alt="Apex Blue Sky Logo" width={450} height={120} style={{ objectFit: 'contain' }} />
+                            <Link href="/">
+                                <Image
+                                    src="/logo/logo.png"
+                                    alt="ApexBlueSky"
+                                    width={360}
+                                    height={90}
+                                    className={styles.logoImage}
+                                />
+                            </Link>
                         </div>
                         <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
                             <Link href="/about" className={styles.copy}>About</Link>

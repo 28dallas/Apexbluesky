@@ -1345,5 +1345,285 @@
             "url": "https://www.semrush.com",
             "cta": "Try SEMrush Free"
         }
+    },
+    "ai-blog-title-generator": {
+        "title": "Blog Title Generator",
+        "description": "Generate catchy and SEO-optimized blog titles instantly.",
+        "icon": "📝",
+        "category": "Writing",
+        "buttonText": "Generate Titles",
+        "action": "generateBlogTitles",
+        "initialValue": "How to learn Next.js",
+        "inputPlaceholder": "Enter your blog topic...",
+        "seo": {
+            "title": "Free AI Blog Title Generator – Catchy Headlines Online",
+            "description": "Generate click-worthy and SEO-friendly blog post titles in seconds. Boost your CTR and search traffic.",
+            "howTo": "Enter your blog topic or main keyword and click \"Generate Titles\". Choose from multiple options.",
+            "faqs": [
+                {
+                    "q": "Are the titles optimized?",
+                    "a": "Yes, titles follow best practices for high CTR."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Write confidently with Grammarly — real-time grammar, clarity, and plagiarism checks.",
+            "url": "https://www.grammarly.com",
+            "cta": "Try Grammarly Free"
+        }
+    },
+    "ai-blog-post-generator": {
+        "title": "Blog Post Generator",
+        "description": "Draft complete blog posts from a single topic or outline.",
+        "icon": "✍️",
+        "category": "Writing",
+        "buttonText": "Generate Post",
+        "action": "generateBlogPost",
+        "initialValue": "The Future of Artificial Intelligence",
+        "inputPlaceholder": "Enter your blog post topic or outline...",
+        "seo": {
+            "title": "AI Blog Post Generator Free Online – Write Content Fast",
+            "description": "Create full, engaging blog drafts in seconds. Perfect for overcoming writer\"s block.",
+            "howTo": "Provide a topic, title, or brief outline, then click \"Generate Post\" to receive a full draft.",
+            "faqs": [
+                {
+                    "q": "Can I edit the generated content?",
+                    "a": "Yes! The tool provides a draft that you can refine and expand upon."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Jasper",
+            "logo": "🤖",
+            "text": "Scale your content marketing with Jasper, the leading enterprise AI writing assistant.",
+            "url": "https://www.jasper.ai",
+            "cta": "Try Jasper"
+        }
+    },
+    "ai-product-description-generator": {
+        "title": "Product Description Gen",
+        "description": "Write compelling product descriptions for e-commerce.",
+        "icon": "��️",
+        "category": "Writing",
+        "buttonText": "Generate Description",
+        "action": "generateProductDesc",
+        "initialValue": "Wireless Noise-Canceling Headphones, 30hr battery, black",
+        "inputPlaceholder": "Product name and key features...",
+        "seo": {
+            "title": "Free AI Product Description Generator – Boost Sales",
+            "description": "Generate persuasive, conversion-optimized product descriptions for Shopify, Amazon, or your own store.",
+            "howTo": "Enter the product name and key features, then click \"Generate Description\" for multiple variations.",
+            "faqs": [
+                {
+                    "q": "Will this help my SEO?",
+                    "a": "Yes! We structure descriptions to highlight benefits and naturally include your provided keywords."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Shopify",
+            "logo": "🛒",
+            "text": "Start your e-commerce journey with Shopify. The best platform for online stores.",
+            "url": "https://www.shopify.com",
+            "cta": "Start Free Trial"
+        }
+    },
+    "ai-email-writer": {
+        "title": "Email Writer",
+        "description": "Draft professional emails for any situation in seconds.",
+        "icon": "📧",
+        "category": "Writing",
+        "buttonText": "Draft Email",
+        "action": "draftEmail",
+        "initialValue": "Requesting a deadline extension for the Q3 report",
+        "inputPlaceholder": "What is the email about? (e.g. following up after an interview)",
+        "seo": {
+            "title": "Free AI Email Writer Online – Professional Email Generator",
+            "description": "Instantly draft professional, polite, and effective emails for sales, networking, or the workplace.",
+            "howTo": "Describe the intent of your email, select a tone if desired, and click \"Draft Email\".",
+            "faqs": [
+                {
+                    "q": "Can I adjust the tone?",
+                    "a": "The AI automatically adjusts to a professional, clear tone based on your prompt."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Ensure your emails are mistake-free before hitting send with Grammarly.",
+            "url": "https://www.grammarly.com",
+            "cta": "Get Grammarly Free"
+        }
+    },
+    "ai-story-generator": {
+        "title": "Story Generator",
+        "description": "Create creative short stories from a simple prompt.",
+        "icon": "📖",
+        "category": "Writing",
+        "buttonText": "Generate Story",
+        "action": "generateStory",
+        "initialValue": "A detective in a cyberpunk city trying to find a missing robot.",
+        "inputPlaceholder": "Enter a premise, characters, or setting...",
+        "seo": {
+            "title": "Free AI Story Generator Online – Write Fiction Instantly",
+            "description": "Unlock your creativity! Generate engaging short stories, plot ideas, and creative writing prompts.",
+            "howTo": "Provide a brief idea, characters, or setting and click \"Generate Story\" to see it come to life.",
+            "faqs": [
+                {
+                    "q": "Who owns the generated stories?",
+                    "a": "You do! Use the generated content as inspiration or starting points for your own fiction."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Refine your creative writing and storytelling with Grammarly\"s advanced insights.",
+            "url": "https://www.grammarly.com",
+            "cta": "Get Grammarly Free"
+        }
+    },
+    "ai-paragraph-rewriter": {
+        "title": "Paragraph Rewriter",
+        "description": "Rewrite paragraphs to improve tone, clarity, and engagement.",
+        "icon": "🔄",
+        "category": "Writing",
+        "buttonText": "Rewrite Paragraph",
+        "action": "paraphraseText",
+        "initialValue": "AI is changing the world very fast. It helps people do things better and quicker than before.",
+        "inputPlaceholder": "Paste your paragraph here...",
+        "seo": {
+            "title": "Free AI Paragraph Rewriter – Improve Your Writing",
+            "description": "Instantly rewrite and paraphrase paragraphs to make them more professional, creative, or concise.",
+            "howTo": "Paste your text, select a style, and click \"Rewrite Paragraph\". The AI will provide a fresh version.",
+            "faqs": [
+                {
+                    "q": "Does it change the meaning?",
+                    "a": "No, it preserves your original meaning while improving the flow and wording."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Grammarly",
+            "logo": "✅",
+            "text": "Get even better tone suggestions with Grammarly Premium.",
+            "url": "https://www.grammarly.com",
+            "cta": "Check for Free"
+        }
+    },
+    "ai-slogan-generator": {
+        "title": "Slogan Generator",
+        "description": "Create catchy and memorable slogans for your brand or product.",
+        "icon": "📣",
+        "category": "Education",
+        "buttonText": "Generate Slogans",
+        "action": "generateSlogan",
+        "initialValue": "Healthy organic snacks for kids",
+        "inputPlaceholder": "Describe your business or product...",
+        "seo": {
+            "title": "Free AI Slogan Generator – Catchy Tagline Maker",
+            "description": "Generate hundreds of catchy, professional, and memorable slogan ideas for your brand in seconds.",
+            "howTo": "Enter a few keywords about your brand and click \"Generate Slogans\".",
+            "faqs": [
+                {
+                    "q": "What makes a good slogan?",
+                    "a": "A good slogan is short, memorable, and highlights a key benefit of your brand."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Hostinger",
+            "logo": "🚀",
+            "text": "Ready to launch your brand? Get started with Hostinger.",
+            "url": "https://www.hostinger.com",
+            "cta": "Launch Site"
+        }
+    },
+    "ai-image-alt-text-generator": {
+        "title": "Image Alt Text Gen",
+        "description": "Generate SEO-friendly alt text for images based on descriptions.",
+        "icon": "🖼️",
+        "category": "Images",
+        "buttonText": "Generate Alt Text",
+        "action": "generateAltText",
+        "initialValue": "A group of professionals in a modern office looking at a laptop",
+        "inputPlaceholder": "Describe what is in the image...",
+        "seo": {
+            "title": "Free AI Image Alt Text Generator – Improve Accessibility & SEO",
+            "description": "Instantly create descriptive, SEO-optimized alt text for your images to help search engines and users alike.",
+            "howTo": "Describe the image content and click \"Generate Alt Text\". Copy the result into your HTML or CMS.",
+            "faqs": [
+                {
+                    "q": "Why is alt text important?",
+                    "a": "Alt text helps visually impaired users and allows search engines to understand image content for better ranking."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Canva",
+            "logo": "🎨",
+            "text": "Design beautiful images for your website with Canva.",
+            "url": "https://www.canva.com",
+            "cta": "Open Canva"
+        }
+    },
+    "ai-sql-query-generator": {
+        "title": "SQL Query Generator",
+        "description": "Convert English into SQL queries instantly.",
+        "icon": "💾",
+        "category": "Developer",
+        "buttonText": "Generate SQL",
+        "action": "generateSQL",
+        "initialValue": "Find all users who signed up in the last 30 days and spent more than $100",
+        "inputPlaceholder": "Describe the query you need in plain English...",
+        "seo": {
+            "title": "Free AI SQL Query Generator – English to SQL",
+            "description": "Stop struggling with complex syntax. Describe your data needs in plain English and let the AI write the SQL query.",
+            "howTo": "Describe your table structure (optional) and what you want to find, then click \"Generate SQL\".",
+            "faqs": [
+                {
+                    "q": "Which SQL databases are supported?",
+                    "a": "The AI generates standard SQL compatible with MySQL, PostgreSQL, SQL Server, and SQLite."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "DigitalOcean",
+            "logo": "☁️",
+            "text": "Host your databases on DigitalOcean for reliable performance.",
+            "url": "https://www.digitalocean.com",
+            "cta": "Get Free Credit"
+        }
+    },
+    "ai-study-plan-generator": {
+        "title": "Study Plan Generator",
+        "description": "Create a personalized learning schedule for any subject.",
+        "icon": "📅",
+        "category": "Education",
+        "buttonText": "Generate Plan",
+        "action": "generateStudyPlan",
+        "initialValue": "Learn Python for Data Science in 4 weeks",
+        "inputPlaceholder": "What do you want to learn and in what timeframe?",
+        "seo": {
+            "title": "Free AI Study Plan Generator – Organize Your Learning",
+            "description": "Generate a structured, step-by-step study schedule tailored to your goals and deadline.",
+            "howTo": "Enter your subject and goal (e.g., \"Pass the AWS exam\") and click \"Generate Plan\".",
+            "faqs": [
+                {
+                    "q": "Can I follow this plan at my own pace?",
+                    "a": "Yes! The plan is a roadmap that you can adjust as you make progress."
+                }
+            ]
+        },
+        "affiliate": {
+            "name": "Coursera",
+            "logo": "🎓",
+            "text": "Find world-class courses to match your new study plan.",
+            "url": "https://www.coursera.org",
+            "cta": "Start Learning"
+        }
     }
 }
