@@ -4,6 +4,13 @@
     padding: 0 1.5rem;
 }
 
+@media (max-width: 768px) {
+    .wrapper {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+}
+
 .backLink {
     display: inline-flex;
     align-items: center;
@@ -39,6 +46,16 @@
     letter-spacing: -0.02em;
 }
 
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .icon {
+        font-size: 3rem;
+    }
+}
+
 .description {
     color: #94a3b8;
     font-size: 1.125rem;
@@ -57,6 +74,13 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 20px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
 }
 
 .inputGroup {

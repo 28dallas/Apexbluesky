@@ -205,6 +205,7 @@ export default async function ToolPage({ params }: Props) {
                                 height={120}
                                 className={styles.logoImage}
                                 priority
+                                style={{ height: 'auto' }}
                             />
                         </Link>
                         <div className={styles.auth}>
@@ -317,6 +318,7 @@ export default async function ToolPage({ params }: Props) {
                                     width={360}
                                     height={90}
                                     className={styles.logoImage}
+                                    style={{ height: 'auto' }}
                                 />
                             </Link>
                         </div>

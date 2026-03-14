@@ -36,6 +36,7 @@ export default function Home() {
                 height={120}
                 className={styles.logoImage}
                 priority
+                style={{ height: 'auto' }}
               />
             </Link>
             <div className={styles.navLinks}>
@@ -87,6 +88,7 @@ export default function Home() {
                   width={360}
                   height={90}
                   className={styles.logoImage}
+                  style={{ height: 'auto' }}
                 />
               </Link>
             </div>

@@ -11,7 +11,15 @@ export default function PrivacyPage() {
                 <div className="container">
                     <nav className={styles.nav}>
                         <Link href="/" className={styles.logo}>
-                            <Image src="/logo/logo.png" alt="Apex Blue Sky Logo" width={480} height={120} style={{ objectFit: 'contain' }} priority />
+                            <Image
+                                src="/logo/logo.png"
+                                alt="ApexBlueSky"
+                                width={480}
+                                height={120}
+                                className={styles.logoImage}
+                                priority
+                                style={{ height: 'auto' }}
+                            />
                         </Link>
                         <div className={styles.auth}>
                             <Link href="/login" className={styles.navLink}>LOGIN</Link>
@@ -59,7 +67,16 @@ export default function PrivacyPage() {
                 <div className="container">
                     <div className={styles.footerContent}>
                         <div className={styles.footerLogo}>
-                            <Image src="/logo/logo.png" alt="Apex Blue Sky Logo" width={360} height={90} style={{ objectFit: 'contain' }} />
+                            <Link href="/">
+                                <Image
+                                    src="/logo/logo.png"
+                                    alt="ApexBlueSky"
+                                    width={360}
+                                    height={90}
+                                    className={styles.logoImage}
+                                    style={{ height: 'auto' }}
+                                />
+                            </Link>
                         </div>
                         <div style={{ display: 'flex', gap: '2rem' }}>
                             <Link href="/about" className={styles.copy}>About</Link>

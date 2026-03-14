@@ -58,7 +58,15 @@ export default function SignupPage() {
         <main className={styles.authMain}>
             <div className={styles.authContainer}>
                 <Link href="/" className={styles.logo}>
-                    <Image src="/logo/logo.png" alt="Apex Blue Sky Logo" width={480} height={120} style={{ objectFit: 'contain' }} priority />
+                    <Image
+                        src="/logo/logo.png"
+                        alt="ApexBlueSky"
+                        width={480}
+                        height={120}
+                        className={styles.logoImage}
+                        priority
+                        style={{ height: 'auto' }}
+                    />
                 </Link>
 
                 <div className={`${styles.authCard} glass`}>

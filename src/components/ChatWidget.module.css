@@ -202,7 +202,9 @@
 
     .chatWindow {
         width: calc(100vw - 2rem);
-        height: calc(100vh - 6rem);
+        height: calc(100vh - 4rem);
         bottom: 70px;
+        right: 0;
+        border-radius: 16px;
     }
 }

@@ -14,7 +14,15 @@ export default function DisclosurePage() {
                 <div className="container">
                     <nav className={styles.nav}>
                         <Link href="/" className={styles.logo}>
-                            <Image src="/logo/logo.png" alt="Apex Blue Sky Logo" width={480} height={120} style={{ objectFit: 'contain' }} priority />
+                            <Image
+                                src="/logo/logo.png"
+                                alt="ApexBlueSky"
+                                width={480}
+                                height={120}
+                                className={styles.logoImage}
+                                priority
+                                style={{ height: 'auto' }}
+                            />
                         </Link>
                     </nav>
                 </div>

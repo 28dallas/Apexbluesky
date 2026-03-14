@@ -19,6 +19,19 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: height 0.3s var(--transition);
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    height: 80px;
+  }
 }
 
 .nav {
@@ -37,7 +50,21 @@
 .logoImage {
   display: block;
   object-fit: contain;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, width 0.3s, height 0.3s;
+  max-width: 100%;
+  height: auto !important;
+}
+
+@media (max-width: 768px) {
+  .logoImage {
+    width: 380px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoImage {
+    width: 240px !important;
+  }
 }
 
 .logoImage:hover {
@@ -169,6 +196,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .footerLogo {

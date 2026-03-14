@@ -9,11 +9,18 @@
 
 .authContainer {
     width: 100%;
-    max-width: 440px;
+    max-width: 450px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    padding: 1rem;
+}
+
+@media (max-width: 480px) {
+    .authContainer {
+        padding: 0.5rem;
+    }
 }
 
 .logo {
