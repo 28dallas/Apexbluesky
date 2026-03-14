@@ -34,7 +34,7 @@ export default function LoginPage() {
         <main className={styles.authMain}>
             <div className={styles.authContainer}>
                 <Link href="/" className={styles.logo}>
-                    <Image src="/logo.png" alt="Apex Blue Sky Logo" width={300} height={75} style={{ objectFit: 'contain' }} priority />
+                    <Image src="/logo.png" alt="Apex Blue Sky Logo" width={540} height={135} style={{ objectFit: 'contain' }} priority />
                 </Link>
 
                 <div className={`${styles.authCard} glass`}>

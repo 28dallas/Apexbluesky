@@ -66,7 +66,7 @@ export default function AboutPage() {
                 <div className="container">
                     <div className={styles.footerContent}>
                         <div className={styles.footerLogo}>
-                            <Image src="/logo.png" alt="Apex Blue Sky Logo" width={450} height={120} style={{ objectFit: 'contain' }} />
+                            <Image src="/logo.png" alt="Apex Blue Sky Logo" width={400} height={100} style={{ objectFit: 'contain' }} />
                         </div>
                         <div style={{ display: 'flex', gap: '2rem' }}>
                             <Link href="/about" className={styles.copy}>About</Link>

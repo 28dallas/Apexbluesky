@@ -199,10 +199,10 @@ export default async function ToolPage({ params }: Props) {
                     <nav className={styles.nav}>
                         <Link href="/" className={styles.logo}>
                             <Image
-                                src="/logo/logo.png"
+                                src="/logo.png"
                                 alt="ApexBlueSky"
-                                width={480}
-                                height={120}
+                                width={540}
+                                height={135}
                                 className={styles.logoImage}
                                 priority
                             />
@@ -312,10 +312,10 @@ export default async function ToolPage({ params }: Props) {
                         <div className={styles.footerLogo}>
                             <Link href="/">
                                 <Image
-                                    src="/logo/logo.png"
+                                    src="/logo.png"
                                     alt="ApexBlueSky"
-                                    width={360}
-                                    height={90}
+                                    width={400}
+                                    height={100}
                                     className={styles.logoImage}
                                 />
                             </Link>
