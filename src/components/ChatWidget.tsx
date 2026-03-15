@@ -1,35 +1,28 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useChat } from '@ai-sdk/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, User, Sparkles, AlertCircle } from 'lucide-react';
 import styles from './ChatWidget.module.css';
+
+interface Message {
+    id: string;
+    role: 'user' | 'assistant';
+    content: string;
+}
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [errorStatus, setErrorStatus] = useState<string | null>(null);
-
-    const { messages, append, isLoading } = (useChat as any)({
-        api: '/api/chat',
-        onError: (err: any) => {
-            console.error('Chat error:', err);
-            try {
-                const parsed = JSON.parse(err.message);
-                setErrorStatus(parsed.details || parsed.error || "Blue is currently busy. Please try again.");
-            } catch {
-                setErrorStatus("Blue is currently busy or experiencing high demand. Please try again in a moment.");
-            }
+    const [isLoading, setIsLoading] = useState(false);
+    const [messages, setMessages] = useState<Message[]>([
+        {
+            id: 'welcome',
+            role: 'assistant',
+            content: "Hi! I'm Blue, Nathan's assistant. I can help you with our 33+ tools. Also, check out our TikTok @apex_bluesky for tutorials!",
         },
-        initialMessages: [
-            {
-                id: 'welcome',
-                role: 'assistant',
-                content: "Hi! I'm Blue, Nathan's assistant. I can help you with our 33+ tools. Also, check out our TikTok @apex_bluesky for tutorials!",
-            },
-        ],
-    });
+    ]);
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -46,16 +39,53 @@ export default function ChatWidget() {
         if (!textToSubmit || isLoading) return;
 
         setErrorStatus(null);
+        setInputValue('');
+
+        const userMessage: Message = {
+            id: Date.now().toString(),
+            role: 'user',
+            content: textToSubmit,
+        };
+
+        const updatedMessages = [...messages, userMessage];
+        setMessages(updatedMessages);
+        setIsLoading(true);
+
+        const assistantId = (Date.now() + 1).toString();
+        setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
 
         try {
-            setInputValue(''); // Clear immediately for UX
-            await append({
-                role: 'user',
-                content: textToSubmit,
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: updatedMessages.map(m => ({ role: m.role, content: m.content })),
+                }),
             });
-        } catch (err) {
-            setErrorStatus("Failed to send message. Please try again.");
-            setInputValue(textToSubmit); // Restore text on failure
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.details || errData.error || 'Request failed');
+            }
+
+            const reader = response.body!.getReader();
+            const decoder = new TextDecoder();
+            let accumulated = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                accumulated += decoder.decode(value, { stream: true });
+                setMessages(prev =>
+                    prev.map(m => m.id === assistantId ? { ...m, content: accumulated } : m)
+                );
+            }
+        } catch (err: any) {
+            setErrorStatus(err.message || "Failed to send message. Please try again.");
+            setMessages(prev => prev.filter(m => m.id !== assistantId));
+            setInputValue(textToSubmit);
+        } finally {
+            setIsLoading(false);
         }
     };
 
