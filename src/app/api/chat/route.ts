@@ -58,7 +58,7 @@ export async function POST(req: Request) {
   `;
 
         const result = streamText({
-            model: googleProvider('gemini-1.5-flash'),
+            model: googleProvider('gemini-flash-latest'),
             system: systemPrompt,
             messages,
         });
