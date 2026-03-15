@@ -17,8 +17,8 @@ export default function DisclosurePage() {
                             <Image
                                 src="/logo/logo.png"
                                 alt="ApexBlueSky"
-                                width={480}
-                                height={120}
+                                width={180}
+                                height={45}
                                 className={styles.logoImage}
                                 priority
                                 style={{ height: 'auto' }}
@@ -75,8 +75,8 @@ export default function DisclosurePage() {
                                 <Image
                                     src="/logo/logo.png"
                                     alt="ApexBlueSky"
-                                    width={360}
-                                    height={90}
+                                    width={140}
+                                    height={35}
                                     className={styles.logoImage}
                                     style={{ height: 'auto', marginBottom: '1rem' }}
                                 />

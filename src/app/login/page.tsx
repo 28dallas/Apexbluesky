@@ -37,8 +37,8 @@ export default function LoginPage() {
                     <Image
                         src="/logo/logo.png"
                         alt="ApexBlueSky"
-                        width={480}
-                        height={120}
+                        width={180}
+                        height={45}
                         className={styles.logoImage}
                         priority
                         style={{ height: 'auto' }}

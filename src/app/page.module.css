@@ -9,7 +9,7 @@
 }
 
 .header {
-  height: 120px;
+  height: 80px;
   display: flex;
   align-items: center;
   background: rgba(11, 15, 26, 0.7);
@@ -34,13 +34,13 @@
 
 @media (max-width: 768px) {
   .header {
-    height: 100px;
+    height: 70px;
   }
 }
 
 @media (max-width: 480px) {
   .header {
-    height: 80px;
+    height: 60px;
   }
 }
 
@@ -67,13 +67,13 @@
 
 @media (max-width: 768px) {
   .logoImage {
-    width: 380px !important;
+    width: 150px !important;
   }
 }
 
 @media (max-width: 480px) {
   .logoImage {
-    width: 240px !important;
+    width: 120px !important;
   }
 }
 
