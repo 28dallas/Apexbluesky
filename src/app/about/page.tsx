@@ -113,6 +113,9 @@ export default function AboutPage() {
                         <div className={styles.footerCol}>
                             <h4>Support</h4>
                             <Link href="/contact" className={styles.footerLink}>Help Center</Link>
+                            <a href="mailto:apexbluesky6@gmail.com?subject=Feature%20Request/Bug%20Report" className={styles.footerLink}>
+                                Report a Bug / Request a Tool
+                            </a>
                             <Link href="/login" className={styles.footerLink}>User Dashboard</Link>
                             <Link href="/signup" className={styles.footerLink}>Create Account</Link>
                             <Link href="mailto:apexbluesky6@gmail.com" className={styles.footerLink}>Business Inquiries</Link>

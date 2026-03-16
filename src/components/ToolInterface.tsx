@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import styles from './ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
+import { Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 
@@ -170,6 +171,11 @@ export default function ToolInterface({
                 >
                     {loading ? 'Processing...' : buttonText}
                 </button>
+
+                <div className={styles.trustBadge}>
+                    <Shield size={16} className={styles.trustIcon} />
+                    <span>Privacy First: Processed locally or auto-deleted after 10 minutes.</span>
+                </div>
 
                 {result !== null && (
                     <div className={styles.resultGroup}>

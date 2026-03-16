@@ -167,6 +167,44 @@
   line-height: 1.6;
 }
 
+.searchContainer {
+  margin: 3rem auto 0;
+  max-width: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.searchContainer:focus-within {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.searchIcon {
+  color: #94a3b8;
+  margin-right: 0.75rem;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.05rem;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
 .toolsSection {
   padding: 4rem 0 8rem;
 }
@@ -175,6 +213,20 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
+}
+
+.trendingSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .relatedToolCard {
@@ -271,6 +323,24 @@
   color: #fff;
   transform: translateY(-2px);
   border-color: transparent;
+}
+
+.trustBadge {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  max-width: 320px;
+}
+
+.trustIcon {
+  color: #10b981;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .footerBottom {

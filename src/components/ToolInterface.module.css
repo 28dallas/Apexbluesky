@@ -119,6 +119,21 @@
     box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
 }
 
+.trustBadge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: -0.5rem;
+    color: #94a3b8;
+    font-size: 0.8125rem;
+    opacity: 0.8;
+}
+
+.trustIcon {
+    color: #10b981;
+}
+
 .resultGroup {
     margin-top: 2rem;
     padding-top: 3rem;

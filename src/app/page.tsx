@@ -4,6 +4,7 @@ import { useState } from 'react';
 import ToolCard from '@/components/ToolCard';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Shield, Search, MessageSquarePlus } from 'lucide-react';
 import styles from './page.module.css';
 
 import toolsData from '@/data/tools.json';
@@ -16,12 +17,19 @@ const tools = Object.entries(toolsData).map(([id, data]) => ({
 
 const categories = ['All', 'PDF', 'Images', 'Writing', 'Video/Social', 'Technical', 'Education', 'Health'];
 
+const trendingIds = ['mpesa-statement', 'pdf-to-word', 'background-remover', 'essay-generator'];
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredTools = activeCategory === 'All'
-    ? tools
-    : tools.filter(t => t.category.includes(activeCategory));
+  const filteredTools = tools.filter(t => {
+    const matchesCategory = activeCategory === 'All' || t.category.includes(activeCategory);
+    const matchesSearch = searchQuery === '' ||
+      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <main className={styles.main}>
@@ -62,11 +70,34 @@ export default function Home() {
         <div className="container">
           <h1 className={styles.heroTitle}>Every tool you need to work with files in one place</h1>
           <p className={styles.heroSub}>50+ tools to use PDFs and other files, at your fingertips. All are 100% FREE and easy to use!</p>
+          <div className={styles.searchContainer}>
+            <Search className={styles.searchIcon} size={20} />
+            <input
+              type="text"
+              placeholder="Search tools (e.g., PDF to Word, M-Pesa, JSON...)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.searchInput}
+            />
+          </div>
         </div>
       </section>
 
       <section id="tools" className={styles.toolsSection}>
         <div className="container">
+
+          {searchQuery === '' && activeCategory === 'All' && (
+            <div className={styles.trendingSection}>
+              <h2 className={styles.sectionTitle}>🔥 Trending Tools</h2>
+              <div className={styles.grid}>
+                {tools.filter(t => trendingIds.includes(t.id)).map(t => (
+                  <ToolCard key={`trend-${t.id}`} {...t} />
+                ))}
+              </div>
+              <h2 className={styles.sectionTitle} style={{ marginTop: '5rem' }}>Explore All Tools</h2>
+            </div>
+          )}
+
           <div className={styles.grid}>
             {filteredTools.map((tool) => (
               <ToolCard key={tool.id} {...tool} />
@@ -99,6 +130,12 @@ export default function Home() {
                 <a href="https://twitter.com/NathanKrop" target="_blank" className={styles.socialIcon} title="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
                 <a href="https://www.tiktok.com/@apex_bluesky" target="_blank" className={styles.socialIcon} title="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
               </div>
+              <div className={styles.trustBadge}>
+                <Shield className={styles.trustIcon} size={20} />
+                <span style={{ fontSize: '0.8125rem', color: '#cbd5e1', lineHeight: '1.4' }}>
+                  <strong>Processed 10,000+ files safely.</strong> Privacy first: files are auto-deleted after 10 minutes or processed locally.
+                </span>
+              </div>
             </div>
 
             <div className={styles.footerCol}>
@@ -120,6 +157,9 @@ export default function Home() {
             <div className={styles.footerCol}>
               <h4>Support</h4>
               <Link href="/contact" className={styles.footerLink}>Help Center</Link>
+              <a href="mailto:apexbluesky6@gmail.com?subject=Feature%20Request/Bug%20Report" className={styles.footerLink}>
+                <MessageSquarePlus size={16} /> Report a Bug / Request a Tool
+              </a>
               <Link href="/login" className={styles.footerLink}>User Dashboard</Link>
               <Link href="/signup" className={styles.footerLink}>Create Account</Link>
               <Link href="mailto:apexbluesky6@gmail.com" className={styles.footerLink}>Business Inquiries</Link>
