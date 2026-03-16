@@ -1,10 +1,11 @@
 .authMain {
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     background: radial-gradient(circle at top right, #1a1a1a, #000);
-    padding: 2rem;
+    padding: 4rem 2rem;
 }
 
 .authContainer {
@@ -116,6 +117,7 @@
     font-size: 0.8rem;
     color: var(--text-secondary);
     line-height: 1.5;
+    text-align: center;
 }
 
 .terms a {
