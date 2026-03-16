@@ -2,13 +2,55 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, User, Sparkles, AlertCircle } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Sparkles, AlertCircle, Smartphone } from 'lucide-react';
 import styles from './ChatWidget.module.css';
 
 interface Message {
     id: string;
     role: 'user' | 'assistant';
     content: string;
+}
+
+function WelcomeMessage() {
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.875rem', lineHeight: '1.5' }}>
+            <p style={{ margin: 0 }}>
+                👋 Hi! I&apos;m <strong>Blue</strong>, Nathan&apos;s assistant. I&apos;m here to help you get the most out of our <strong>53+ free tools</strong> (almost 100 tools!).
+            </p>
+
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '8px' }}>
+                <p style={{ margin: '0 0 4px 0', fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', opacity: 0.6, letterSpacing: '0.05em' }}>📱 Follow for Tutorials</p>
+                <p style={{ margin: 0 }}>
+                    Check out our TikTok for step-by-step tool tutorials:{' '}
+                    <a
+                        href="https://www.tiktok.com/@apex_bluesky"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--accent-primary)', fontWeight: 700, textDecoration: 'none' }}
+                    >
+                        @apex_bluesky
+                    </a>
+                </p>
+            </div>
+
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '8px' }}>
+                <p style={{ margin: '0 0 4px 0', fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', opacity: 0.6, letterSpacing: '0.05em' }}>📲 Get the App</p>
+                <p style={{ margin: 0 }}>
+                    Download the <strong>ApexBlueSkyTools</strong> app — search{' '}
+                    <strong>&quot;ApexBlueSkyTools&quot;</strong> on the{' '}
+                    <a
+                        href="https://play.google.com/store/search?q=ApexBlueSkyTools&c=apps"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--accent-primary)', fontWeight: 700, textDecoration: 'none' }}
+                    >
+                        Play Store
+                    </a>{' '}
+                    or scan the QR code on our homepage! 🚀
+                </p>
+            </div>
+        </div>
+    );
 }
 
 export default function ChatWidget() {
@@ -20,7 +62,7 @@ export default function ChatWidget() {
         {
             id: 'welcome',
             role: 'assistant',
-            content: "Hi! I'm Blue, Nathan's assistant. I can help you with our 33+ tools. Also, check out our TikTok @apex_bluesky for tutorials!",
+            content: '__welcome__',
         },
     ]);
 
@@ -121,7 +163,7 @@ export default function ChatWidget() {
                                     className={`${styles.message} ${m.role === 'user' ? styles.userMessage : styles.aiMessage
                                         }`}
                                 >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                                         {m.role === 'user' ? (
                                             <User size={12} style={{ opacity: 0.7 }} />
                                         ) : (
@@ -131,7 +173,7 @@ export default function ChatWidget() {
                                             {m.role === 'user' ? 'You' : 'Blue'}
                                         </span>
                                     </div>
-                                    {m.content}
+                                    {m.id === 'welcome' ? <WelcomeMessage /> : m.content}
                                 </div>
                             ))}
 

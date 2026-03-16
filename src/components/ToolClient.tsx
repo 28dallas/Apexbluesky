@@ -5,6 +5,9 @@ import * as t from '@/lib/tools';
 import ImageCropperTool from './tools/ImageCropperTool';
 import ColorPickerTool from './tools/ColorPickerTool';
 import WatermarkTool from './tools/WatermarkTool';
+import MpesaStatementTool from './tools/MpesaStatementTool';
+import EssayGeneratorTool from './tools/EssayGeneratorTool';
+import BackgroundRemoverTool from './tools/BackgroundRemoverTool';
 
 const actionMap: Record<string, any> = {
     "mergePDFs": t.mergePDFs,
@@ -87,6 +90,9 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
     if (id === 'image-cropper') return <ImageCropperTool tool={tool} id={id} />;
     if (id === 'color-picker') return <ColorPickerTool tool={tool} id={id} />;
     if (id === 'watermark-maker') return <WatermarkTool tool={tool} id={id} />;
+    if (id === 'mpesa-statement') return <MpesaStatementTool tool={tool} id={id} />;
+    if (id === 'essay-generator') return <EssayGeneratorTool tool={tool} id={id} />;
+    if (id === 'background-remover') return <BackgroundRemoverTool tool={tool} id={id} />;
 
     const fileActions = new Set([
         'mergePDFs',

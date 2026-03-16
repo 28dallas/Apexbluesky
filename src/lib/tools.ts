@@ -111,34 +111,87 @@ export async function pdfToWord(filename: string) {
       form.append('file', file);
       const serverRes = await apiPostBlob('/api/tools/pdf-to-word', form);
       if (serverRes instanceof Blob) return serverRes;
-      // fall back to client-side extraction
     }
     const pdfjs = await getPdfJs();
     const bytes = new Uint8Array(await file.arrayBuffer());
     const pdf = await pdfjs.getDocument({ data: bytes }).promise;
 
-    const pageTexts: string[] = [];
+    const { Document, Packer, Paragraph, TextRun, AlignmentType } = await import('docx');
+    const sections: any[] = [];
+
+    // Lazy load Tesseract for OCR
+    const getTesseract = async () => {
+      const T = await import('tesseract.js');
+      return T.default || T;
+    };
+
     for (let p = 1; p <= pdf.numPages; p++) {
       const page = await pdf.getPage(p);
       const content = await page.getTextContent();
-      const strings = (content.items || []).map((it: any) => (it?.str ?? '').toString()).filter(Boolean);
-      const text = strings.join(' ').replace(/\s+/g, ' ').trim();
-      if (text) pageTexts.push(text);
+
+      let paragraphs: string[] = [];
+
+      // Check if digital text exists
+      if (content.items.length > 5) {
+        // Sort items by vertical then horizontal
+        const items = (content.items as any[]).sort((a, b) => {
+          if (Math.abs(a.transform[5] - b.transform[5]) < 5) return a.transform[4] - b.transform[4];
+          return b.transform[5] - a.transform[5];
+        });
+
+        let currentLine = "";
+        let lastY = -1;
+
+        items.forEach(it => {
+          const y = it.transform[5];
+          if (lastY !== -1 && Math.abs(y - lastY) > 8) {
+            paragraphs.push(currentLine.trim());
+            currentLine = "";
+          }
+          currentLine += (it.str + " ");
+          lastY = y;
+        });
+        if (currentLine) paragraphs.push(currentLine.trim());
+      } else {
+        // SCANNED PDF: Run OCR
+        try {
+          const viewport = page.getViewport({ scale: 2 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            const tesseract = await getTesseract() as any;
+            const { data: { text } } = await tesseract.recognize(canvas.toDataURL('image/jpeg', 0.8), 'eng');
+            paragraphs = text.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
+          }
+        } catch (ocrErr) {
+          console.error("OCR Failed:", ocrErr);
+          paragraphs = ["(OCR failed or no text found on this page)"];
+        }
+      }
+
+      const pageChildren = paragraphs.map(text =>
+        new Paragraph({
+          children: [new TextRun({ text: text.replace(/\s+/g, ' ') })],
+          spacing: { after: 200 }
+        })
+      );
+
+      sections.push({
+        properties: {},
+        children: [
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: `--- Page ${p} ---`, bold: true, color: "888888" })]
+          }),
+          ...pageChildren
+        ]
+      });
     }
 
-    const { Document, Packer, Paragraph, TextRun } = await import('docx');
-    const children = pageTexts.length
-      ? pageTexts.flatMap((t, i) => ([
-        new Paragraph({ children: [new TextRun({ text: `Page ${i + 1}`, bold: true })] }),
-        new Paragraph({ children: [new TextRun({ text: t })] }),
-        new Paragraph({ children: [new TextRun({ text: '' })] }),
-      ]))
-      : [new Paragraph({ children: [new TextRun({ text: '(No extractable text found in PDF.)' })] })];
-
-    const doc = new Document({
-      sections: [{ properties: {}, children }],
-    });
-
+    const doc = new Document({ sections });
     return await Packer.toBlob(doc);
   } catch (e: any) {
     return `Error: ${e.message}`;
@@ -326,9 +379,14 @@ export async function convertJPGtoPNG(input: File | File[]) {
 }
 
 // --- 3. AI WRITING TOOLS ---
-export function essayGenerator(topic: string) {
+export function essayGenerator(topic: string, options?: { level?: string, tone?: string, includeCitations?: boolean }) {
   if (!topic || topic.length < 3) return "Error: Topic too short.";
-  return `[AI Generated Essay on ${topic}]\n\nIntroduction: ${topic} is a significant subject in modern discourse...\nBody: Many scholars argue that ${topic} influences society by...\nConclusion: In summary, ${topic} remains a critical area of study.`;
+
+  const level = options?.level || "University";
+  const tone = options?.tone || "Analytical";
+  const cite = options?.includeCitations ? "\n\nReferences:\n1. Smith, J. (2024). Digital Trends.\n2. Doe, A. (2025). The Future of " + topic + "." : "";
+
+  return `[${level} Level ${tone} Essay]\n\nTopic: ${topic}\n\nIntroduction: In ${level.toLowerCase()} studies, ${topic} is considered a pivotal theme. This ${tone.toLowerCase()} exploration will delve into its core implications...\n\nBody: Examining ${topic} from a ${tone.toLowerCase()} perspective reveals that several factors are at play. Most academic sources suggest that the intersection of technology and human interest in ${topic} creates a unique dynamic...\n\nConclusion: To conclude, understanding ${topic} requires a nuanced approach that takes into account both historical context and modern shifts.${cite}`;
 }
 
 export function paraphraseText(text: string) {
@@ -622,10 +680,36 @@ export async function studyPlanner(goal: string) {
 }
 
 // --- 11. M-PESA STATEMENT TO PDF ---
-export async function mpesaToPDF(input: string): Promise<Blob | string> {
-  if (!input || input.trim().length < 20) return "Error: Please paste your M-Pesa SMS messages.";
+export async function mpesaToPDF(input: string | File, password?: string): Promise<Blob | string> {
+  const isSms = typeof input === 'string';
+  if (isSms && input.trim().length < 20) return "Error: Please paste your M-Pesa SMS messages.";
+  if (!isSms && !(input instanceof File)) return "Error: Invalid input.";
+
   try {
     const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+
+    if (!isSms) {
+      try {
+        const pdfjs = await getPdfJs();
+        const bytes = new Uint8Array(await input.arrayBuffer());
+        const pdf = await pdfjs.getDocument({ data: bytes, password }).promise;
+
+        let extractedText = "";
+        for (let p = 1; p <= pdf.numPages; p++) {
+          const page = await pdf.getPage(p);
+          const content = await page.getTextContent();
+          extractedText += (content.items || []).map((it: any) => (it?.str ?? '')).join(' ') + "\n";
+        }
+
+        // Recurse with extracted text to use the SMS processing logic
+        return await mpesaToPDF(extractedText);
+      } catch (e: any) {
+        if (e.message.includes('Password') || e.message.includes('encrypted') || e.code === 1) {
+          return "Error: This PDF is password protected. Please enter the correct password (usually your ID/Document number).";
+        }
+        return `Error reading PDF: ${e.message}`;
+      }
+    }
 
     const lines = input.trim().split('\n').filter(l => l.trim().length > 0);
     // Parse M-Pesa SMS lines: detect key patterns
@@ -882,9 +966,43 @@ export async function urlEncodeDecode(input: string) {
 }
 
 // Dummy functions for custom UI tools so ToolClient.tsx doesn't throw undefined exported member errors
-export async function colorPicker() { return ""; }
-export async function cropImage() { return ""; }
-export async function addWatermark() { return ""; }
+export async function colorPicker(input: string) {
+  const colors = ["#4f46e5", "#06b6d4", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"];
+  const random = colors[Math.floor(Math.random() * colors.length)];
+  return `Suggested Color Palette for "${input || 'Design'}":\n\nPrimary: ${random}\nSecondary: #f3f4f6\nAccent: #374151\n\nTip: Use these Hex codes in your CSS or design software.`;
+}
+export async function cropImage(file: any) {
+  if (!(file instanceof File)) return "Error: No image uploaded.";
+  try {
+    const img = await fileToImage(file);
+    const canvas = document.createElement('canvas');
+    const size = Math.min(img.width, img.height);
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return "Error: Canvas not supported.";
+    // Simple center crop to square
+    ctx.drawImage(img, (img.width - size) / 2, (img.height - size) / 2, size, size, 0, 0, size, size);
+    return await canvasToBlob(canvas, 'image/png');
+  } catch (e: any) { return `Error: ${e.message}`; }
+}
+export async function addWatermark(file: any) {
+  if (!(file instanceof File)) return "Error: No image uploaded.";
+  try {
+    const img = await fileToImage(file);
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return "Error: Canvas not supported.";
+    ctx.drawImage(img, 0, 0);
+    ctx.font = `${Math.round(img.width * 0.05)}px Arial`;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.textAlign = "right";
+    ctx.fillText("ApexBlueSky Tools", img.width - 20, img.height - 20);
+    return await canvasToBlob(canvas, 'image/png');
+  } catch (e: any) { return `Error: ${e.message}`; }
+}
 
 export function generateBlogTitles(topic: string) {
   if (!topic || topic.length < 3) return "Error: Topic too short.";
@@ -951,7 +1069,7 @@ export function generateBusinessName(idea: string) {
   const words = idea.split(' ').filter(w => w.length > 3).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
   const prefix = words[0] || "Nova";
   const suffix = words[words.length - 1] || "Core";
-  
+
   return `Suggested Business Names for: ${idea}\n\n1. ${prefix}Flow\n2. True${suffix}\n3. ${prefix}Sync\n4. Omnia ${suffix}\n5. The ${prefix} Project\n6. ${prefix}ify\n7. NextGen ${suffix}\n8. ${prefix} & Co.\n\nTip: Check domain availability before registering your business!`;
 }
 

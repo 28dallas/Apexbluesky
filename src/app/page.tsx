@@ -61,7 +61,7 @@ export default function Home() {
       <section className={styles.hero}>
         <div className="container">
           <h1 className={styles.heroTitle}>Every tool you need to work with files in one place</h1>
-          <p className={styles.heroSub}>33+ tools to use PDFs and other files, at your fingertips. All are 100% FREE and easy to use!</p>
+          <p className={styles.heroSub}>50+ tools to use PDFs and other files, at your fingertips. All are 100% FREE and easy to use!</p>
         </div>
       </section>
 
