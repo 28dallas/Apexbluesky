@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     description: '43+ lighting-fast tools for developers, students, and creators.',
     images: [`${SITE_URL}/og-image.jpg`],
   },
+  other: {
+    "google-adsense-account": "ca-pub-7586264347899672",
+  },
 };
 
 // Replace ca-pub-XXXXXXXXXXXXXXXXX with your actual AdSense Publisher ID
