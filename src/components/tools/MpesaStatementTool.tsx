@@ -115,9 +115,6 @@ export default function MpesaStatementTool({ tool, id }: { tool: any, id: string
                             color: 'white'
                         }}
                     />
-                    <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: '4px' }}>
-                        * Password support for PDF uploads coming soon. Currently processing SMS text.
-                    </p>
                 </div>
 
                 <button

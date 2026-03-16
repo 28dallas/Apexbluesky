@@ -42,9 +42,8 @@ export async function POST(req: Request) {
     - Tech Stack: Next.js, TypeScript.
     - Privacy: Most tools run locally in the browser (client-side).
     
-    ENGAGEMENT GOALS:
-    - TikTok: Encourage users to follow Nathan Krop on TikTok for tool tutorials and updates: https://www.tiktok.com/@apex_bluesky?_r=1&_t=ZS-94bCJVdKaO5
-    - Mobile App: Recommend users scan the QR code in the "Take Apex Tools everywhere" section for a better mobile experience.
+    ENGAGEMENT GUIDELINES:
+    - TikTok & App: Only mention our TikTok tutorials or mobile app if the user specifically asks how to learn more, where to find tutorials, or how to use the tools on mobile. DO NOT mention them in every response. The user has already seen the welcome message.
     
     AVAILABLE TOOLS:
     ${JSON.stringify(toolsInfo, null, 2)}

@@ -155,7 +155,7 @@ export async function pdfToWord(filename: string) {
       } else {
         // SCANNED PDF: Run OCR
         try {
-          const viewport = page.getViewport({ scale: 2 });
+          const viewport = page.getViewport({ scale: 2.5 }); // Increased scale for better OCR accuracy
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -163,12 +163,16 @@ export async function pdfToWord(filename: string) {
           if (ctx) {
             await page.render({ canvasContext: ctx, viewport }).promise;
             const tesseract = await getTesseract() as any;
-            const { data: { text } } = await tesseract.recognize(canvas.toDataURL('image/jpeg', 0.8), 'eng');
+            // Use 'eng' and 'osd' for orientation detection if needed, but focus on quality
+            const { data: { text } } = await tesseract.recognize(canvas.toDataURL('image/jpeg', 0.95), 'eng');
             paragraphs = text.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
+
+            // If OCR returns very little, mark it
+            if (paragraphs.length === 0) paragraphs = ["(OCR detected no text on this page)"];
           }
         } catch (ocrErr) {
           console.error("OCR Failed:", ocrErr);
-          paragraphs = ["(OCR failed or no text found on this page)"];
+          paragraphs = ["(OCR failed on this page)"];
         }
       }
 
@@ -291,8 +295,8 @@ export async function backgroundRemover(input: File | File[]) {
 
     // Remove pixels close to the estimated background color.
     // This is a simple heuristic suitable for solid backgrounds (product shots, headshots, etc.).
-    const threshold = 38;     // lower: more strict background match
-    const feather = 18;       // soften edges around the threshold
+    const threshold = 42;     // slightly more permissive
+    const feather = 20;       // softer edges
     const thr2 = threshold * threshold;
     const fea2 = (threshold + feather) * (threshold + feather);
 
@@ -379,9 +383,25 @@ export async function convertJPGtoPNG(input: File | File[]) {
 }
 
 // --- 3. AI WRITING TOOLS ---
-export function essayGenerator(topic: string, options?: { level?: string, tone?: string, includeCitations?: boolean }) {
+export async function essayGenerator(topic: string, options?: { level?: string, tone?: string, includeCitations?: boolean }) {
   if (!topic || topic.length < 3) return "Error: Topic too short.";
 
+  try {
+    const res = await fetch('/api/tools/essay-generator', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic, options })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return data.text;
+    }
+  } catch (e) {
+    console.error("Gemini API call failed, falling back to template:", e);
+  }
+
+  // Fallback template
   const level = options?.level || "University";
   const tone = options?.tone || "Analytical";
   const cite = options?.includeCitations ? "\n\nReferences:\n1. Smith, J. (2024). Digital Trends.\n2. Doe, A. (2025). The Future of " + topic + "." : "";
@@ -692,7 +712,10 @@ export async function mpesaToPDF(input: string | File, password?: string): Promi
       try {
         const pdfjs = await getPdfJs();
         const bytes = new Uint8Array(await input.arrayBuffer());
-        const pdf = await pdfjs.getDocument({ data: bytes, password }).promise;
+        const pdf = await pdfjs.getDocument({
+          data: bytes,
+          password: password // Correctly pass the password here
+        }).promise;
 
         let extractedText = "";
         for (let p = 1; p <= pdf.numPages; p++) {

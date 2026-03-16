@@ -11,6 +11,56 @@ interface Message {
     content: string;
 }
 
+function FormattedMessage({ content }: { content: string }) {
+    if (!content) return null;
+
+    // Split by lines to handle lists and blocks
+    const lines = content.split('\n');
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {lines.map((line, i) => {
+                // Simple list item detection
+                if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                    return (
+                        <div key={i} style={{ display: 'flex', gap: '8px', paddingLeft: '8px' }}>
+                            <span>•</span>
+                            <span>{formatInline(line.trim().substring(2))}</span>
+                        </div>
+                    );
+                }
+
+                // Simple numbered list detection
+                const numMatch = line.trim().match(/^\d+\.\s+(.*)/);
+                if (numMatch) {
+                    return (
+                        <div key={i} style={{ display: 'flex', gap: '8px', paddingLeft: '8px' }}>
+                            <span style={{ minWidth: '15px' }}>{line.trim().split('.')[0]}.</span>
+                            <span>{formatInline(numMatch[1])}</span>
+                        </div>
+                    );
+                }
+
+                return <p key={i} style={{ margin: 0 }}>{formatInline(line)}</p>;
+            })}
+        </div>
+    );
+}
+
+// Simple inline formatter for bold and italic
+function formatInline(text: string) {
+    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+    return parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={i}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('*') && part.endsWith('*')) {
+            return <em key={i}>{part.slice(1, -1)}</em>;
+        }
+        return part;
+    });
+}
+
 function WelcomeMessage() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.875rem', lineHeight: '1.5' }}>
@@ -173,7 +223,13 @@ export default function ChatWidget() {
                                             {m.role === 'user' ? 'You' : 'Blue'}
                                         </span>
                                     </div>
-                                    {m.id === 'welcome' ? <WelcomeMessage /> : m.content}
+                                    <div style={{
+                                        whiteSpace: 'pre-wrap',
+                                        wordBreak: 'break-word',
+                                        fontSize: '0.9rem'
+                                    }}>
+                                        {m.id === 'welcome' ? <WelcomeMessage /> : <FormattedMessage content={m.content} />}
+                                    </div>
                                 </div>
                             ))}
 

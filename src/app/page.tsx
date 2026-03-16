@@ -32,8 +32,8 @@ export default function Home() {
               <Image
                 src="/logo/logo.png"
                 alt="ApexBlueSky"
-                width={180}
-                height={45}
+                width={150}
+                height={38}
                 className={styles.logoImage}
                 priority
                 style={{ height: 'auto' }}
