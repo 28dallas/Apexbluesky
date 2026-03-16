@@ -34,7 +34,7 @@ export default function AuthCallbackPage() {
                 // If there's no session and no error, maybe it's still processing
                 // or the user navigated here directly without a token.
                 // We listen for the auth state change:
-                const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+                const { data: { subscription } } = supabase.auth.onAuthStateChange((event: string, session: any) => {
                     if (event === 'SIGNED_IN' && session) {
                         router.push('/');
                     }

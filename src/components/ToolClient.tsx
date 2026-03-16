@@ -8,6 +8,7 @@ import WatermarkTool from './tools/WatermarkTool';
 import MpesaStatementTool from './tools/MpesaStatementTool';
 import EssayGeneratorTool from './tools/EssayGeneratorTool';
 import BackgroundRemoverTool from './tools/BackgroundRemoverTool';
+import MergePdfTool from './tools/MergePdfTool';
 
 const actionMap: Record<string, any> = {
     "mergePDFs": t.mergePDFs,
@@ -15,7 +16,6 @@ const actionMap: Record<string, any> = {
     "pdfToWord": t.pdfToWord,
     "compressPDF": t.compressPDF,
     "imageCompressor": t.imageCompressor,
-    "backgroundRemover": t.backgroundRemover,
     "imageResizer": t.imageResizer,
     "convertJPGtoPNG": t.convertJPGtoPNG,
     "essayGenerator": t.essayGenerator,
@@ -80,19 +80,39 @@ const actionMap: Record<string, any> = {
     "urlEncodeDecode": t.urlEncodeDecode
 };
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LimitModal from './LimitModal';
+import TikTokPromoModal from './TikTokPromoModal';
+
+const TIKTOK_STORAGE_KEY = 'apexbs_tiktok_dismissed';
 
 export default function ToolClient({ tool, id }: { tool: any, id: string }) {
     const action = actionMap[tool.action];
     const [limitReason, setLimitReason] = useState<string | null>(null);
+    const [showTikTok, setShowTikTok] = useState(false);
+    const [tikTokDone, setTikTokDone] = useState(false);
 
-    if (id === 'image-cropper') return <ImageCropperTool tool={tool} id={id} />;
-    if (id === 'color-picker') return <ColorPickerTool tool={tool} id={id} />;
-    if (id === 'watermark-maker') return <WatermarkTool tool={tool} id={id} />;
-    if (id === 'mpesa-statement') return <MpesaStatementTool tool={tool} id={id} />;
-    if (id === 'essay-generator') return <EssayGeneratorTool tool={tool} id={id} />;
-    if (id === 'background-remover') return <BackgroundRemoverTool tool={tool} id={id} />;
+    // Show the TikTok modal once per browser session
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const dismissed = localStorage.getItem(TIKTOK_STORAGE_KEY);
+            if (!dismissed) setShowTikTok(true);
+            else setTikTokDone(true);
+        }
+    }, []);
+
+    const handleTikTokContinue = () => {
+        setTikTokDone(true);
+        setShowTikTok(false);
+    };
+
+    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} id={id} /></>;
+    if (id === 'color-picker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ColorPickerTool tool={tool} id={id} /></>;
+    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} id={id} /></>;
+    if (id === 'mpesa-statement') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} id={id} /></>;
+    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} id={id} /></>;
+    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} id={id} /></>;
+    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} id={id} /></>;
 
     const fileActions = new Set([
         'mergePDFs',
@@ -142,6 +162,7 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
 
     return (
         <>
+            <TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} />
             <ToolInterface
                 {...tool}
                 id={id}

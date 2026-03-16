@@ -235,98 +235,7 @@ export async function imageCompressor(file: any) {
   } catch (e: any) { return `Error: ${e.message}`; }
 }
 
-export async function backgroundRemover(input: File | File[]) {
-  const file = Array.isArray(input) ? input[0] : input;
-  if (!file) return "Error: No file selected.";
-  if (!file.type.startsWith('image/') && !file.name.toLowerCase().match(/\.(png|jpe?g|webp)$/)) {
-    return "Error: Please select an image file.";
-  }
 
-  try {
-    const img = await fileToImage(file);
-
-    // For performance and memory: cap max dimension.
-    const maxDim = 2000;
-    const naturalW = img.naturalWidth || img.width;
-    const naturalH = img.naturalHeight || img.height;
-    const scale = Math.min(1, maxDim / Math.max(naturalW, naturalH));
-    const width = Math.max(1, Math.round(naturalW * scale));
-    const height = Math.max(1, Math.round(naturalH * scale));
-
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return "Error: Canvas is not supported in this browser.";
-
-    ctx.drawImage(img, 0, 0, width, height);
-    const imageData = ctx.getImageData(0, 0, width, height);
-    const data = imageData.data;
-
-    // Estimate background color from the corners (average of a small sample).
-    const sampleSize = Math.max(3, Math.round(Math.min(width, height) * 0.02));
-    const samples: number[] = [];
-    const pushSample = (sx: number, sy: number) => {
-      for (let y = sy; y < Math.min(height, sy + sampleSize); y++) {
-        for (let x = sx; x < Math.min(width, sx + sampleSize); x++) {
-          const idx = (y * width + x) * 4;
-          samples.push(data[idx], data[idx + 1], data[idx + 2]);
-        }
-      }
-    };
-    pushSample(0, 0);
-    pushSample(Math.max(0, width - sampleSize), 0);
-    pushSample(0, Math.max(0, height - sampleSize));
-    pushSample(Math.max(0, width - sampleSize), Math.max(0, height - sampleSize));
-
-    let bgR = 255, bgG = 255, bgB = 255;
-    if (samples.length >= 3) {
-      let r = 0, g = 0, b = 0;
-      for (let i = 0; i < samples.length; i += 3) {
-        r += samples[i];
-        g += samples[i + 1];
-        b += samples[i + 2];
-      }
-      const n = samples.length / 3;
-      bgR = Math.round(r / n);
-      bgG = Math.round(g / n);
-      bgB = Math.round(b / n);
-    }
-
-    // Remove pixels close to the estimated background color.
-    // This is a simple heuristic suitable for solid backgrounds (product shots, headshots, etc.).
-    const threshold = 42;     // slightly more permissive
-    const feather = 20;       // softer edges
-    const thr2 = threshold * threshold;
-    const fea2 = (threshold + feather) * (threshold + feather);
-
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const a = data[i + 3];
-      if (a === 0) continue;
-
-      const dr = r - bgR;
-      const dg = g - bgG;
-      const db = b - bgB;
-      const dist2 = dr * dr + dg * dg + db * db;
-
-      if (dist2 <= thr2) {
-        data[i + 3] = 0;
-      } else if (dist2 < fea2) {
-        // Feather alpha between threshold..threshold+feather
-        const t = (Math.sqrt(dist2) - threshold) / feather; // 0..1
-        data[i + 3] = Math.round(a * Math.min(1, Math.max(0, t)));
-      }
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-    return await canvasToBlob(canvas, 'image/png');
-  } catch (e: any) {
-    return `Error: ${e.message}`;
-  }
-}
 
 export async function imageResizer(input: any) {
   if (!(input instanceof File)) return "Error: No image uploaded.";
@@ -409,19 +318,48 @@ export async function essayGenerator(topic: string, options?: { level?: string, 
   return `[${level} Level ${tone} Essay]\n\nTopic: ${topic}\n\nIntroduction: In ${level.toLowerCase()} studies, ${topic} is considered a pivotal theme. This ${tone.toLowerCase()} exploration will delve into its core implications...\n\nBody: Examining ${topic} from a ${tone.toLowerCase()} perspective reveals that several factors are at play. Most academic sources suggest that the intersection of technology and human interest in ${topic} creates a unique dynamic...\n\nConclusion: To conclude, understanding ${topic} requires a nuanced approach that takes into account both historical context and modern shifts.${cite}`;
 }
 
-export function paraphraseText(text: string) {
-  if (text.length < 10) return "Error: Text too short.";
-  const map: Record<string, string> = { "quick": "fast", "happy": "joyful", "bad": "suboptimal", "big": "massive" };
-  let result = text;
-  Object.keys(map).forEach(word => {
-    result = result.replace(new RegExp(`\\b${word}\\b`, 'gi'), map[word]);
-  });
-  return result;
+export async function paraphraseText(text: string, options?: { tone?: string }) {
+  if (!text || text.length < 10) return "Error: Text too short.";
+
+  try {
+    const res = await fetch('/api/tools/paraphraser', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, options })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return data.text;
+    }
+    const err = await res.json().catch(() => ({}));
+    return `Error: ${err.error || 'Failed to paraphrase text.'}`;
+  } catch (e) {
+    console.error("Paraphraser API call failed:", e);
+    return "Error: Could not connect to AI service.";
+  }
 }
 
-export function grammarChecker(text: string) {
-  const issues = text.includes(' i ') ? "Fix: capitalized 'I'." : "No major issues found.";
-  return `Checked text: "${text}"\nResult: ${issues}`;
+export async function grammarChecker(text: string) {
+  if (!text || text.length < 5) return "Error: Text too short to check.";
+
+  try {
+    const res = await fetch('/api/tools/grammar-checker', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return data.text;
+    }
+    const err = await res.json().catch(() => ({}));
+    return `Error: ${err.error || 'Failed to check grammar.'}`;
+  } catch (e) {
+    console.error("Grammar Checker API call failed:", e);
+    return "Error: Could not connect to AI service.";
+  }
 }
 
 // --- 4. YOUTUBE TOOLS ---
