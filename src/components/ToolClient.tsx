@@ -77,7 +77,10 @@ const actionMap: Record<string, any> = {
     "cropImage": t.cropImage,
     "addWatermark": t.addWatermark,
     "base64EncodeDecode": t.base64EncodeDecode,
-    "urlEncodeDecode": t.urlEncodeDecode
+    "urlEncodeDecode": t.urlEncodeDecode,
+    "followersAnalysis": t.followersAnalysis,
+    "bulkActions": t.bulkActions,
+    "dataExports": t.dataExports
 };
 
 import { useState, useEffect } from 'react';
@@ -106,37 +109,84 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
         setShowTikTok(false);
     };
 
-    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} id={id} /></>;
+    const creditCosts: Record<string, number> = {
+        'essayGenerator': 2,
+        'paraphraseText': 1,
+        'pdfToWord': 3,
+        'backgroundRemover': 3,
+        'mpesaToPDF': 5,
+        'splitPDF': 1,
+        'mergePDFs': 3,
+        'imageCropper': 1,
+        'watermarkMaker': 2
+    };
+
+    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} id={id} credits={creditCosts['imageCropper']} /></>;
     if (id === 'color-picker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ColorPickerTool tool={tool} id={id} /></>;
-    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} id={id} /></>;
-    if (id === 'mpesa-statement') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} id={id} /></>;
-    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} id={id} /></>;
-    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} id={id} /></>;
-    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} id={id} /></>;
+    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} id={id} credits={creditCosts['watermarkMaker']} /></>;
+    if (id === 'mpesa-statement') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} id={id} credits={creditCosts['mpesaToPDF']} disclaimer="This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." /></>;
+    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} id={id} credits={creditCosts['essayGenerator']} /></>;
+    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} id={id} credits={creditCosts[tool.action]} /></>;
+    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} id={id} credits={creditCosts['mergePDFs']} /></>;
 
     const fileActions = new Set([
         'mergePDFs',
-        'splitPDF',
         'pdfToWord',
         'compressPDF',
         'pdfToJpg',
         'imageCompressor',
         'backgroundRemover',
-        'imageResizer',
         'convertJPGtoPNG',
         'pngToWebP',
         'pngToJpg',
         'mp4ToMp3',
     ]);
 
-    const inputType = tool.action === 'mergePDFs'
-        ? 'files'
-        : fileActions.has(tool.action)
-            ? 'file'
-            : 'text';
+    const formActions: Record<string, any[]> = {
+        'splitPDF': [
+            { id: 'file', label: 'Select PDF', type: 'file', accept: '.pdf' },
+            { id: 'range', label: 'Page Range (e.g. 1, 3-5)', type: 'text', defaultValue: '1', placeholder: '1, 3-5' }
+        ],
+        'imageResizer': [
+            { id: 'file', label: 'Select Image', type: 'file', accept: 'image/*' },
+            { id: 'width', label: 'Width (px)', type: 'number', defaultValue: 800 },
+            { id: 'height', label: 'Height (px)', type: 'number', placeholder: 'Optional' }
+        ],
+        'loanCalculator': [
+            { id: 'principal', label: 'Principal Amount', type: 'number', defaultValue: 10000 },
+            { id: 'rate', label: 'Interest Rate (%)', type: 'number', defaultValue: 5, step: 0.1 },
+            { id: 'time', label: 'Time (Years)', type: 'number', defaultValue: 3 }
+        ],
+        'calculateBMI': [
+            { id: 'weight', label: 'Weight (kg)', type: 'number', defaultValue: 70 },
+            { id: 'height', label: 'Height (cm)', type: 'number', defaultValue: 170 }
+        ],
+        'ageCalculator': [
+            { id: 'dob', label: 'Date of Birth', type: 'text', placeholder: 'YYYY-MM-DD' }
+        ]
+    };
+
+    const aiActions = new Set([
+        'essayGenerator', 'paraphraseText', 'grammarChecker', 'generateBlogTitles',
+        'generateBlogPost', 'generateProductDesc', 'draftEmail', 'generateStory',
+        'generateInstaCaption', 'generateYTDescription', 'generateLinkedInPost',
+        'generateTweet', 'generateSEOKeywords', 'generateMetaTagsAI', 'generateBlogOutline',
+        'generateBusinessName', 'generateValueProp', 'generateImagePrompt',
+        'generateCoverLetter', 'generateResumeSummary', 'reviewCode',
+        'generateRegex', 'generateFlashcards', 'generateSlogan', 'generateAltText',
+        'generateSQL', 'generateStudyPlan'
+    ]);
+
+    const inputType = formActions[tool.action]
+        ? 'form'
+        : tool.action === 'mergePDFs'
+            ? 'files'
+            : fileActions.has(tool.action)
+                ? 'file'
+                : 'text';
 
     const accept = (() => {
-        if (inputType === 'text') return '*/*';
+        if (inputType === 'text' || inputType === 'form') return '*/*';
         switch (tool.action) {
             case 'mergePDFs':
             case 'splitPDF':
@@ -169,6 +219,10 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
                 onAction={action}
                 inputType={inputType}
                 accept={accept}
+                fields={formActions[tool.action]}
+                isAI={aiActions.has(tool.action)}
+                credits={creditCosts[tool.action]}
+                disclaimer={tool.action === 'mpesaToPDF' ? "This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." : undefined}
                 onLimitReached={setLimitReason}
             />
             <LimitModal

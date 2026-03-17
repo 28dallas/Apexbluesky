@@ -3,22 +3,41 @@
 import { useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
-import { BookOpen, GraduationCap, Quote, MessageSquare } from 'lucide-react';
+import { BookOpen, GraduationCap, Quote, MessageSquare, Shield } from 'lucide-react';
 import { essayGenerator } from '@/lib/tools';
+import { useAuth } from '@/context/AuthContext';
+import { checkLimit } from '@/lib/limits';
+import LimitModal from '../LimitModal';
 
-export default function EssayGeneratorTool({ tool, id }: { tool: any, id: string }) {
+export default function EssayGeneratorTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
+    const { user, isPremium } = useAuth();
     const [topic, setTopic] = useState('');
     const [level, setLevel] = useState('University');
     const [tone, setTone] = useState('Analytical');
     const [citations, setCitations] = useState(true);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<string | null>(null);
+    const [limitReason, setLimitReason] = useState<string | null>(null);
+
+    const userStatus = {
+        isLoggedIn: !!user,
+        isPremium: isPremium
+    };
 
     const handleGenerate = async () => {
         if (!topic.trim()) return;
+
+        // Credit Check
+        if (credits) {
+            const creditCheck = checkLimit(userStatus, 'credits', credits);
+            if (!creditCheck.allowed) {
+                setLimitReason(creditCheck.reason!);
+                return;
+            }
+        }
+
         setLoading(true);
         try {
-            // We pass the new parameters to our enhanced essayGenerator function
             const res = await essayGenerator(topic, {
                 level,
                 tone,
@@ -130,6 +149,17 @@ export default function EssayGeneratorTool({ tool, id }: { tool: any, id: string
                     {loading ? 'Generating Essay...' : 'Generate Pro Essay'}
                 </button>
 
+                {credits && (
+                    <div className={styles.creditCost}>
+                        Cost: <strong>{credits} Credits</strong>
+                    </div>
+                )}
+
+                <div className={styles.trustBadge}>
+                    <Shield size={16} className={styles.aiIcon} />
+                    <span>AI Cloud Processing: Secured by Gemini-Pro. High-quality academic generation.</span>
+                </div>
+
                 {result && (
                     <div className={styles.resultGroup}>
                         <label className={styles.label}>Generated Content</label>
@@ -151,6 +181,11 @@ export default function EssayGeneratorTool({ tool, id }: { tool: any, id: string
                     </div>
                 )}
             </div>
+            <LimitModal
+                isOpen={!!limitReason}
+                onClose={() => setLimitReason(null)}
+                reason={limitReason || ''}
+            />
         </div>
     );
 }

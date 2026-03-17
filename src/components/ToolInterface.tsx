@@ -8,6 +8,18 @@ import { Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 
+export interface ToolField {
+    id: string;
+    label: string;
+    type: 'number' | 'text' | 'select' | 'range' | 'textarea';
+    placeholder?: string;
+    defaultValue?: string | number;
+    options?: { label: string; value: string }[];
+    min?: number;
+    max?: number;
+    step?: number;
+}
+
 interface ToolInterfaceProps {
     id: string;
     title: string;
@@ -18,8 +30,13 @@ interface ToolInterfaceProps {
     onAction: (input: any) => Promise<string | number | Blob | null>;
     onLimitReached?: (reason: string) => void;
     initialValue?: string;
-    inputType?: 'text' | 'file' | 'files';
+    inputType?: 'text' | 'file' | 'files' | 'form';
     accept?: string;
+    fields?: ToolField[];
+    category?: string;
+    isAI?: boolean;
+    disclaimer?: string;
+    credits?: number;
 }
 
 export default function ToolInterface({
@@ -33,18 +50,33 @@ export default function ToolInterface({
     onLimitReached,
     initialValue = '',
     inputType = 'text',
-    accept = '*/*'
+    accept = '*/*',
+    fields = [],
+    isAI = false,
+    disclaimer,
+    credits
 }: ToolInterfaceProps) {
-    const { user } = useAuth();
+    const { user, isPremium } = useAuth();
     const [textInput, setTextInput] = useState(initialValue);
     const [fileInput, setFileInput] = useState<File | File[] | null>(null);
+    const [formInput, setFormInput] = useState<Record<string, any>>(() => {
+        const initialForm: Record<string, any> = {};
+        fields.forEach(f => {
+            initialForm[f.id] = f.defaultValue !== undefined ? f.defaultValue : (f.type === 'number' ? 0 : '');
+        });
+        return initialForm;
+    });
     const [result, setResult] = useState<string | number | Blob | null>(null);
     const [loading, setLoading] = useState(false);
     const fileRef = useRef<HTMLInputElement>(null);
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: false // Placeholder for future stripe integration
+        isPremium: isPremium
+    };
+
+    const handleFormChange = (id: string, value: any) => {
+        setFormInput(prev => ({ ...prev, [id]: value }));
     };
 
     const handleAction = async () => {
@@ -63,9 +95,21 @@ export default function ToolInterface({
             }
         }
 
+        if (credits) {
+            const limitCheck = checkLimit(userStatus, 'credits', credits);
+            if (!limitCheck.allowed) {
+                onLimitReached?.(limitCheck.reason!);
+                return;
+            }
+        }
+
         setLoading(true);
         try {
-            const input = inputType === 'text' ? textInput : fileInput;
+            let input: any;
+            if (inputType === 'text') input = textInput;
+            else if (inputType === 'form') input = formInput;
+            else input = fileInput;
+
             const res = await onAction(input);
             setResult(res);
         } catch (e: any) {
@@ -136,7 +180,7 @@ export default function ToolInterface({
             <div className={`${styles.card} glass`}>
                 <div className={styles.inputGroup}>
                     <label className={styles.label}>
-                        {inputType === 'text' ? 'Input Data' : 'Upload File(s)'}
+                        {inputType === 'text' ? 'Input Data' : inputType === 'form' ? 'Configuration' : 'Upload File(s)'}
                     </label>
 
                     {inputType === 'text' ? (
@@ -146,6 +190,43 @@ export default function ToolInterface({
                             value={textInput}
                             onChange={(e) => setTextInput(e.target.value)}
                         />
+                    ) : inputType === 'form' ? (
+                        <div className={styles.formGrid}>
+                            {fields.map(f => (
+                                <div key={f.id} className={styles.fieldGroup}>
+                                    <label className={styles.fieldLabel}>{f.label}</label>
+                                    {f.type === 'select' ? (
+                                        <select
+                                            className={styles.select}
+                                            value={formInput[f.id]}
+                                            onChange={(e) => handleFormChange(f.id, e.target.value)}
+                                        >
+                                            {f.options?.map(opt => (
+                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                            ))}
+                                        </select>
+                                    ) : f.type === 'textarea' ? (
+                                        <textarea
+                                            className={styles.textareaSmall}
+                                            placeholder={f.placeholder}
+                                            value={formInput[f.id]}
+                                            onChange={(e) => handleFormChange(f.id, e.target.value)}
+                                        />
+                                    ) : (
+                                        <input
+                                            type={f.type}
+                                            className={styles.input}
+                                            placeholder={f.placeholder}
+                                            value={formInput[f.id]}
+                                            min={f.min}
+                                            max={f.max}
+                                            step={f.step}
+                                            onChange={(e) => handleFormChange(f.id, f.type === 'number' ? parseFloat(e.target.value) : e.target.value)}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     ) : (
                         <div className={styles.fileBox}>
                             <input
@@ -167,14 +248,30 @@ export default function ToolInterface({
                 <button
                     className="btn-primary"
                     onClick={handleAction}
-                    disabled={loading || (inputType === 'text' ? !textInput : !fileInput)}
+                    disabled={loading || (inputType === 'text' ? !textInput : inputType === 'form' ? false : !fileInput)}
                 >
                     {loading ? 'Processing...' : buttonText}
                 </button>
 
+                {credits && (
+                    <div className={styles.creditCost}>
+                        Cost: <strong>{credits} Credits</strong>
+                    </div>
+                )}
+
+                {disclaimer && (
+                    <div className={styles.disclaimer}>
+                        <strong>Disclaimer:</strong> {disclaimer}
+                    </div>
+                )}
+
                 <div className={styles.trustBadge}>
-                    <Shield size={16} className={styles.trustIcon} />
-                    <span>Privacy First: Processed locally or auto-deleted after 10 minutes.</span>
+                    <Shield size={16} className={isAI ? styles.aiIcon : styles.trustIcon} />
+                    <span>
+                        {isAI
+                            ? "AI Cloud: Data processed securely via Gemini AI. No data is stored."
+                            : "Privacy Shield: 100% Local Browser Processing. Your data never leaves your device."}
+                    </span>
                 </div>
 
                 {result !== null && (

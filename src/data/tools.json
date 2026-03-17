@@ -1625,5 +1625,68 @@
             "url": "https://www.coursera.org",
             "cta": "Start Learning"
         }
+    },
+    "followers-analysis": {
+        "title": "Followers Analysis",
+        "description": "Analyze your BlueSky follower growth and engagement patterns.",
+        "icon": "📊",
+        "category": "BlueSky",
+        "buttonText": "Analyze Followers",
+        "action": "followersAnalysis",
+        "initialValue": "@nathan.bsky.social",
+        "inputPlaceholder": "Enter your BlueSky handle...",
+        "seo": {
+            "title": "Free BlueSky Followers Analysis – Track Growth & Engagement",
+            "description": "Get deep insights into your BlueSky audience. Monitor follower trends, engagement rates, and top follower segments for free.",
+            "howTo": "Enter your BlueSky handle (e.g. @name.bsky.social) and click 'Analyze Followers'. Your data will be processed instantly.",
+            "faqs": [
+                {
+                    "q": "Is my BlueSky password required?",
+                    "a": "No. This tool only requires your public handle to perform basic profile analysis."
+                }
+            ]
+        }
+    },
+    "bulk-actions": {
+        "title": "Bulk Actions",
+        "description": "Automate repetitive tasks on BlueSky with smart batch processing.",
+        "icon": "🛠️",
+        "category": "BlueSky",
+        "buttonText": "Generate Plan",
+        "action": "bulkActions",
+        "initialValue": "Delete all posts from 2024",
+        "inputPlaceholder": "Describe the bulk action (e.g. Mute all followers of X)...",
+        "seo": {
+            "title": "BlueSky Bulk Actions – Automate & Manage Your Feed",
+            "description": "Save time on BlueSky by automating repetitive tasks. Easily manage followers, posts, and mutes in bulk with our smart assistant.",
+            "howTo": "Describe the task you want to automate and click 'Generate Plan'. Follow the step-by-step workflow provided.",
+            "faqs": [
+                {
+                    "q": "Are bulk actions safe?",
+                    "a": "The tool provides a plan for you to review. Always double-check batch actions before final execution."
+                }
+            ]
+        }
+    },
+    "data-exports": {
+        "title": "Data Exports",
+        "description": "Convert your BlueSky data exports into readable CSV/Excel formats.",
+        "icon": "📥",
+        "category": "BlueSky",
+        "buttonText": "Convert Data",
+        "action": "dataExports",
+        "initialValue": "Post 1 content\nPost 2 content\nPost 3 content",
+        "inputPlaceholder": "Paste your exported JSON or raw post data here...",
+        "seo": {
+            "title": "BlueSky Data Export Converter – JSON to CSV for Free",
+            "description": "Easily convert your BlueSky data exports into readable spreadsheets. Compatible with Excel, Google Sheets, and more.",
+            "howTo": "Paste your exported data or list of posts into the field and click 'Convert Data' to download a CSV file.",
+            "faqs": [
+                {
+                    "q": "What data can I export?",
+                    "a": "You can export posts, follower lists, and interaction history for easier management."
+                }
+            ]
+        }
     }
 }

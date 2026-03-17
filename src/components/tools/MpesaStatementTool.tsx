@@ -4,18 +4,46 @@ import { useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
-import { Lock, ShieldCheck, Mail, FileText } from 'lucide-react';
+import { Lock, ShieldCheck, Mail, FileText, Shield } from 'lucide-react';
 import { mpesaToPDF } from '@/lib/tools';
+import { useAuth } from '@/context/AuthContext';
+import { checkLimit } from '@/lib/limits';
+import LimitModal from '../LimitModal';
 
-export default function MpesaStatementTool({ tool, id }: { tool: any, id: string }) {
+export default function MpesaStatementTool({ tool, id, credits, disclaimer }: { tool: any, id: string, credits?: number, disclaimer?: string }) {
+    const { user, isPremium } = useAuth();
     const [smsText, setSmsText] = useState('');
     const [password, setPassword] = useState('');
     const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<Blob | string | null>(null);
+    const [limitReason, setLimitReason] = useState<string | null>(null);
+
+    const userStatus = {
+        isLoggedIn: !!user,
+        isPremium: isPremium
+    };
 
     const handleProcess = async () => {
         if (!smsText.trim() && !file) return;
+
+        // Limit Checks
+        if (file) {
+            const sizeCheck = checkLimit(userStatus, 'file_size', file.size);
+            if (!sizeCheck.allowed) {
+                setLimitReason(sizeCheck.reason!);
+                return;
+            }
+        }
+
+        if (credits) {
+            const creditCheck = checkLimit(userStatus, 'credits', credits);
+            if (!creditCheck.allowed) {
+                setLimitReason(creditCheck.reason!);
+                return;
+            }
+        }
+
         setLoading(true);
         try {
             const res = await mpesaToPDF(file || smsText, password);
@@ -48,22 +76,6 @@ export default function MpesaStatementTool({ tool, id }: { tool: any, id: string
             </div>
 
             <div className={`${styles.card} glass`} style={{ border: '1px solid var(--accent-primary)' }}>
-                <div style={{
-                    background: 'rgba(16, 185, 129, 0.1)',
-                    border: '1px solid rgba(16, 185, 129, 0.2)',
-                    borderRadius: '12px',
-                    padding: '12px',
-                    marginBottom: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    color: '#10b981'
-                }}>
-                    <ShieldCheck size={24} />
-                    <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 500 }}>
-                        <strong>Privacy Guaranteed:</strong> Your statement is processed entirely in your browser. We never see your transactions or your password.
-                    </p>
-                </div>
 
                 <div className={styles.inputGroup}>
                     <label className={styles.label}>
@@ -126,6 +138,23 @@ export default function MpesaStatementTool({ tool, id }: { tool: any, id: string
                     {loading ? 'Generating Statement...' : 'Generate Pro PDF Statement'}
                 </button>
 
+                {credits && (
+                    <div className={styles.creditCost}>
+                        Cost: <strong>{credits} Credits</strong>
+                    </div>
+                )}
+
+                {disclaimer && (
+                    <div className={styles.disclaimer} style={{ marginTop: '15px' }}>
+                        <strong>Legal Disclaimer:</strong> {disclaimer}
+                    </div>
+                )}
+
+                <div className={styles.trustBadge}>
+                    <Shield size={16} className={styles.trustIcon} />
+                    <span>Privacy Shield: 100% Local Browser Processing. Statements are never uploaded or stored.</span>
+                </div>
+
                 {result && (
                     <div className={styles.resultGroup}>
                         <label className={styles.label}>Generated Statement</label>
@@ -145,6 +174,11 @@ export default function MpesaStatementTool({ tool, id }: { tool: any, id: string
                     </div>
                 )}
             </div>
+            <LimitModal
+                isOpen={!!limitReason}
+                onClose={() => setLimitReason(null)}
+                reason={limitReason || ''}
+            />
         </div>
     );
 }

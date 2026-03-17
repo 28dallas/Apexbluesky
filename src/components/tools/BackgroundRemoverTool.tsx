@@ -4,15 +4,25 @@ import { useState, useRef, useEffect } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
-import { Download, UploadCloud } from 'lucide-react';
+import { Download, UploadCloud, Shield } from 'lucide-react';
 import { removeBackground } from '@imgly/background-removal';
+import { useAuth } from '@/context/AuthContext';
+import { checkLimit } from '@/lib/limits';
+import LimitModal from '../LimitModal';
 
-export default function BackgroundRemoverTool({ tool, id }: { tool: any, id: string }) {
+export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
+    const { user, isPremium } = useAuth();
     const [image, setImage] = useState<File | null>(null);
     const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState('');
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [limitReason, setLimitReason] = useState<string | null>(null);
+
+    const userStatus = {
+        isLoggedIn: !!user,
+        isPremium: isPremium
+    };
 
     useEffect(() => {
         if (image) {
@@ -34,6 +44,22 @@ export default function BackgroundRemoverTool({ tool, id }: { tool: any, id: str
 
     const handleInitialProcess = async () => {
         if (!image) return;
+
+        // Limit Checks
+        const sizeCheck = checkLimit(userStatus, 'file_size', image.size);
+        if (!sizeCheck.allowed) {
+            setLimitReason(sizeCheck.reason!);
+            return;
+        }
+
+        if (credits) {
+            const creditCheck = checkLimit(userStatus, 'credits', credits);
+            if (!creditCheck.allowed) {
+                setLimitReason(creditCheck.reason!);
+                return;
+            }
+        }
+
         setLoading(true);
         setProcessedBlob(null);
         setProgress('Initializing AI Model...');
@@ -111,6 +137,17 @@ export default function BackgroundRemoverTool({ tool, id }: { tool: any, id: str
                         >
                             {loading ? progress : 'AI Remove Background'}
                         </button>
+
+                        {credits && (
+                            <div className={styles.creditCost}>
+                                Cost: <strong>{credits} Credits</strong>
+                            </div>
+                        )}
+
+                        <div className={styles.trustBadge}>
+                            <Shield size={16} className={styles.trustIcon} />
+                            <span>Privacy Shield: 100% Local Browser Processing. Your data never leaves your device.</span>
+                        </div>
                     </div>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -143,6 +180,12 @@ export default function BackgroundRemoverTool({ tool, id }: { tool: any, id: str
                     </div>
                 )}
             </div>
+
+            <LimitModal
+                isOpen={!!limitReason}
+                onClose={() => setLimitReason(null)}
+                reason={limitReason || ''}
+            />
         </div>
     );
 }

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
+import { Shield } from 'lucide-react';
 
 export default function ColorPickerTool({ tool, id }: any) {
     const [color, setColor] = useState('#6366f1');
@@ -48,6 +49,11 @@ export default function ColorPickerTool({ tool, id }: any) {
                             <input type="text" readOnly value={hexToRgb(color) || ''} className={styles.textarea} style={{ height: 'auto', padding: '1rem', fontSize: '1.5rem', textAlign: 'center', fontWeight: 'bold' }} />
                         </div>
                     </div>
+                </div>
+
+                <div className={styles.trustBadge}>
+                    <Shield size={16} className={styles.trustIcon} />
+                    <span>Privacy Shield: 100% Local Browser Processing. Colors are not tracked.</span>
                 </div>
             </div>
         </div>

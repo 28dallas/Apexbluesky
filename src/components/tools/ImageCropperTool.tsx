@@ -6,18 +6,46 @@ import Link from 'next/link';
 import ReactCrop, { type Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { saveAs } from 'file-saver';
+import { Shield } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { checkLimit } from '@/lib/limits';
+import LimitModal from '../LimitModal';
 
-export default function ImageCropperTool({ tool, id }: any) {
+export default function ImageCropperTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
+    const { user, isPremium } = useAuth();
     const [imgSrc, setImgSrc] = useState('');
     const imgRef = useRef<HTMLImageElement>(null);
     const [crop, setCrop] = useState<Crop>();
+    const [limitReason, setLimitReason] = useState<string | null>(null);
+
+    const userStatus = {
+        isLoggedIn: !!user,
+        isPremium: isPremium
+    };
 
     const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+
+            // Limit Checks
+            const sizeCheck = checkLimit(userStatus, 'file_size', file.size);
+            if (!sizeCheck.allowed) {
+                setLimitReason(sizeCheck.reason!);
+                return;
+            }
+
+            if (credits) {
+                const creditCheck = checkLimit(userStatus, 'credits', credits);
+                if (!creditCheck.allowed) {
+                    setLimitReason(creditCheck.reason!);
+                    return;
+                }
+            }
+
             setCrop(undefined);
             const reader = new FileReader();
             reader.addEventListener('load', () => setImgSrc(reader.result?.toString() || ''));
-            reader.readAsDataURL(e.target.files[0]);
+            reader.readAsDataURL(file);
         }
     };
 
@@ -92,13 +120,30 @@ export default function ImageCropperTool({ tool, id }: any) {
                                 <img ref={imgRef} src={imgSrc} style={{ maxHeight: '60vh', maxWidth: '100%', objectFit: 'contain' }} alt="Crop target" />
                             </ReactCrop>
                         </div>
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            <button className={styles.btnSecondary} onClick={() => setImgSrc('')}>Start Over</button>
-                            <button className={styles.btnPrimary} onClick={handleDownload} disabled={!crop || !crop.width}>Crop & Download</button>
+                        <div style={{ display: 'flex', gap: '1rem', width: '100%', maxWidth: '400px' }}>
+                            <button className="btn-secondary" style={{ flex: 1 }} onClick={() => setImgSrc('')}>Start Over</button>
+                            <button className="btn-primary" style={{ flex: 2 }} onClick={handleDownload} disabled={!crop || !crop.width}>Crop & Download</button>
+                        </div>
+
+                        {credits && (
+                            <div className={styles.creditCost}>
+                                Cost: <strong>{credits} Credits</strong>
+                            </div>
+                        )}
+
+                        <div className={styles.trustBadge}>
+                            <Shield size={16} className={styles.trustIcon} />
+                            <span>Privacy Shield: 100% Local Browser Processing. Images never leave your device.</span>
                         </div>
                     </div>
                 )}
             </div>
+
+            <LimitModal
+                isOpen={!!limitReason}
+                onClose={() => setLimitReason(null)}
+                reason={limitReason || ''}
+            />
         </div>
     );
 }

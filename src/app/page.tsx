@@ -10,17 +10,19 @@ import styles from './page.module.css';
 import toolsData from '@/data/tools.json';
 import AppDownloadSection from '@/components/AppDownloadSection';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/context/AuthContext';
 
 const tools = Object.entries(toolsData).map(([id, data]) => ({
   id,
   ...(data as any)
 }));
 
-const categories = ['All', 'PDF', 'Images', 'Writing', 'Video/Social', 'Technical', 'Education', 'Health'];
+const categories = ['All', 'BlueSky', 'PDF', 'Images', 'Writing', 'Video/Social', 'Technical', 'Education', 'Health'];
 
 const trendingIds = ['mpesa-statement', 'pdf-to-word', 'background-remover', 'essay-generator'];
 
 export default function Home() {
+  const { user, isPremium, signOut } = useAuth();
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -60,8 +62,25 @@ export default function Home() {
               ))}
             </div>
             <div className={styles.auth}>
-              <Link href="/login" className={styles.navLink}>LOGIN</Link>
-              <Link href="/signup" className="btn-primary">SIGN UP</Link>
+              {user ? (
+                <div className={styles.userSection}>
+                  <div className={styles.userInfo}>
+                    <span className={styles.userName}>{user.email?.split('@')[0]}</span>
+                    <span className={`${styles.tierBadge} ${isPremium ? styles.proTier : styles.freeTier}`}>
+                      {isPremium ? 'PRO' : 'FREE'}
+                    </span>
+                  </div>
+                  {!isPremium && (
+                    <Link href="/pricing" className={styles.upgradeLink}>Upgrade</Link>
+                  )}
+                  <button onClick={() => signOut()} className={styles.signOutBtn}>Logout</button>
+                </div>
+              ) : (
+                <>
+                  <Link href="/login" className={styles.navLink}>LOGIN</Link>
+                  <Link href="/signup" className="btn-primary">SIGN UP</Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
@@ -70,7 +89,10 @@ export default function Home() {
       <section className={styles.hero}>
         <div className="container">
           <h1 className={styles.heroTitle}>Every tool you need to work with files in one place</h1>
-          <p className={styles.heroSub}>53+ tools to use PDFs and other files, at your fingertips. All are 100% FREE and easy to use!</p>
+          <p className={styles.heroSub}>
+            53+ tools to use PDFs and other files, at your fingertips.
+            {isPremium ? ' Enjoy unlimited professional access.' : ' All are easy to use!'}
+          </p>
           <div className={styles.searchContainer}>
             <Search className={styles.searchIcon} size={20} />
             <input

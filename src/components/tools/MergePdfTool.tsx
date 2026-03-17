@@ -4,8 +4,11 @@ import { useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
-import { Download, FilePlus, GripVertical, Trash2 } from 'lucide-react';
+import { Download, FilePlus, GripVertical, Trash2, Shield } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
+import { useAuth } from '@/context/AuthContext';
+import { checkLimit } from '@/lib/limits';
+import LimitModal from '../LimitModal';
 
 interface PDFFile {
     id: string;
@@ -14,14 +17,30 @@ interface PDFFile {
     preview?: string;
 }
 
-export default function MergePdfTool({ tool, id }: { tool: any, id: string }) {
+export default function MergePdfTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
+    const { user, isPremium } = useAuth();
     const [pdfs, setPdfs] = useState<PDFFile[]>([]);
     const [loading, setLoading] = useState(false);
     const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
+    const [limitReason, setLimitReason] = useState<string | null>(null);
+
+    const userStatus = {
+        isLoggedIn: !!user,
+        isPremium: isPremium
+    };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            const newFiles = Array.from(e.target.files).map(file => ({
+            const incomingFiles = Array.from(e.target.files);
+            const totalCount = pdfs.length + incomingFiles.length;
+
+            const limitCheck = checkLimit(userStatus, 'batch_count', totalCount);
+            if (!limitCheck.allowed) {
+                setLimitReason(limitCheck.reason!);
+                return;
+            }
+
+            const newFiles = incomingFiles.map(file => ({
                 id: Math.random().toString(36).substr(2, 9),
                 file,
                 name: file.name
@@ -50,6 +69,16 @@ export default function MergePdfTool({ tool, id }: { tool: any, id: string }) {
 
     const handleMerge = async () => {
         if (pdfs.length < 2) return;
+
+        // Credit Check
+        if (credits) {
+            const creditCheck = checkLimit(userStatus, 'credits', credits);
+            if (!creditCheck.allowed) {
+                setLimitReason(creditCheck.reason!);
+                return;
+            }
+        }
+
         setLoading(true);
         try {
             const mergedPdf = await PDFDocument.create();
@@ -138,6 +167,18 @@ export default function MergePdfTool({ tool, id }: { tool: any, id: string }) {
                         >
                             {loading ? 'Merging PDFs...' : `Merge ${pdfs.length} PDFs`}
                         </button>
+
+                        {credits && (
+                            <div className={styles.creditCost} style={{ marginTop: '10px' }}>
+                                Cost: <strong>{credits} Credits</strong>
+                            </div>
+                        )}
+
+                        <div className={styles.trustBadge}>
+                            <Shield size={16} className={styles.trustIcon} />
+                            <span>Privacy Shield: 100% Local Browser Processing. Files are never uploaded.</span>
+                        </div>
+
                         {pdfs.length === 1 && <p style={{ textAlign: 'center', fontSize: '0.8rem', color: '#f59e0b', marginTop: '10px' }}>Please add at least 2 PDFs to merge.</p>}
                     </div>
                 ) : (
@@ -162,6 +203,12 @@ export default function MergePdfTool({ tool, id }: { tool: any, id: string }) {
                     </div>
                 )}
             </div>
+
+            <LimitModal
+                isOpen={!!limitReason}
+                onClose={() => setLimitReason(null)}
+                reason={limitReason || ''}
+            />
         </div>
     );
 }
