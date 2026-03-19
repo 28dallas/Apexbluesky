@@ -22,7 +22,7 @@ const categories = ['All', 'BlueSky', 'PDF', 'Images', 'Writing', 'Video/Social'
 const trendingIds = ['mpesa-statement', 'pdf-to-word', 'background-remover', 'essay-generator'];
 
 export default function Home() {
-  const { user, isPremium, signOut } = useAuth();
+  const { user, isPremium, credits, signOut } = useAuth();
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -36,53 +36,21 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
+<header className={styles.header}>
         <div className="container">
-          <nav className={styles.nav}>
-            <Link href="/" className={styles.logo}>
-              <Image
-                src="/logo/logo.png"
-                alt="ApexBlueSky"
-                width={150}
-                height={38}
-                className={styles.logoImage}
-                priority
-                style={{ height: 'auto' }}
-              />
-            </Link>
-            <div className={styles.navLinks}>
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  className={`${styles.navPill} ${activeCategory === cat ? styles.activeNavPill : ''}`}
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            <div className={styles.auth}>
-              {user ? (
-                <div className={styles.userSection}>
-                  <div className={styles.userInfo}>
-                    <span className={styles.userName}>{user.email?.split('@')[0]}</span>
-                    <span className={`${styles.tierBadge} ${isPremium ? styles.proTier : styles.freeTier}`}>
-                      {isPremium ? 'PRO' : 'FREE'}
-                    </span>
-                  </div>
-                  {!isPremium && (
-                    <Link href="/pricing" className={styles.upgradeLink}>Upgrade</Link>
-                  )}
-                  <button onClick={() => signOut()} className={styles.signOutBtn}>Logout</button>
-                </div>
-              ) : (
-                <>
-                  <Link href="/login" className={styles.navLink}>LOGIN</Link>
-                  <Link href="/signup" className="btn-primary">SIGN UP</Link>
-                </>
-              )}
-            </div>
-          </nav>
+          {/* Category pills only on home */}
+          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+            {categories.map(cat => (
+              <button
+                key={cat}
+                className={`${styles.navPill} ${activeCategory === cat ? styles.activeNavPill : ''}`}
+                onClick={() => setActiveCategory(cat)}
+                style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 

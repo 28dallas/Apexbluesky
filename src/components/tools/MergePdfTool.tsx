@@ -23,6 +23,7 @@ export default function MergePdfTool({ tool, id, credits }: { tool: any, id: str
     const [loading, setLoading] = useState(false);
     const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
     const [limitReason, setLimitReason] = useState<string | null>(null);
+    const [progress, setProgress] = useState('');
 
     const userStatus = {
         isLoggedIn: !!user,
@@ -80,24 +81,32 @@ export default function MergePdfTool({ tool, id, credits }: { tool: any, id: str
         }
 
         setLoading(true);
+        setProgress('');
         try {
+            setProgress(`Preparing to merge ${pdfs.length} files...`);
             const mergedPdf = await PDFDocument.create();
 
-            for (const pdfObj of pdfs) {
+            for (let i = 0; i < pdfs.length; i++) {
+                setProgress(`Loading PDF ${i + 1} of ${pdfs.length}...`);
+                const pdfObj = pdfs[i];
                 const arrayBuffer = await pdfObj.file.arrayBuffer();
                 const pdf = await PDFDocument.load(arrayBuffer);
+                
+                setProgress(`Processing ${pdfObj.name}...`);
                 const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                 copiedPages.forEach((page) => {
                     mergedPdf.addPage(page);
                 });
             }
 
+            setProgress('Finalizing document...');
             const mergedPdfFile = await mergedPdf.save({ useObjectStreams: true });
             const blob = new Blob([mergedPdfFile as any], { type: 'application/pdf' });
             setProcessedBlob(blob);
+            setProgress('');
         } catch (e) {
             console.error('Merge failed:', e);
-            alert('Failed to merge PDFs.');
+            setProgress(`Error: ${(e as any)?.message || 'Failed to merge PDFs. Please try again.'}`);
         }
         setLoading(false);
     };
@@ -165,8 +174,29 @@ export default function MergePdfTool({ tool, id, credits }: { tool: any, id: str
                             disabled={pdfs.length < 2 || loading}
                             style={{ width: '100%' }}
                         >
-                            {loading ? 'Merging PDFs...' : `Merge ${pdfs.length} PDFs`}
+                            {loading ? (
+                                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                                    <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⌛</span>
+                                    Merging...
+                                </span>
+                            ) : (
+                                `Merge ${pdfs.length} PDFs`
+                            )}
                         </button>
+
+                        {progress && (
+                            <div style={{
+                                marginTop: '1rem',
+                                padding: '0.75rem 1rem',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                border: '1px solid rgba(99, 102, 241, 0.5)',
+                                borderRadius: '0.5rem',
+                                fontSize: '0.9rem',
+                                color: '#a0aec0'
+                            }}>
+                                {progress}
+                            </div>
+                        )}
 
                         {credits && (
                             <div className={styles.creditCost} style={{ marginTop: '10px' }}>

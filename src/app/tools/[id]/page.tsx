@@ -271,9 +271,9 @@ export default async function ToolPage({ params }: Props) {
 
                         {/* Additional Content Blocks for "Density" */}
                         <div style={{ marginTop: '3rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2rem' }}>
-                            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>Why choose our {tool.title}?</h3>
+                            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>Why Use Our {tool.title}?</h3>
                             <p style={{ lineHeight: '1.8' }}>
-                                Unlike other online utilities, our {tool.title} is designed for privacy and speed. All processing is character-based or calculated within your browser, meaning your sensitive data never touches our servers. It's safe, secure, and ready for professional use.
+                                Our {tool.title} is built for speed, accuracy, and privacy. Whether processing happens locally in your browser or through secure cloud servers, your data is protected and never sold. Get results instantly without the complexity of desktop software.
                             </p>
                         </div>
                     </div>

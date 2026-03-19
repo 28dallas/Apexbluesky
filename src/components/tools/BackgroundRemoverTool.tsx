@@ -145,8 +145,8 @@ export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any
                         )}
 
                         <div className={styles.trustBadge}>
-                            <Shield size={16} className={styles.trustIcon} />
-                            <span>Privacy Shield: 100% Local Browser Processing. Your data never leaves your device.</span>
+                            <Shield size={16} className={styles.aiIcon} />
+                            <span>AI Cloud Processing: Secured by cloud API. Images processed securely and never stored.</span>
                         </div>
                     </div>
                 ) : (

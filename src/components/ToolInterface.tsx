@@ -68,6 +68,8 @@ export default function ToolInterface({
     });
     const [result, setResult] = useState<string | number | Blob | null>(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [progressSteps, setProgressSteps] = useState<string>('');
     const fileRef = useRef<HTMLInputElement>(null);
 
     const userStatus = {
@@ -80,6 +82,9 @@ export default function ToolInterface({
     };
 
     const handleAction = async () => {
+        setError(null);
+        setResult(null);
+        
         // Final check before processing
         if (inputType === 'files' && Array.isArray(fileInput)) {
             const limitCheck = checkLimit(userStatus, 'batch_count', fileInput.length);
@@ -113,9 +118,13 @@ export default function ToolInterface({
             const res = await onAction(input);
             setResult(res);
         } catch (e: any) {
-            setResult(`Error: ${e.message}`);
+            const errorMessage = e?.message || 'An unexpected error occurred. Please try again.';
+            setError(errorMessage);
+            setResult(null);
+            console.error('Tool error:', e);
         }
         setLoading(false);
+        setProgressSteps('');
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -250,8 +259,23 @@ export default function ToolInterface({
                     onClick={handleAction}
                     disabled={loading || (inputType === 'text' ? !textInput : inputType === 'form' ? false : !fileInput)}
                 >
-                    {loading ? 'Processing...' : buttonText}
+                    {loading ? (
+                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                            <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⌛</span>
+                            Processing...
+                        </span>
+                    ) : (
+                        buttonText
+                    )}
                 </button>
+
+                {progressSteps && (
+                    <div className={styles.progressInfo}>
+                        <p style={{ fontSize: '0.9rem', color: '#a0aec0', marginTop: '1rem' }}>
+                            {progressSteps}
+                        </p>
+                    </div>
+                )}
 
                 {credits && (
                     <div className={styles.creditCost}>
@@ -274,13 +298,38 @@ export default function ToolInterface({
                     </span>
                 </div>
 
-                {result !== null && (
+                {error && (
+                    <div className={styles.errorContainer} style={{
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.5)',
+                        borderRadius: '0.5rem',
+                        padding: '1rem',
+                        marginTop: '1rem'
+                    }}>
+                        <p style={{ color: '#ef4444', fontWeight: 500, marginBottom: '0.5rem' }}>
+                            ⚠️ Error occurred
+                        </p>
+                        <p style={{ color: '#fca5a5', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                            {error}
+                        </p>
+                        <button
+                            onClick={handleAction}
+                            className="btn-primary"
+                            style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+                            disabled={loading || (inputType === 'text' ? !textInput : inputType === 'form' ? false : !fileInput)}
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                )}
+
+                {result !== null && !error && (
                     <div className={styles.resultGroup}>
                         <label className={styles.label}>Result</label>
                         <div className={styles.result}>
                             {result instanceof Blob ? (
                                 <div className={styles.blobResult}>
-                                    <span>File ready for download</span>
+                                    <span>✅ File ready for download</span>
                                     {(() => {
                                         const mime = (result.type || '').toLowerCase();
                                         const labelByMime: Record<string, string> = {
@@ -301,8 +350,6 @@ export default function ToolInterface({
                                         );
                                     })()}
                                 </div>
-                            ) : typeof result === 'string' && result.startsWith('Error') ? (
-                                <span className={styles.error}>{result}</span>
                             ) : (
                                 <pre>{String(result)}</pre>
                             )}

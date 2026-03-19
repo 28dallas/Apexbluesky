@@ -52,51 +52,41 @@ export default function AppDownloadSection() {
             <div className="container">
                 <div className={styles.wrapper}>
                     <div className={styles.content}>
-                        <h2 className={styles.title}>Take Apex Tools everywhere</h2>
+                        <h2 className={styles.title}>Access Apex Tools on the Go</h2>
                         <p className={styles.description}>
-                            Scan the QR code or get a text to download the app (Mockup) and access 33+ tools on the go.
+                            Install Apex Tools as a Progressive Web App on your phone or computer for quick access to all 50+ tools. Works offline and updates automatically.
                         </p>
 
-                        <form onSubmit={handleSendLink} className={styles.smsForm}>
-                            <div className={styles.inputWrapper}>
-                                <span className={styles.countryCode}>+254</span>
-                                <input
-                                    type="tel"
-                                    placeholder="712345678"
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
-                                    className={styles.input}
-                                    disabled={isSent || isLoading}
-                                />
-                                <button 
-                                    type="submit" 
-                                    className={isSent ? styles.sentButton : styles.sendButton}
-                                    disabled={!phoneNumber || isSent || isLoading}
-                                >
-                                    {isLoading ? '...' : isSent ? <CheckCircle2 size={18} /> : <Send size={18} />}
-                                    <span>{isSent ? 'Sent!' : 'Send Me a Link'}</span>
-                                </button>
-                            </div>
-                            {isSent && <p className={styles.successMsg}>Link sent! Check your messages (Mockup).</p>}
-                        </form>
+                        <div style={{ marginTop: '1.5rem' }}>
+                            <button 
+                                onClick={() => {
+                                    // PWA install prompt would go here
+                                    if ((window as any).deferredPrompt) {
+                                        (window as any).deferredPrompt.prompt();
+                                    } else {
+                                        alert('Installation instructions depend on your device and browser. Look for an "Install" or "Add to Home Screen" option in your browser menu.');
+                                    }
+                                }}
+                                style={{
+                                    padding: '0.75rem 1.5rem',
+                                    backgroundColor: 'var(--accent-primary)',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '0.5rem',
+                                    cursor: 'pointer',
+                                    fontSize: '1rem',
+                                    fontWeight: 500
+                                }}
+                            >
+                                📱 Install App
+                            </button>
+                        </div>
                     </div>
 
                     <div className={styles.visuals}>
-                        <div className={styles.qrContainer}>
-                            {qrCodeUrl ? (
-                                <Image 
-                                    src={qrCodeUrl} 
-                                    alt="Scan to download" 
-                                    width={160} 
-                                    height={160} 
-                                    className={styles.qrImage}
-                                />
-                            ) : (
-                                <div className={styles.qrPlaceholder} />
-                            )}
-                            <div className={styles.qrOverlay}>
-                                <Smartphone size={24} className={styles.phoneIcon} />
-                            </div>
+                        <div style={{ textAlign: 'center', padding: '2rem' }}>
+                            <Smartphone size={80} style={{ color: 'var(--accent-primary)', marginBottom: '1rem' }} />
+                            <p style={{ color: '#cbd5e1', fontSize: '0.9rem' }}>Available on iOS, Android, Windows & Mac</p>
                         </div>
                     </div>
                 </div>

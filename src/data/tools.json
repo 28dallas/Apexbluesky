@@ -1,20 +1,20 @@
 {
     "merge-pdf": {
         "title": "Merge PDF",
-        "description": "Combine multiple PDF files into one in seconds.",
-        "icon": "📄",
+        "description": "Combine multiple PDF files into one seamlessly. Browser-based, no uploads needed.",
+        "icon": "\ud83d\udcc4",
         "category": "PDF",
         "buttonText": "Merge PDFs",
         "action": "mergePDFs",
         "inputPlaceholder": "Select PDF files to merge",
         "seo": {
-            "title": "Free PDF Merger Online – Combine PDF Files Instantly",
-            "description": "Merge multiple PDF files into a single document in seconds. Fast, free, and secure – all processing done in your browser.",
+            "title": "Free PDF Merger Online \u2013 Combine PDF Files Instantly",
+            "description": "Merge multiple PDF files into a single document in seconds. Fast, free, and secure \u2013 all processing done in your browser.",
             "howTo": "Click the upload area to select two or more PDF files. Arrange them in order, then click 'Merge PDFs'. Your combined document will download automatically.",
             "faqs": [
                 {
                     "q": "Is there a file size limit for merging PDFs?",
-                    "a": "No fixed limit – performance depends on your browser and device memory."
+                    "a": "No fixed limit \u2013 performance depends on your browser and device memory."
                 },
                 {
                     "q": "Is my data sent to a server?",
@@ -28,8 +28,8 @@
         },
         "affiliate": {
             "name": "Adobe Acrobat",
-            "logo": "📄",
-            "text": "Edit, sign, and collaborate on PDFs with Adobe Acrobat — the world's most trusted PDF tool.",
+            "logo": "\ud83d\udcc4",
+            "text": "Edit, sign, and collaborate on PDFs with Adobe Acrobat \u2014 the world's most trusted PDF tool.",
             "url": "https://www.adobe.com/acrobat.html",
             "cta": "Try Adobe Acrobat Free",
             "features": [
@@ -42,14 +42,14 @@
     },
     "split-pdf": {
         "title": "Split PDF",
-        "description": "Extract pages from a PDF or split it into multiple files.",
-        "icon": "✂️",
+        "description": "Extract specific pages from PDFs or split into smaller files instantly.",
+        "icon": "\u2702\ufe0f",
         "category": "PDF",
         "buttonText": "Split PDF",
         "action": "splitPDF",
         "inputPlaceholder": "Upload PDF, specify range (e.g. 1-3)",
         "seo": {
-            "title": "Split PDF Online – Extract Pages from PDF for Free",
+            "title": "Split PDF Online \u2013 Extract Pages from PDF for Free",
             "description": "Easily split a large PDF into smaller files or extract specific pages with our free online tool. No registration required.",
             "howTo": "Upload your PDF and enter the page range you want to extract (e.g. 1-5). Click 'Split PDF' to download your new document.",
             "faqs": [
@@ -65,23 +65,23 @@
         },
         "affiliate": {
             "name": "Adobe Acrobat",
-            "logo": "📄",
-            "text": "Edit, sign, and collaborate on PDFs with Adobe Acrobat — the world's most trusted PDF tool.",
+            "logo": "\ud83d\udcc4",
+            "text": "Edit, sign, and collaborate on PDFs with Adobe Acrobat \u2014 the world's most trusted PDF tool.",
             "url": "https://www.adobe.com/acrobat.html",
             "cta": "Try Adobe Acrobat Free"
         }
     },
     "pdf-to-word": {
         "title": "PDF to Word",
-        "description": "Convert PDF documents to editable Microsoft Word files.",
-        "icon": "📝",
+        "description": "Convert PDF documents to editable Word files with formatting preserved.",
+        "icon": "\ud83d\udcdd",
         "category": "PDF",
         "buttonText": "Convert to Word",
         "action": "pdfToWord",
         "inputPlaceholder": "Upload a PDF file to convert",
         "seo": {
-            "title": "PDF to Word Converter – Free Online DOCX Conversion",
-            "description": "Convert any PDF to an editable Word document online. Fast, free, and privacy-first – no sign-up needed.",
+            "title": "PDF to Word Converter \u2013 Free Online DOCX Conversion",
+            "description": "Convert any PDF to an editable Word document online. Fast, free, and privacy-first \u2013 no sign-up needed.",
             "howTo": "Upload your PDF file and click 'Convert to Word'. The resulting .docx file will download automatically.",
             "faqs": [
                 {
@@ -96,28 +96,28 @@
         },
         "affiliate": {
             "name": "Microsoft 365",
-            "logo": "📝",
-            "text": "Edit your Word doc anywhere with Microsoft 365 — the world's favorite productivity suite.",
+            "logo": "\ud83d\udcdd",
+            "text": "Edit your Word doc anywhere with Microsoft 365 \u2014 the world's favorite productivity suite.",
             "url": "https://www.microsoft.com/en-us/microsoft-365",
             "cta": "Get Microsoft 365"
         }
     },
     "compress-pdf": {
         "title": "Compress PDF",
-        "description": "Reduce the size of your PDF files without losing quality.",
-        "icon": "🗜️",
+        "description": "Reduce PDF file size for email and storage without losing visual quality.",
+        "icon": "\ud83d\udddc\ufe0f",
         "category": "PDF",
         "buttonText": "Compress PDF",
         "action": "compressPDF",
         "inputPlaceholder": "Upload a PDF to compress",
         "seo": {
-            "title": "Compress PDF Online – Reduce File Size for Free",
+            "title": "Compress PDF Online \u2013 Reduce File Size for Free",
             "description": "Reduce large PDF file sizes for easy email sharing and storage. Our browser-based tool is fast and completely private.",
             "howTo": "Upload your PDF file and click 'Compress PDF'. The optimized file will be ready to download instantly.",
             "faqs": [
                 {
                     "q": "How much can I reduce the file size?",
-                    "a": "Compression varies by content, but you can typically reduce file size by 20–80%."
+                    "a": "Compression varies by content, but you can typically reduce file size by 20\u201380%."
                 },
                 {
                     "q": "Is quality affected?",
@@ -127,7 +127,7 @@
         },
         "affiliate": {
             "name": "Adobe Acrobat",
-            "logo": "📄",
+            "logo": "\ud83d\udcc4",
             "text": "For advanced PDF compression and editing, Adobe Acrobat Pro is the industry standard.",
             "url": "https://www.adobe.com/acrobat.html",
             "cta": "Try Adobe Acrobat"
@@ -135,14 +135,14 @@
     },
     "image-compressor": {
         "title": "Image Compressor",
-        "description": "Reduce image file size while maintaining visual quality.",
-        "icon": "📉",
+        "description": "Compress JPG, PNG, and WebP images while maintaining clarity for web use.",
+        "icon": "\ud83d\udcc9",
         "category": "Images",
         "buttonText": "Compress Image",
         "action": "imageCompressor",
         "inputPlaceholder": "Upload an image (JPG, PNG, WebP)",
         "seo": {
-            "title": "Free Image Compressor Online – Reduce Image Size Instantly",
+            "title": "Free Image Compressor Online \u2013 Reduce Image Size Instantly",
             "description": "Compress JPG, PNG, and WebP images to reduce file size without visible quality loss. Perfect for faster websites.",
             "howTo": "Upload your image file and click 'Compress Image'. The optimized image will download automatically.",
             "faqs": [
@@ -158,8 +158,8 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
-            "text": "Design stunning visuals with Canva — free templates, brand kits, and one-click image enhancements.",
+            "logo": "\ud83c\udfa8",
+            "text": "Design stunning visuals with Canva \u2014 free templates, brand kits, and one-click image enhancements.",
             "url": "https://www.canva.com",
             "cta": "Try Canva Free",
             "features": [
@@ -172,14 +172,14 @@
     },
     "background-remover": {
         "title": "Background Remover",
-        "description": "Automatically remove the background from any image.",
-        "icon": "🎭",
+        "description": "Remove backgrounds from photos instantly using AI. Powered by cloud processing.",
+        "icon": "\ud83c\udfad",
         "category": "Images",
         "buttonText": "Remove Background",
         "action": "backgroundRemover",
         "inputPlaceholder": "Upload an image (portrait, product, etc.)",
         "seo": {
-            "title": "Free Background Remover – Remove Image Background Online",
+            "title": "Free Background Remover \u2013 Remove Image Background Online",
             "description": "Remove backgrounds from photos instantly. Perfect for product images, profile pictures, and design assets.",
             "howTo": "Upload your image and click 'Remove Background'. The transparent PNG will be ready to download.",
             "faqs": [
@@ -195,7 +195,7 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
+            "logo": "\ud83c\udfa8",
             "text": "Remove backgrounds, add effects, and design anything with Canva's free photo editor.",
             "url": "https://www.canva.com/photo-editor/",
             "cta": "Edit Photos in Canva"
@@ -203,14 +203,14 @@
     },
     "image-resizer": {
         "title": "Image Resizer",
-        "description": "Resize images to any exact width and height dimensions.",
-        "icon": "📐",
+        "description": "Resize images to exact dimensions for social media, web, or print.",
+        "icon": "\ud83d\udcd0",
         "category": "Images",
         "buttonText": "Resize Image",
         "action": "imageResizer",
         "inputPlaceholder": "Upload image, enter width and height",
         "seo": {
-            "title": "Online Image Resizer – Change Photo Dimensions for Free",
+            "title": "Online Image Resizer \u2013 Change Photo Dimensions for Free",
             "description": "Resize any image to custom dimensions in seconds. Ideal for social media banners, icons, or web assets.",
             "howTo": "Upload your image, enter the target width and height in the input, then click 'Resize Image'.",
             "faqs": [
@@ -226,7 +226,7 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
+            "logo": "\ud83c\udfa8",
             "text": "Resize images for every platform in one click with Canva's Magic Resize feature.",
             "url": "https://www.canva.com/features/magic-resize/",
             "cta": "Try Magic Resize"
@@ -234,14 +234,14 @@
     },
     "jpg-png-converter": {
         "title": "JPG to PNG",
-        "description": "Convert JPG images to transparent-friendly PNG format.",
-        "icon": "🔄",
+        "description": "Convert JPEG to PNG format for transparency support and lossless quality.",
+        "icon": "\ud83d\udd04",
         "category": "Images",
         "buttonText": "Convert to PNG",
         "action": "convertJPGtoPNG",
         "inputPlaceholder": "Upload a JPG image to convert",
         "seo": {
-            "title": "JPG to PNG Converter – Free Online Format Conversion",
+            "title": "JPG to PNG Converter \u2013 Free Online Format Conversion",
             "description": "Convert JPEG images to PNG format instantly. Get lossless quality and transparency support in one click.",
             "howTo": "Upload your JPG file and click 'Convert to PNG'. Your PNG file will download automatically.",
             "faqs": [
@@ -253,23 +253,23 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
-            "text": "Edit and export any image format with Canva — free and no software install needed.",
+            "logo": "\ud83c\udfa8",
+            "text": "Edit and export any image format with Canva \u2014 free and no software install needed.",
             "url": "https://www.canva.com",
             "cta": "Try Canva Free"
         }
     },
     "essay-generator": {
         "title": "Essay Generator",
-        "description": "Generate well-structured essays on any topic instantly.",
-        "icon": "📚",
+        "description": "Generate complete essay drafts on any topic using AI. Powered by Gemini-Pro API.",
+        "icon": "\ud83d\udcda",
         "category": "Writing",
         "buttonText": "Generate Essay",
         "action": "essayGenerator",
         "initialValue": "The impact of AI on education",
         "inputPlaceholder": "Enter your essay topic...",
         "seo": {
-            "title": "Free AI Essay Generator – Write Essays on Any Topic Instantly",
+            "title": "Free AI Essay Generator \u2013 Write Essays on Any Topic Instantly",
             "description": "Get a well-structured essay draft in seconds using our AI writer. Great for students, bloggers, and writers.",
             "howTo": "Type your essay topic into the input field and click 'Generate Essay'. Edit the draft as needed.",
             "faqs": [
@@ -285,8 +285,8 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
-            "text": "Write confidently with Grammarly — real-time grammar, clarity, and plagiarism checks.",
+            "logo": "\u2705",
+            "text": "Write confidently with Grammarly \u2014 real-time grammar, clarity, and plagiarism checks.",
             "url": "https://www.grammarly.com",
             "cta": "Try Grammarly Free",
             "features": [
@@ -299,15 +299,15 @@
     },
     "paraphraser": {
         "title": "AI Paraphraser",
-        "description": "Rewrite and rephrase any text to make it more unique.",
-        "icon": "✍️",
+        "description": "Rewrite text while preserving meaning. Uses AI cloud processing for high-quality results.",
+        "icon": "\u270d\ufe0f",
         "category": "Writing",
         "buttonText": "Paraphrase",
         "action": "paraphraseText",
         "initialValue": "The quick brown fox jumps over the lazy dog.",
         "inputPlaceholder": "Paste the text you want to paraphrase...",
         "seo": {
-            "title": "Free AI Paraphrasing Tool – Rewrite Text Online Instantly",
+            "title": "Free AI Paraphrasing Tool \u2013 Rewrite Text Online Instantly",
             "description": "Instantly reword and rephrase any text while keeping the original meaning. Perfect for avoiding plagiarism.",
             "howTo": "Paste your text into the input field and click 'Paraphrase'. Review and copy the rewritten version.",
             "faqs": [
@@ -323,7 +323,7 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
+            "logo": "\u2705",
             "text": "Paraphrase smarter and check plagiarism with Grammarly Premium's advanced writing tools.",
             "url": "https://www.grammarly.com",
             "cta": "Try Grammarly Free"
@@ -331,15 +331,15 @@
     },
     "grammar-checker": {
         "title": "Grammar Checker",
-        "description": "Detect and fix grammar, spelling, and punctuation errors.",
-        "icon": "✅",
+        "description": "Check and correct grammar, punctuation, and style. Uses AI cloud API analysis.",
+        "icon": "\u2705",
         "category": "Writing",
         "buttonText": "Check Grammar",
         "action": "grammarChecker",
         "initialValue": "i love to codes and building stuff",
         "inputPlaceholder": "Paste your text here to check grammar...",
         "seo": {
-            "title": "Free Online Grammar Checker – Fix Writing Errors Instantly",
+            "title": "Free Online Grammar Checker \u2013 Fix Writing Errors Instantly",
             "description": "Check and correct grammar, spelling, and punctuation for free. Write with confidence using our AI-powered checker.",
             "howTo": "Paste your text into the input field and click 'Check Grammar'. Review the corrected version.",
             "faqs": [
@@ -355,7 +355,7 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
+            "logo": "\u2705",
             "text": "Grammarly catches errors your basic checker misses. Used by 30M+ writers worldwide.",
             "url": "https://www.grammarly.com",
             "cta": "Get Grammarly Free"
@@ -363,15 +363,15 @@
     },
     "yt-title-gen": {
         "title": "YouTube Title Gen",
-        "description": "Create SEO-optimized, click-worthy YouTube video titles.",
-        "icon": "🏷️",
+        "description": "Generate engaging YouTube titles optimized for clicks and search visibility.",
+        "icon": "\ud83c\udff7\ufe0f",
         "category": "Video/Social",
         "buttonText": "Generate Titles",
         "action": "ytTitleGenerator",
         "initialValue": "Next.js Tutorial for Beginners",
         "inputPlaceholder": "Describe your video topic...",
         "seo": {
-            "title": "YouTube Title Generator – Create Viral Video Titles Free",
+            "title": "YouTube Title Generator \u2013 Create Viral Video Titles Free",
             "description": "Generate click-worthy, SEO-optimized YouTube titles in seconds. Boost views and CTR with powerful title ideas.",
             "howTo": "Describe your video topic and click 'Generate Titles'. Pick the best title for your content.",
             "faqs": [
@@ -387,8 +387,8 @@
         },
         "affiliate": {
             "name": "TubeBuddy",
-            "logo": "📺",
-            "text": "Grow your YouTube channel faster with TubeBuddy — the #1 YouTube SEO & management toolkit.",
+            "logo": "\ud83d\udcfa",
+            "text": "Grow your YouTube channel faster with TubeBuddy \u2014 the #1 YouTube SEO & management toolkit.",
             "url": "https://www.tubebuddy.com",
             "cta": "Try TubeBuddy Free",
             "features": [
@@ -401,27 +401,27 @@
     },
     "youtube-tags": {
         "title": "YouTube Tag Gen",
-        "description": "Generate relevant tags to boost your YouTube video ranking.",
-        "icon": "📺",
+        "description": "Create relevant video tags to improve YouTube search rankings.",
+        "icon": "\ud83d\udcfa",
         "category": "Video/Social",
         "buttonText": "Generate Tags",
         "action": "generateYouTubeTags",
         "initialValue": "How to build a SaaS product",
         "inputPlaceholder": "Enter your video title or topic...",
         "seo": {
-            "title": "YouTube Tags Generator – Get Trending Tags for Videos",
+            "title": "YouTube Tags Generator \u2013 Get Trending Tags for Videos",
             "description": "Find the best tags for your YouTube videos to improve discoverability and ranking on YouTube search.",
             "howTo": "Enter your video title or main topic and click 'Generate Tags'. Copy the tags to your YouTube upload form.",
             "faqs": [
                 {
                     "q": "How many tags should I use?",
-                    "a": "YouTube allows up to 500 characters of tags. Focus on 10–15 highly relevant tags."
+                    "a": "YouTube allows up to 500 characters of tags. Focus on 10\u201315 highly relevant tags."
                 }
             ]
         },
         "affiliate": {
             "name": "TubeBuddy",
-            "logo": "📺",
+            "logo": "\ud83d\udcfa",
             "text": "Find the best YouTube tags and keywords with TubeBuddy's powerful SEO data.",
             "url": "https://www.tubebuddy.com",
             "cta": "Try TubeBuddy Free"
@@ -429,15 +429,15 @@
     },
     "yt-thumb-downloader": {
         "title": "Thumbnail Downloader",
-        "description": "Download high-resolution thumbnails from any YouTube video.",
-        "icon": "🖼️",
+        "description": "Download YouTube video thumbnails in HD quality for reuse.",
+        "icon": "\ud83d\uddbc\ufe0f",
         "category": "Video/Social",
         "buttonText": "Get Thumbnail",
         "action": "thumbnailDownloader",
         "initialValue": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         "inputPlaceholder": "Paste a YouTube video URL...",
         "seo": {
-            "title": "YouTube Thumbnail Downloader – Get HD Thumbnails Free",
+            "title": "YouTube Thumbnail Downloader \u2013 Get HD Thumbnails Free",
             "description": "Download full-resolution thumbnails from any YouTube video in seconds. Get HD, SD, and default quality options.",
             "howTo": "Paste the full YouTube video URL and click 'Get Thumbnail'. Links to all available resolution thumbnails will appear.",
             "faqs": [
@@ -453,7 +453,7 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🖼️",
+            "logo": "\ud83d\uddbc\ufe0f",
             "text": "Create professional YouTube thumbnails that get more clicks using Canva's free templates.",
             "url": "https://www.canva.com/create/youtube-thumbnails/",
             "cta": "Make a Thumbnail Free"
@@ -461,27 +461,27 @@
     },
     "seo-density": {
         "title": "Keyword Density",
-        "description": "Analyze how often keywords appear in your content.",
-        "icon": "🔍",
+        "description": "Analyze keyword density in your content for SEO optimization.",
+        "icon": "\ud83d\udd0d",
         "category": "Technical",
         "buttonText": "Check Density",
         "action": "keywordDensity",
         "initialValue": "This Next.js project is a great Next.js example for developers.",
         "inputPlaceholder": "Paste your article or blog post content here...",
         "seo": {
-            "title": "Keyword Density Checker – Analyze SEO Content for Free",
+            "title": "Keyword Density Checker \u2013 Analyze SEO Content for Free",
             "description": "Check how often keywords appear in your text. Optimize content for SEO by avoiding over or under-use of keywords.",
             "howTo": "Paste your article content into the field and click 'Check Density'. The top keywords and their frequency percentage appear.",
             "faqs": [
                 {
                     "q": "What is ideal keyword density?",
-                    "a": "Most SEO experts recommend 1–2% keyword density for your primary keyword."
+                    "a": "Most SEO experts recommend 1\u20132% keyword density for your primary keyword."
                 }
             ]
         },
         "affiliate": {
             "name": "SEMrush",
-            "logo": "🔍",
+            "logo": "\ud83d\udd0d",
             "text": "Go beyond keyword density. SEMrush gives you full SEO audits, backlinks, and competitor data.",
             "url": "https://www.semrush.com",
             "cta": "Try SEMrush Free",
@@ -495,15 +495,15 @@
     },
     "meta-tag-gen": {
         "title": "Meta Tag Gen",
-        "description": "Generate HTML meta tags for SEO, social, and Open Graph.",
-        "icon": "📑",
+        "description": "Auto-generate SEO-friendly meta tags for your web pages.",
+        "icon": "\ud83d\udcd1",
         "category": "Technical",
         "buttonText": "Generate Meta Tags",
         "action": "metaTagGenerator",
         "initialValue": "My Awesome Site, The best free tools online, tools, web tools, developer",
         "inputPlaceholder": "Title, Description, Keywords (comma-separated)",
         "seo": {
-            "title": "SEO Meta Tag Generator – Create HTML Meta Tags Free",
+            "title": "SEO Meta Tag Generator \u2013 Create HTML Meta Tags Free",
             "description": "Generate complete HTML meta tags including title, description, Open Graph, and Twitter Card tags instantly.",
             "howTo": "Enter your site title, description, and keywords. Click 'Generate Meta Tags' to get ready-to-paste HTML.",
             "faqs": [
@@ -515,7 +515,7 @@
         },
         "affiliate": {
             "name": "SEMrush",
-            "logo": "🔍",
+            "logo": "\ud83d\udd0d",
             "text": "SEMrush generates meta tags AND shows you which ones your competitors rank for.",
             "url": "https://www.semrush.com",
             "cta": "Try SEMrush Free"
@@ -523,15 +523,15 @@
     },
     "sitemap-gen": {
         "title": "Sitemap Gen",
-        "description": "Generate an XML sitemap for your website for Google indexing.",
-        "icon": "🗺️",
+        "description": "Create XML sitemaps to help search engines index your website.",
+        "icon": "\ud83d\uddfa\ufe0f",
         "category": "Technical",
         "buttonText": "Generate Sitemap",
         "action": "sitemapGenerator",
         "initialValue": "mywebsite.com",
         "inputPlaceholder": "Enter your domain (e.g. mysite.com)",
         "seo": {
-            "title": "XML Sitemap Generator – Free SEO Sitemap Tool",
+            "title": "XML Sitemap Generator \u2013 Free SEO Sitemap Tool",
             "description": "Create an XML sitemap for your website to help Google and other search engines find and index all your pages.",
             "howTo": "Enter your website's domain name and click 'Generate Sitemap'. Submit the result to Google Search Console.",
             "faqs": [
@@ -543,23 +543,23 @@
         },
         "affiliate": {
             "name": "Hostinger",
-            "logo": "🌐",
-            "text": "Host your website and submit your sitemap to Google with Hostinger — fast hosting from $2.99/mo.",
+            "logo": "\ud83c\udf10",
+            "text": "Host your website and submit your sitemap to Google with Hostinger \u2014 fast hosting from $2.99/mo.",
             "url": "https://www.hostinger.com",
             "cta": "Get Web Hosting"
         }
     },
     "json-formatter": {
         "title": "JSON Formatter",
-        "description": "Prettify, validate, and format raw JSON instantly.",
-        "icon": "💻",
+        "description": "Format, validate, and beautify JSON code in seconds.",
+        "icon": "\ud83d\udcbb",
         "category": "Technical",
         "buttonText": "Format JSON",
         "action": "formatJSON",
         "initialValue": "{\"user\":\"Nathan\",\"role\":\"developer\",\"active\":true}",
         "inputPlaceholder": "Paste raw JSON here...",
         "seo": {
-            "title": "Free JSON Formatter Online – Prettify & Debug JSON Code",
+            "title": "Free JSON Formatter Online \u2013 Prettify & Debug JSON Code",
             "description": "Format and validate JSON data with instant syntax highlighting. Built for developers, runs entirely in your browser.",
             "howTo": "Paste your raw or minified JSON into the input area and click 'Format JSON'. The output is properly indented.",
             "faqs": [
@@ -575,8 +575,8 @@
         },
         "affiliate": {
             "name": "GitHub Copilot",
-            "logo": "💻",
-            "text": "Speed up your coding with GitHub Copilot — AI-powered code completion for any language.",
+            "logo": "\ud83d\udcbb",
+            "text": "Speed up your coding with GitHub Copilot \u2014 AI-powered code completion for any language.",
             "url": "https://github.com/features/copilot",
             "cta": "Try Copilot Free"
         }
@@ -584,14 +584,14 @@
     "css-minifier": {
         "title": "CSS Minifier",
         "description": "Minify CSS to reduce file size and improve page load speed.",
-        "icon": "🎨",
+        "icon": "\ud83c\udfa8",
         "category": "Technical",
         "buttonText": "Minify CSS",
         "action": "cssMinifier",
         "initialValue": "body {\n  background: #0a0a0a;\n  color: white;\n  font-family: sans-serif;\n}",
         "inputPlaceholder": "Paste your CSS code here...",
         "seo": {
-            "title": "CSS Minifier Online – Shrink CSS for Faster Websites",
+            "title": "CSS Minifier Online \u2013 Shrink CSS for Faster Websites",
             "description": "Minify CSS code by removing whitespace and comments. Faster CSS means faster page loads and better SEO scores.",
             "howTo": "Paste your CSS into the input field and click 'Minify CSS'. Copy the minified output to use in production.",
             "faqs": [
@@ -603,7 +603,7 @@
         },
         "affiliate": {
             "name": "Hostinger",
-            "logo": "🚀",
+            "logo": "\ud83d\ude80",
             "text": "Deploy your optimized CSS instantly. Hostinger offers blazing-fast NVMe SSD hosting.",
             "url": "https://www.hostinger.com",
             "cta": "Get Web Hosting"
@@ -611,15 +611,15 @@
     },
     "html-beautifier": {
         "title": "HTML Beautifier",
-        "description": "Format and clean up messy or minified HTML code.",
-        "icon": "🌐",
+        "description": "Format and indent HTML code for better readability.",
+        "icon": "\ud83c\udf10",
         "category": "Technical",
         "buttonText": "Beautify HTML",
         "action": "htmlBeautifier",
         "initialValue": "<div><h1>Hello</h1><p>World</p><ul><li>One</li><li>Two</li></ul></div>",
         "inputPlaceholder": "Paste your HTML code here...",
         "seo": {
-            "title": "HTML Beautifier Online – Format & Indent HTML Free",
+            "title": "HTML Beautifier Online \u2013 Format & Indent HTML Free",
             "description": "Clean up ugly or minified HTML code. Instantly add proper indentation and formatting for readable source code.",
             "howTo": "Paste your HTML into the input field and click 'Beautify HTML'. The formatted code appears below the button.",
             "faqs": [
@@ -631,23 +631,23 @@
         },
         "affiliate": {
             "name": "GitHub Copilot",
-            "logo": "💻",
-            "text": "Write cleaner HTML faster with GitHub Copilot — AI pair programming for developers.",
+            "logo": "\ud83d\udcbb",
+            "text": "Write cleaner HTML faster with GitHub Copilot \u2014 AI pair programming for developers.",
             "url": "https://github.com/features/copilot",
             "cta": "Try Copilot Free"
         }
     },
     "age-calculator": {
         "title": "Age Calculator",
-        "description": "Calculate your exact age in years, months, and days.",
-        "icon": "🎂",
+        "description": "Calculate your exact age in years, months, weeks, and days.",
+        "icon": "\ud83c\udf82",
         "category": "Technical",
         "buttonText": "Calculate Age",
         "action": "ageCalculator",
         "initialValue": "1995-05-15",
         "inputPlaceholder": "Enter birthdate (YYYY-MM-DD)",
         "seo": {
-            "title": "Free Age Calculator – Find Your Exact Age Online",
+            "title": "Free Age Calculator \u2013 Find Your Exact Age Online",
             "description": "Calculate your exact age from your date of birth in years, months, and days. Fast and accurate.",
             "howTo": "Enter your date of birth in the YYYY-MM-DD format and click 'Calculate Age'. Your exact age is displayed instantly.",
             "faqs": [
@@ -659,7 +659,7 @@
         },
         "affiliate": {
             "name": "MyHeritage",
-            "logo": "🎂",
+            "logo": "\ud83c\udf82",
             "text": "Discover your family history and DNA ancestry with MyHeritage.",
             "url": "https://www.myheritage.com",
             "cta": "Explore MyHeritage"
@@ -667,15 +667,15 @@
     },
     "loan-calculator": {
         "title": "Loan Calculator",
-        "description": "Calculate monthly payments and total interest on any loan.",
-        "icon": "💰",
+        "description": "Estimate monthly loan payments based on amount, rate, and term.",
+        "icon": "\ud83d\udcb0",
         "category": "Technical",
         "buttonText": "Calculate Loan",
         "action": "loanCalculator",
         "initialValue": "10000, 5, 3",
         "inputPlaceholder": "Principal (e.g. 10000), Rate % (e.g. 5), Years (e.g. 3)",
         "seo": {
-            "title": "Loan Calculator Online – Estimate Monthly Payments Free",
+            "title": "Loan Calculator Online \u2013 Estimate Monthly Payments Free",
             "description": "Calculate monthly loan payments, total interest paid, and repayment schedule. Great for mortgages, car loans, and more.",
             "howTo": "Enter the loan principal amount, annual interest rate (%), and loan term in years, then click 'Calculate Loan'.",
             "faqs": [
@@ -691,23 +691,23 @@
         },
         "affiliate": {
             "name": "Wise",
-            "logo": "💸",
-            "text": "Transfer money internationally at the real exchange rate with Wise — save on fees today.",
+            "logo": "\ud83d\udcb8",
+            "text": "Transfer money internationally at the real exchange rate with Wise \u2014 save on fees today.",
             "url": "https://wise.com",
             "cta": "Try Wise Free"
         }
     },
     "bmi-calculator": {
         "title": "BMI Calculator",
-        "description": "Calculate your Body Mass Index to assess your health category.",
-        "icon": "⚖️",
+        "description": "Calculate your Body Mass Index and get health insights.",
+        "icon": "\u2696\ufe0f",
         "category": "Health",
         "buttonText": "Calculate BMI",
         "action": "calculateBMI",
         "initialValue": "70, 1.75",
         "inputPlaceholder": "Weight in kg, Height in meters (e.g. 70, 1.75)",
         "seo": {
-            "title": "BMI Calculator – Check Your Body Mass Index Free",
+            "title": "BMI Calculator \u2013 Check Your Body Mass Index Free",
             "description": "Instantly calculate your BMI using weight and height. Understand if you are underweight, normal, overweight, or obese.",
             "howTo": "Enter your weight in kilograms and height in meters (e.g. '70, 1.75') and click 'Calculate BMI'.",
             "faqs": [
@@ -723,8 +723,8 @@
         },
         "affiliate": {
             "name": "MyFitnessPal",
-            "logo": "⚖️",
-            "text": "Track your nutrition and exercise to hit your health goals with MyFitnessPal — free app.",
+            "logo": "\u2696\ufe0f",
+            "text": "Track your nutrition and exercise to hit your health goals with MyFitnessPal \u2014 free app.",
             "url": "https://www.myfitnesspal.com",
             "cta": "Try MyFitnessPal Free",
             "features": [
@@ -737,14 +737,14 @@
     },
     "mp4-to-mp3": {
         "title": "MP4 to MP3",
-        "description": "Extract audio from video files instantly.",
-        "icon": "🎵",
+        "description": "Extract audio from MP4 videos and convert to MP3 format.",
+        "icon": "\ud83c\udfb5",
         "category": "Technical",
         "buttonText": "Extract Audio",
         "action": "mp4ToMp3",
         "inputPlaceholder": "Upload an MP4 video file",
         "seo": {
-            "title": "MP4 to MP3 Converter – Extract Audio from Video Free",
+            "title": "MP4 to MP3 Converter \u2013 Extract Audio from Video Free",
             "description": "Convert MP4 videos to MP3 audio files instantly in your browser. No uploads, no account required.",
             "howTo": "Upload your MP4 video file and click 'Extract Audio'. The MP3 file will download automatically.",
             "faqs": [
@@ -756,7 +756,7 @@
         },
         "affiliate": {
             "name": "Spotify for Creators",
-            "logo": "🎵",
+            "logo": "\ud83c\udfb5",
             "text": "Share your audio content on Spotify and reach millions of listeners for free.",
             "url": "https://podcasters.spotify.com",
             "cta": "Publish on Spotify"
@@ -764,14 +764,14 @@
     },
     "pdf-to-jpg": {
         "title": "PDF to JPG",
-        "description": "Convert PDF pages into high-quality JPG images.",
-        "icon": "📷",
+        "description": "Convert PDF pages to high-quality JPG images.",
+        "icon": "\ud83d\udcf7",
         "category": "Technical",
         "buttonText": "Convert to JPG",
         "action": "pdfToJpg",
         "inputPlaceholder": "Upload a PDF to convert to images",
         "seo": {
-            "title": "PDF to JPG Converter – Export PDF Pages as Images Free",
+            "title": "PDF to JPG Converter \u2013 Export PDF Pages as Images Free",
             "description": "Convert every page of your PDF into a high-resolution JPG image. Fast, free, and private.",
             "howTo": "Upload your PDF and click 'Convert to JPG'. Each page will be extracted as a separate JPEG image.",
             "faqs": [
@@ -783,34 +783,34 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🖼️",
-            "text": "Edit and enhance your extracted images in Canva — free, professional, and browser-based.",
+            "logo": "\ud83d\uddbc\ufe0f",
+            "text": "Edit and enhance your extracted images in Canva \u2014 free, professional, and browser-based.",
             "url": "https://www.canva.com/photo-editor/",
             "cta": "Edit Images in Canva"
         }
     },
     "png-to-webp": {
         "title": "PNG to WebP",
-        "description": "Convert PNG images to the modern WebP format for better web performance.",
-        "icon": "🕸️",
+        "description": "Convert PNG images to WebP for faster loading and smaller file sizes.",
+        "icon": "\ud83d\udd78\ufe0f",
         "category": "Technical",
         "buttonText": "Convert to WebP",
         "action": "pngToWebP",
         "inputPlaceholder": "Upload a PNG image to convert",
         "seo": {
-            "title": "PNG to WebP Converter – Optimize Images for the Web Free",
+            "title": "PNG to WebP Converter \u2013 Optimize Images for the Web Free",
             "description": "Convert PNG images to WebP format to reduce file size by up to 50%. Improve your website's Core Web Vitals score.",
             "howTo": "Upload your PNG image and click 'Convert to WebP'. The optimized file will download instantly.",
             "faqs": [
                 {
                     "q": "Why use WebP over PNG?",
-                    "a": "WebP files are typically 25–50% smaller than equivalent PNG files at the same quality."
+                    "a": "WebP files are typically 25\u201350% smaller than equivalent PNG files at the same quality."
                 }
             ]
         },
         "affiliate": {
             "name": "Hostinger",
-            "logo": "🚀",
+            "logo": "\ud83d\ude80",
             "text": "Deploy WebP-optimized sites on Hostinger for blazing-fast page load speeds.",
             "url": "https://www.hostinger.com",
             "cta": "Get Web Hosting"
@@ -818,21 +818,21 @@
     },
     "hashtag-gen": {
         "title": "Hashtag Generator",
-        "description": "Generate trending hashtags to grow your social media reach.",
-        "icon": "#️",
+        "description": "Generate trending hashtags for Instagram, TikTok, X (Twitter), and more.",
+        "icon": "#\ufe0f",
         "category": "Video/Social",
         "buttonText": "Generate Hashtags",
         "action": "generateHashtags",
         "initialValue": "Just launched my new coding project",
         "inputPlaceholder": "Describe your post or enter keywords...",
         "seo": {
-            "title": "Free Hashtag Generator – Get Viral Tags for Instagram, TikTok & X",
+            "title": "Free Hashtag Generator \u2013 Get Viral Tags for Instagram, TikTok & X",
             "description": "Instantly generate relevant hashtags to boost your content reach on Instagram, TikTok, LinkedIn, and X (Twitter).",
             "howTo": "Enter a few keywords or a description of your post and click 'Generate Hashtags'. Copy and paste the tags to your post.",
             "faqs": [
                 {
                     "q": "How many hashtags should I use on Instagram?",
-                    "a": "3–10 highly specific hashtags typically perform better than 30 generic ones."
+                    "a": "3\u201310 highly specific hashtags typically perform better than 30 generic ones."
                 },
                 {
                     "q": "Does it work for TikTok hashtags?",
@@ -842,23 +842,23 @@
         },
         "affiliate": {
             "name": "Later",
-            "logo": "📱",
-            "text": "Schedule your hashtag-optimized posts with Later — the #1 social media scheduling tool.",
+            "logo": "\ud83d\udcf1",
+            "text": "Schedule your hashtag-optimized posts with Later \u2014 the #1 social media scheduling tool.",
             "url": "https://later.com",
             "cta": "Try Later Free"
         }
     },
     "bio-gen": {
         "title": "Bio Generator",
-        "description": "Create a professional and catchy social media bio in seconds.",
-        "icon": "👤",
+        "description": "Create catchy social media bios with AI assistance.",
+        "icon": "\ud83d\udc64",
         "category": "Video/Social",
         "buttonText": "Generate Bio",
         "action": "bioGenerator",
         "initialValue": "Full-stack Developer & Content Creator",
         "inputPlaceholder": "Enter your niche, profession, or interests...",
         "seo": {
-            "title": "AI Social Media Bio Generator – Write a Catchy Bio Free",
+            "title": "AI Social Media Bio Generator \u2013 Write a Catchy Bio Free",
             "description": "Generate a professional Instagram, LinkedIn, or Twitter bio in one click. Stand out with a compelling profile description.",
             "howTo": "Enter your niche, profession, or interests and click 'Generate Bio'. Use the output to update your social profiles.",
             "faqs": [
@@ -870,35 +870,35 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "👤",
-            "text": "Design a stunning profile picture to match your new bio — free with Canva.",
+            "logo": "\ud83d\udc64",
+            "text": "Design a stunning profile picture to match your new bio \u2014 free with Canva.",
             "url": "https://www.canva.com/create/profile-pictures/",
             "cta": "Create Profile Pic"
         }
     },
     "tiktok-caption": {
         "title": "TikTok Caption",
-        "description": "Generate catchy captions that make your TikTok videos go viral.",
-        "icon": "🎵",
+        "description": "Generate viral TikTok captions with trending hooks.",
+        "icon": "\ud83c\udfb5",
         "category": "Video/Social",
         "buttonText": "Generate Caption",
         "action": "tiktokCaption",
         "initialValue": "Morning Routine Life Hacks",
         "inputPlaceholder": "Describe your TikTok video topic...",
         "seo": {
-            "title": "TikTok Caption Generator – Get Viral Captions for Free",
+            "title": "TikTok Caption Generator \u2013 Get Viral Captions for Free",
             "description": "Create engaging TikTok captions with trending phrases and call-to-actions. Boost saves, comments, and shares.",
             "howTo": "Describe your video content and click 'Generate Caption'. Pick the best caption and paste it into TikTok.",
             "faqs": [
                 {
                     "q": "How long should TikTok captions be?",
-                    "a": "Captions of 100–150 characters tend to perform well. Include 3–5 hashtags at the end."
+                    "a": "Captions of 100\u2013150 characters tend to perform well. Include 3\u20135 hashtags at the end."
                 }
             ]
         },
         "affiliate": {
             "name": "TubeBuddy",
-            "logo": "🎵",
+            "logo": "\ud83c\udfb5",
             "text": "Manage your social content pipeline across YouTube and TikTok with TubeBuddy.",
             "url": "https://www.tubebuddy.com",
             "cta": "Try TubeBuddy Free"
@@ -906,15 +906,15 @@
     },
     "gpa-calculator": {
         "title": "GPA Calculator",
-        "description": "Calculate your semester or cumulative Grade Point Average.",
-        "icon": "🎓",
+        "description": "Calculate your cumulative GPA from course grades.",
+        "icon": "\ud83c\udf93",
         "category": "Education",
         "buttonText": "Calculate GPA",
         "action": "calculateGPA",
         "initialValue": "{\"Mathematics\": 4.0, \"English\": 3.5, \"Physics\": 3.7}",
         "inputPlaceholder": "Enter grades as JSON: {\"Subject\": grade_point}",
         "seo": {
-            "title": "GPA Calculator Online – Calculate Your Grade Average Free",
+            "title": "GPA Calculator Online \u2013 Calculate Your Grade Average Free",
             "description": "Calculate your semester GPA or cumulative GPA instantly. Enter your course grades and get your overall GPA score.",
             "howTo": "Enter your subjects and grade points in JSON format (e.g. {\"Math\": 4.0, \"English\": 3.5}) and click 'Calculate GPA'.",
             "faqs": [
@@ -930,8 +930,8 @@
         },
         "affiliate": {
             "name": "Coursera",
-            "logo": "🎓",
-            "text": "Boost your GPA with expert-led courses from Coursera — 7,000+ courses from top universities.",
+            "logo": "\ud83c\udf93",
+            "text": "Boost your GPA with expert-led courses from Coursera \u2014 7,000+ courses from top universities.",
             "url": "https://www.coursera.org",
             "cta": "Browse Courses Free",
             "features": [
@@ -944,15 +944,15 @@
     },
     "citation-gen": {
         "title": "Citation Generator",
-        "description": "Generate accurate citations and references in multiple formats.",
-        "icon": "🔖",
+        "description": "Generate citations in APA, MLA, Chicago, and Harvard formats.",
+        "icon": "\ud83d\udd16",
         "category": "Education",
         "buttonText": "Generate Citation",
         "action": "citationGenerator",
         "initialValue": "Doe, John, The Art of Code, 2021",
         "inputPlaceholder": "Author, Title, Year (comma-separated)",
         "seo": {
-            "title": "Free Citation Generator – APA, MLA, Harvard Reference Tool",
+            "title": "Free Citation Generator \u2013 APA, MLA, Harvard Reference Tool",
             "description": "Instantly generate properly formatted citations for books, articles, and websites. Perfect for essays and research papers.",
             "howTo": "Enter the author name, title, and year of publication and click 'Generate Citation'. Copy the citation into your paper.",
             "faqs": [
@@ -968,7 +968,7 @@
         },
         "affiliate": {
             "name": "Coursera",
-            "logo": "🔖",
+            "logo": "\ud83d\udd16",
             "text": "Access millions of research papers and academic resources. Enroll in university-grade courses on Coursera.",
             "url": "https://www.coursera.org",
             "cta": "Browse Courses Free"
@@ -976,15 +976,15 @@
     },
     "study-planner": {
         "title": "Study Planner",
-        "description": "Generate a personalized study schedule based on your learning goal.",
-        "icon": "📅",
+        "description": "Create and manage study schedules for exams and projects.",
+        "icon": "\ud83d\udcc5",
         "category": "Education",
         "buttonText": "Create Study Plan",
         "action": "studyPlanner",
         "initialValue": "Learn Next.js in 30 days",
         "inputPlaceholder": "Enter your learning goal or subject...",
         "seo": {
-            "title": "AI Study Planner – Create a Personalized Study Schedule Free",
+            "title": "AI Study Planner \u2013 Create a Personalized Study Schedule Free",
             "description": "Get a custom weekly study plan based on your goals. Great for students preparing for exams or learning new skills.",
             "howTo": "Enter your learning goal or subject (e.g. 'Pass my biology exam') and click 'Create Study Plan'.",
             "faqs": [
@@ -1000,23 +1000,23 @@
         },
         "affiliate": {
             "name": "Coursera",
-            "logo": "📅",
-            "text": "Turn your study plan into real credentials — enroll free on Coursera and earn certificates.",
+            "logo": "\ud83d\udcc5",
+            "text": "Turn your study plan into real credentials \u2014 enroll free on Coursera and earn certificates.",
             "url": "https://www.coursera.org",
             "cta": "Start Learning Free"
         }
     },
     "mpesa-to-pdf": {
         "title": "M-Pesa Statement PDF",
-        "description": "Convert your M-Pesa SMS messages into a clean, branded PDF statement.",
-        "icon": "📱",
+        "description": "Convert M-Pesa transaction statements to PDF format.",
+        "icon": "\ud83d\udcf1",
         "category": "PDF",
         "buttonText": "Generate PDF Statement",
         "action": "mpesaToPDF",
         "initialValue": "QA12BT3456 Confirmed. You have received Ksh 5,000.00 from JOHN DOE 0712345678 on 1/3/2024 at 10:22 AM. New M-PESA balance is Ksh 8,250.00.",
         "inputPlaceholder": "Paste your M-Pesa SMS messages here, one per line...",
         "seo": {
-            "title": "M-Pesa Statement to PDF – Free Online Converter Kenya",
+            "title": "M-Pesa Statement to PDF \u2013 Free Online Converter Kenya",
             "description": "Convert M-Pesa SMS transaction messages into a professional PDF bank statement. Perfect for loan applications and financial records.",
             "howTo": "Copy your M-Pesa SMS messages from your phone, paste them into the input, then click 'Generate PDF Statement'. A branded PDF downloads instantly.",
             "faqs": [
@@ -1036,7 +1036,7 @@
         },
         "affiliate": {
             "name": "Equity Bank",
-            "logo": "🏦",
+            "logo": "\ud83c\udfe6",
             "text": "Open an Equity Bank account and manage your finances smarter across all mobile money platforms.",
             "url": "https://www.equitybank.co.ke",
             "cta": "Open Account Free",
@@ -1050,15 +1050,15 @@
     },
     "logo-generator": {
         "title": "Logo Generator",
-        "description": "Generate a logo concept with color palettes, font pairings, and a direct link to Canva Logo Maker.",
-        "icon": "🎨",
+        "description": "Create simple text-based logos with customizable fonts and colors.",
+        "icon": "\ud83c\udfa8",
         "category": "Images",
         "buttonText": "Generate Logo Concept",
         "action": "logoGenerator",
         "initialValue": "ApexBlueSky, tech, modern",
         "inputPlaceholder": "Brand name, style (e.g. Apple, minimal, elegant)",
         "seo": {
-            "title": "Free AI Logo Generator – Logo Design Ideas & Canva Integration",
+            "title": "Free AI Logo Generator \u2013 Logo Design Ideas & Canva Integration",
             "description": "Get instant logo concept recommendations: color palette, font pairs, and design tips. Then build it professionally in Canva.",
             "howTo": "Enter your brand name and style keywords (e.g. 'Nike, bold, athletic') and click 'Generate Logo Concept'. Follow the Canva link to build your actual logo.",
             "faqs": [
@@ -1074,8 +1074,8 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
-            "text": "Design your logo professionally with Canva — 900,000+ free templates, drag & drop, no skills needed.",
+            "logo": "\ud83c\udfa8",
+            "text": "Design your logo professionally with Canva \u2014 900,000+ free templates, drag & drop, no skills needed.",
             "url": "https://www.canva.com/create/logos/",
             "cta": "Design Logo in Canva Free",
             "features": [
@@ -1088,8 +1088,8 @@
     },
     "password-generator": {
         "title": "Password Generator",
-        "description": "Generate strong, secure, and random passwords instantly.",
-        "icon": "🔐",
+        "description": "Generate secure, random passwords with custom criteria.",
+        "icon": "\ud83d\udd10",
         "category": "Developer",
         "buttonText": "Generate Password",
         "action": "generatePassword",
@@ -1106,7 +1106,7 @@
         },
         "affiliate": {
             "name": "NordPass",
-            "logo": "🛡️",
+            "logo": "\ud83d\udee1\ufe0f",
             "text": "Store all your new passwords securely with NordPass.",
             "url": "https://nordpass.com",
             "cta": "Get NordPass Free"
@@ -1114,8 +1114,8 @@
     },
     "qrcode-generator": {
         "title": "QR Code Generator",
-        "description": "Create custom QR codes from URLs, text, or phone numbers.",
-        "icon": "📱",
+        "description": "Create QR codes from text, URLs, or contact information.",
+        "icon": "\ud83d\udcf1",
         "category": "Developer",
         "buttonText": "Generate QR Code",
         "action": "generateQRCode",
@@ -1132,7 +1132,7 @@
         },
         "affiliate": {
             "name": "Hostinger",
-            "logo": "🚀",
+            "logo": "\ud83d\ude80",
             "text": "Looking to host the website for your QR code? Get fast SSD hosting.",
             "url": "https://www.hostinger.com",
             "cta": "Start Hosting"
@@ -1140,8 +1140,8 @@
     },
     "uuid-generator": {
         "title": "UUID/GUID Generator",
-        "description": "Generate random v4 UUIDs for your database or application.",
-        "icon": "🆔",
+        "description": "Generate unique UUIDs (version 4) for databases and applications.",
+        "icon": "\ud83c\udd94",
         "category": "Developer",
         "buttonText": "Generate UUID",
         "action": "generateUUID",
@@ -1158,7 +1158,7 @@
         },
         "affiliate": {
             "name": "DigitalOcean",
-            "logo": "☁️",
+            "logo": "\u2601\ufe0f",
             "text": "Deploy your database and apps on scalable cloud infrastructure.",
             "url": "https://www.digitalocean.com",
             "cta": "Get Free Cloud Credit"
@@ -1166,8 +1166,8 @@
     },
     "word-counter": {
         "title": "Word & Character Counter",
-        "description": "Count words, characters, sentences, and paragraphs in real time.",
-        "icon": "🔤",
+        "description": "Count words, characters, sentences, and paragraphs in text.",
+        "icon": "\ud83d\udd24",
         "category": "Content",
         "buttonText": "Count Words",
         "action": "wordCount",
@@ -1184,16 +1184,16 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
-            "text": "Write confidently with Grammarly — real-time grammar, clarity, and plagiarism checks.",
+            "logo": "\u2705",
+            "text": "Write confidently with Grammarly \u2014 real-time grammar, clarity, and plagiarism checks.",
             "url": "https://www.grammarly.com",
             "cta": "Try Grammarly Free"
         }
     },
     "color-picker": {
         "title": "Color Picker & HEX/RGB Converter",
-        "description": "Pick colors visually and convert between HEX, RGB, and HSL values.",
-        "icon": "🎨",
+        "description": "Pick, convert, and analyze colors from images or by HEX value.",
+        "icon": "\ud83c\udfa8",
         "category": "Web Design",
         "buttonText": "Open Color Picker",
         "action": "colorPicker",
@@ -1210,7 +1210,7 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
+            "logo": "\ud83c\udfa8",
             "text": "Use your new color codes in Canva to build stunning visual designs.",
             "url": "https://www.canva.com",
             "cta": "Try Canva Free"
@@ -1218,8 +1218,8 @@
     },
     "png-to-jpg": {
         "title": "PNG to JPG Converter",
-        "description": "Convert images from PNG format to JPG/JPEG instantly in your browser.",
-        "icon": "🔄",
+        "description": "Convert PNG images to JPG for better compatibility.",
+        "icon": "\ud83d\udd04",
         "category": "Images",
         "buttonText": "Convert to JPG",
         "action": "pngToJpg",
@@ -1236,7 +1236,7 @@
         },
         "affiliate": {
             "name": "Adobe Creative Cloud",
-            "logo": "☁️",
+            "logo": "\u2601\ufe0f",
             "text": "Need advanced image editing? Try Adobe Creative Cloud.",
             "url": "https://www.adobe.com/creativecloud.html",
             "cta": "Try Adobe Free"
@@ -1244,8 +1244,8 @@
     },
     "image-cropper": {
         "title": "Image Cropper",
-        "description": "Crop images perfectly for social media, avatars, or custom sizes.",
-        "icon": "🖼️",
+        "description": "Crop images to exact dimensions and aspect ratios.",
+        "icon": "\ud83d\uddbc\ufe0f",
         "category": "Images",
         "buttonText": "Crop Image",
         "action": "cropImage",
@@ -1262,16 +1262,16 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
-            "text": "Design stunning visuals with Canva — perfect for customized cropping templates.",
+            "logo": "\ud83c\udfa8",
+            "text": "Design stunning visuals with Canva \u2014 perfect for customized cropping templates.",
             "url": "https://www.canva.com",
             "cta": "Try Canva Free"
         }
     },
     "watermark-maker": {
         "title": "Watermark Maker",
-        "description": "Add text or logo watermarks to your images to protect your copyright.",
-        "icon": "©️",
+        "description": "Add text or image watermarks to photos for protection.",
+        "icon": "\u00a9\ufe0f",
         "category": "Images",
         "buttonText": "Add Watermark",
         "action": "addWatermark",
@@ -1288,7 +1288,7 @@
         },
         "affiliate": {
             "name": "Adobe Photoshop",
-            "logo": "📸",
+            "logo": "\ud83d\udcf8",
             "text": "For advanced non-destructive watermarking, try Adobe Photoshop.",
             "url": "https://www.adobe.com/products/photoshop.html",
             "cta": "Try Photoshop"
@@ -1296,8 +1296,8 @@
     },
     "base64-encoder": {
         "title": "Base64 Encoder / Decoder",
-        "description": "Encode text to Base64 format or decode Base64 back to raw text.",
-        "icon": "🔠",
+        "description": "Encode text to Base64 or decode Base64 strings instantly.",
+        "icon": "\ud83d\udd20",
         "category": "Developer",
         "buttonText": "Encode/Decode",
         "action": "base64EncodeDecode",
@@ -1314,7 +1314,7 @@
         },
         "affiliate": {
             "name": "NordVPN",
-            "logo": "🔒",
+            "logo": "\ud83d\udd12",
             "text": "Base64 isn't encryption. For real security, use NordVPN.",
             "url": "https://nordvpn.com",
             "cta": "Get Secure VPN"
@@ -1322,8 +1322,8 @@
     },
     "url-encoder": {
         "title": "URL Encoder / Decoder",
-        "description": "Safely encode or decode URLs to ensure special characters pass correctly.",
-        "icon": "🔗",
+        "description": "Encode URLs and text for safe sharing and web applications.",
+        "icon": "\ud83d\udd17",
         "category": "Developer",
         "buttonText": "Encode/Decode URL",
         "action": "urlEncodeDecode",
@@ -1340,7 +1340,7 @@
         },
         "affiliate": {
             "name": "SEMrush",
-            "logo": "🔍",
+            "logo": "\ud83d\udd0d",
             "text": "Optimize your URLs and rank higher on Google with SEMrush.",
             "url": "https://www.semrush.com",
             "cta": "Try SEMrush Free"
@@ -1348,15 +1348,15 @@
     },
     "ai-blog-title-generator": {
         "title": "Blog Title Generator",
-        "description": "Generate catchy and SEO-optimized blog titles instantly.",
-        "icon": "📝",
+        "description": "Create compelling blog titles optimized for engagement and SEO.",
+        "icon": "\ud83d\udcdd",
         "category": "Writing",
         "buttonText": "Generate Titles",
         "action": "generateBlogTitles",
         "initialValue": "How to learn Next.js",
         "inputPlaceholder": "Enter your blog topic...",
         "seo": {
-            "title": "Free AI Blog Title Generator – Catchy Headlines Online",
+            "title": "Free AI Blog Title Generator \u2013 Catchy Headlines Online",
             "description": "Generate click-worthy and SEO-friendly blog post titles in seconds. Boost your CTR and search traffic.",
             "howTo": "Enter your blog topic or main keyword and click \"Generate Titles\". Choose from multiple options.",
             "faqs": [
@@ -1368,23 +1368,23 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
-            "text": "Write confidently with Grammarly — real-time grammar, clarity, and plagiarism checks.",
+            "logo": "\u2705",
+            "text": "Write confidently with Grammarly \u2014 real-time grammar, clarity, and plagiarism checks.",
             "url": "https://www.grammarly.com",
             "cta": "Try Grammarly Free"
         }
     },
     "ai-blog-post-generator": {
         "title": "Blog Post Generator",
-        "description": "Draft complete blog posts from a single topic or outline.",
-        "icon": "✍️",
+        "description": "Generate complete blog posts on any topic using AI. Powered by Gemini-Pro API.",
+        "icon": "\u270d\ufe0f",
         "category": "Writing",
         "buttonText": "Generate Post",
         "action": "generateBlogPost",
         "initialValue": "The Future of Artificial Intelligence",
         "inputPlaceholder": "Enter your blog post topic or outline...",
         "seo": {
-            "title": "AI Blog Post Generator Free Online – Write Content Fast",
+            "title": "AI Blog Post Generator Free Online \u2013 Write Content Fast",
             "description": "Create full, engaging blog drafts in seconds. Perfect for overcoming writer\"s block.",
             "howTo": "Provide a topic, title, or brief outline, then click \"Generate Post\" to receive a full draft.",
             "faqs": [
@@ -1396,7 +1396,7 @@
         },
         "affiliate": {
             "name": "Jasper",
-            "logo": "🤖",
+            "logo": "\ud83e\udd16",
             "text": "Scale your content marketing with Jasper, the leading enterprise AI writing assistant.",
             "url": "https://www.jasper.ai",
             "cta": "Try Jasper"
@@ -1404,15 +1404,15 @@
     },
     "ai-product-description-generator": {
         "title": "Product Description Gen",
-        "description": "Write compelling product descriptions for e-commerce.",
-        "icon": "��️",
+        "description": "Write product descriptions that convert. Uses Gemini-Pro API.",
+        "icon": "\ufffd\ufffd\ufe0f",
         "category": "Writing",
         "buttonText": "Generate Description",
         "action": "generateProductDesc",
         "initialValue": "Wireless Noise-Canceling Headphones, 30hr battery, black",
         "inputPlaceholder": "Product name and key features...",
         "seo": {
-            "title": "Free AI Product Description Generator – Boost Sales",
+            "title": "Free AI Product Description Generator \u2013 Boost Sales",
             "description": "Generate persuasive, conversion-optimized product descriptions for Shopify, Amazon, or your own store.",
             "howTo": "Enter the product name and key features, then click \"Generate Description\" for multiple variations.",
             "faqs": [
@@ -1424,7 +1424,7 @@
         },
         "affiliate": {
             "name": "Shopify",
-            "logo": "🛒",
+            "logo": "\ud83d\uded2",
             "text": "Start your e-commerce journey with Shopify. The best platform for online stores.",
             "url": "https://www.shopify.com",
             "cta": "Start Free Trial"
@@ -1432,15 +1432,15 @@
     },
     "ai-email-writer": {
         "title": "Email Writer",
-        "description": "Draft professional emails for any situation in seconds.",
-        "icon": "📧",
+        "description": "Draft professional emails quickly using AI assistance. Cloud-powered.",
+        "icon": "\ud83d\udce7",
         "category": "Writing",
         "buttonText": "Draft Email",
         "action": "draftEmail",
         "initialValue": "Requesting a deadline extension for the Q3 report",
         "inputPlaceholder": "What is the email about? (e.g. following up after an interview)",
         "seo": {
-            "title": "Free AI Email Writer Online – Professional Email Generator",
+            "title": "Free AI Email Writer Online \u2013 Professional Email Generator",
             "description": "Instantly draft professional, polite, and effective emails for sales, networking, or the workplace.",
             "howTo": "Describe the intent of your email, select a tone if desired, and click \"Draft Email\".",
             "faqs": [
@@ -1452,7 +1452,7 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
+            "logo": "\u2705",
             "text": "Ensure your emails are mistake-free before hitting send with Grammarly.",
             "url": "https://www.grammarly.com",
             "cta": "Get Grammarly Free"
@@ -1460,15 +1460,15 @@
     },
     "ai-story-generator": {
         "title": "Story Generator",
-        "description": "Create creative short stories from a simple prompt.",
-        "icon": "📖",
+        "description": "Write creative stories on any topic using AI assistance.",
+        "icon": "\ud83d\udcd6",
         "category": "Writing",
         "buttonText": "Generate Story",
         "action": "generateStory",
         "initialValue": "A detective in a cyberpunk city trying to find a missing robot.",
         "inputPlaceholder": "Enter a premise, characters, or setting...",
         "seo": {
-            "title": "Free AI Story Generator Online – Write Fiction Instantly",
+            "title": "Free AI Story Generator Online \u2013 Write Fiction Instantly",
             "description": "Unlock your creativity! Generate engaging short stories, plot ideas, and creative writing prompts.",
             "howTo": "Provide a brief idea, characters, or setting and click \"Generate Story\" to see it come to life.",
             "faqs": [
@@ -1480,7 +1480,7 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
+            "logo": "\u2705",
             "text": "Refine your creative writing and storytelling with Grammarly\"s advanced insights.",
             "url": "https://www.grammarly.com",
             "cta": "Get Grammarly Free"
@@ -1488,15 +1488,15 @@
     },
     "ai-paragraph-rewriter": {
         "title": "Paragraph Rewriter",
-        "description": "Rewrite paragraphs to improve tone, clarity, and engagement.",
-        "icon": "🔄",
+        "description": "Rewrite paragraphs with different tones and styles. AI-powered.",
+        "icon": "\ud83d\udd04",
         "category": "Writing",
         "buttonText": "Rewrite Paragraph",
         "action": "paraphraseText",
         "initialValue": "AI is changing the world very fast. It helps people do things better and quicker than before.",
         "inputPlaceholder": "Paste your paragraph here...",
         "seo": {
-            "title": "Free AI Paragraph Rewriter – Improve Your Writing",
+            "title": "Free AI Paragraph Rewriter \u2013 Improve Your Writing",
             "description": "Instantly rewrite and paraphrase paragraphs to make them more professional, creative, or concise.",
             "howTo": "Paste your text, select a style, and click \"Rewrite Paragraph\". The AI will provide a fresh version.",
             "faqs": [
@@ -1508,7 +1508,7 @@
         },
         "affiliate": {
             "name": "Grammarly",
-            "logo": "✅",
+            "logo": "\u2705",
             "text": "Get even better tone suggestions with Grammarly Premium.",
             "url": "https://www.grammarly.com",
             "cta": "Check for Free"
@@ -1516,15 +1516,15 @@
     },
     "ai-slogan-generator": {
         "title": "Slogan Generator",
-        "description": "Create catchy and memorable slogans for your brand or product.",
-        "icon": "📣",
+        "description": "Create memorable brand slogans and taglines with AI.",
+        "icon": "\ud83d\udce3",
         "category": "Education",
         "buttonText": "Generate Slogans",
         "action": "generateSlogan",
         "initialValue": "Healthy organic snacks for kids",
         "inputPlaceholder": "Describe your business or product...",
         "seo": {
-            "title": "Free AI Slogan Generator – Catchy Tagline Maker",
+            "title": "Free AI Slogan Generator \u2013 Catchy Tagline Maker",
             "description": "Generate hundreds of catchy, professional, and memorable slogan ideas for your brand in seconds.",
             "howTo": "Enter a few keywords about your brand and click \"Generate Slogans\".",
             "faqs": [
@@ -1536,7 +1536,7 @@
         },
         "affiliate": {
             "name": "Hostinger",
-            "logo": "🚀",
+            "logo": "\ud83d\ude80",
             "text": "Ready to launch your brand? Get started with Hostinger.",
             "url": "https://www.hostinger.com",
             "cta": "Launch Site"
@@ -1544,15 +1544,15 @@
     },
     "ai-image-alt-text-generator": {
         "title": "Image Alt Text Gen",
-        "description": "Generate SEO-friendly alt text for images based on descriptions.",
-        "icon": "🖼️",
+        "description": "Generate accessible alt text for images using AI analysis.",
+        "icon": "\ud83d\uddbc\ufe0f",
         "category": "Images",
         "buttonText": "Generate Alt Text",
         "action": "generateAltText",
         "initialValue": "A group of professionals in a modern office looking at a laptop",
         "inputPlaceholder": "Describe what is in the image...",
         "seo": {
-            "title": "Free AI Image Alt Text Generator – Improve Accessibility & SEO",
+            "title": "Free AI Image Alt Text Generator \u2013 Improve Accessibility & SEO",
             "description": "Instantly create descriptive, SEO-optimized alt text for your images to help search engines and users alike.",
             "howTo": "Describe the image content and click \"Generate Alt Text\". Copy the result into your HTML or CMS.",
             "faqs": [
@@ -1564,7 +1564,7 @@
         },
         "affiliate": {
             "name": "Canva",
-            "logo": "🎨",
+            "logo": "\ud83c\udfa8",
             "text": "Design beautiful images for your website with Canva.",
             "url": "https://www.canva.com",
             "cta": "Open Canva"
@@ -1572,15 +1572,15 @@
     },
     "ai-sql-query-generator": {
         "title": "SQL Query Generator",
-        "description": "Convert English into SQL queries instantly.",
-        "icon": "💾",
+        "description": "Generate SQL queries from plain English descriptions.",
+        "icon": "\ud83d\udcbe",
         "category": "Developer",
         "buttonText": "Generate SQL",
         "action": "generateSQL",
         "initialValue": "Find all users who signed up in the last 30 days and spent more than $100",
         "inputPlaceholder": "Describe the query you need in plain English...",
         "seo": {
-            "title": "Free AI SQL Query Generator – English to SQL",
+            "title": "Free AI SQL Query Generator \u2013 English to SQL",
             "description": "Stop struggling with complex syntax. Describe your data needs in plain English and let the AI write the SQL query.",
             "howTo": "Describe your table structure (optional) and what you want to find, then click \"Generate SQL\".",
             "faqs": [
@@ -1592,7 +1592,7 @@
         },
         "affiliate": {
             "name": "DigitalOcean",
-            "logo": "☁️",
+            "logo": "\u2601\ufe0f",
             "text": "Host your databases on DigitalOcean for reliable performance.",
             "url": "https://www.digitalocean.com",
             "cta": "Get Free Credit"
@@ -1600,15 +1600,15 @@
     },
     "ai-study-plan-generator": {
         "title": "Study Plan Generator",
-        "description": "Create a personalized learning schedule for any subject.",
-        "icon": "📅",
+        "description": "Create personalized study plans based on your learning goals.",
+        "icon": "\ud83d\udcc5",
         "category": "Education",
         "buttonText": "Generate Plan",
         "action": "generateStudyPlan",
         "initialValue": "Learn Python for Data Science in 4 weeks",
         "inputPlaceholder": "What do you want to learn and in what timeframe?",
         "seo": {
-            "title": "Free AI Study Plan Generator – Organize Your Learning",
+            "title": "Free AI Study Plan Generator \u2013 Organize Your Learning",
             "description": "Generate a structured, step-by-step study schedule tailored to your goals and deadline.",
             "howTo": "Enter your subject and goal (e.g., \"Pass the AWS exam\") and click \"Generate Plan\".",
             "faqs": [
@@ -1620,7 +1620,7 @@
         },
         "affiliate": {
             "name": "Coursera",
-            "logo": "🎓",
+            "logo": "\ud83c\udf93",
             "text": "Find world-class courses to match your new study plan.",
             "url": "https://www.coursera.org",
             "cta": "Start Learning"
@@ -1628,15 +1628,15 @@
     },
     "followers-analysis": {
         "title": "Followers Analysis",
-        "description": "Analyze your BlueSky follower growth and engagement patterns.",
-        "icon": "📊",
+        "description": "Analyze social media follower growth and engagement trends.",
+        "icon": "\ud83d\udcca",
         "category": "BlueSky",
         "buttonText": "Analyze Followers",
         "action": "followersAnalysis",
         "initialValue": "@nathan.bsky.social",
         "inputPlaceholder": "Enter your BlueSky handle...",
         "seo": {
-            "title": "Free BlueSky Followers Analysis – Track Growth & Engagement",
+            "title": "Free BlueSky Followers Analysis \u2013 Track Growth & Engagement",
             "description": "Get deep insights into your BlueSky audience. Monitor follower trends, engagement rates, and top follower segments for free.",
             "howTo": "Enter your BlueSky handle (e.g. @name.bsky.social) and click 'Analyze Followers'. Your data will be processed instantly.",
             "faqs": [
@@ -1649,15 +1649,15 @@
     },
     "bulk-actions": {
         "title": "Bulk Actions",
-        "description": "Automate repetitive tasks on BlueSky with smart batch processing.",
-        "icon": "🛠️",
+        "description": "Perform batch operations on multiple files simultaneously.",
+        "icon": "\ud83d\udee0\ufe0f",
         "category": "BlueSky",
         "buttonText": "Generate Plan",
         "action": "bulkActions",
         "initialValue": "Delete all posts from 2024",
         "inputPlaceholder": "Describe the bulk action (e.g. Mute all followers of X)...",
         "seo": {
-            "title": "BlueSky Bulk Actions – Automate & Manage Your Feed",
+            "title": "BlueSky Bulk Actions \u2013 Automate & Manage Your Feed",
             "description": "Save time on BlueSky by automating repetitive tasks. Easily manage followers, posts, and mutes in bulk with our smart assistant.",
             "howTo": "Describe the task you want to automate and click 'Generate Plan'. Follow the step-by-step workflow provided.",
             "faqs": [
@@ -1670,15 +1670,15 @@
     },
     "data-exports": {
         "title": "Data Exports",
-        "description": "Convert your BlueSky data exports into readable CSV/Excel formats.",
-        "icon": "📥",
+        "description": "Export data in multiple formats (CSV, JSON, XML, Excel).",
+        "icon": "\ud83d\udce5",
         "category": "BlueSky",
         "buttonText": "Convert Data",
         "action": "dataExports",
         "initialValue": "Post 1 content\nPost 2 content\nPost 3 content",
         "inputPlaceholder": "Paste your exported JSON or raw post data here...",
         "seo": {
-            "title": "BlueSky Data Export Converter – JSON to CSV for Free",
+            "title": "BlueSky Data Export Converter \u2013 JSON to CSV for Free",
             "description": "Easily convert your BlueSky data exports into readable spreadsheets. Compatible with Excel, Google Sheets, and more.",
             "howTo": "Paste your exported data or list of posts into the field and click 'Convert Data' to download a CSV file.",
             "faqs": [

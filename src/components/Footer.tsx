@@ -30,7 +30,7 @@ export default function Footer() {
                         <div className={styles.trustBadge}>
                             <Shield className={styles.trustIcon} size={20} />
                             <span style={{ fontSize: '0.8125rem', color: '#cbd5e1', lineHeight: '1.4' }}>
-                                <strong>Processed 10,000+ files safely.</strong> Privacy first: files are auto-deleted after 10 minutes or processed locally.
+                                <strong>Privacy First.</strong> Files are processed locally in your browser where possible, or securely on cloud servers. Auto-deleted after use.
                             </span>
                         </div>
                     </div>
@@ -52,20 +52,10 @@ export default function Footer() {
                     </div>
 
                     <div className={styles.footerCol}>
-                        <h4>Developer details</h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '0.5rem' }}>
-                            <div style={{ color: '#fff', fontWeight: 'bold' }}>Nathan</div>
-                            <a href="tel:+254702605566" className={styles.footerLink} style={{ color: '#cbd5e1' }}>
-                                <Phone size={16} /> +254 702 605 566
-                            </a>
-                            <a href="mailto:neithank47@gmail.com" className={styles.footerLink} style={{ color: '#cbd5e1' }}>
-                                <Mail size={16} /> neithank47@gmail.com
-                            </a>
-                        </div>
-
-                        <h4 style={{ marginTop: '1.5rem' }}>Support</h4>
+                        <h4>Support</h4>
+                        <Link href="/contact" className={styles.footerLink}>Contact Us</Link>
                         <Link href="/contact" className={styles.footerLink}>Help Center</Link>
-                        <a href="mailto:apexbluesky6@gmail.com?subject=Feature%20Request/Bug%20Report" className={styles.footerLink}>
+                        <a href="mailto:support@apexblueskytools.online?subject=Feature%20Request/Bug%20Report" className={styles.footerLink}>
                             <MessageSquarePlus size={16} /> Report a Bug
                         </a>
                         <Link href="/login" className={styles.footerLink}>User Dashboard</Link>

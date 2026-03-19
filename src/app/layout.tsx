@@ -47,6 +47,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import ChatWidget from "@/components/ChatWidget";
 
+import Nav from '@/components/Nav';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -57,7 +59,10 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <GoogleAnalytics GA_MEASUREMENT_ID={GA_ID} />
         <AuthProvider>
-          {children}
+          <Nav />
+          <main style={{ minHeight: '100vh' }}>
+            {children}
+          </main>
         </AuthProvider>
         <ChatWidget />
         <Script
