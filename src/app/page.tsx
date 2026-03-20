@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import ToolCard from '@/components/ToolCard';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -11,17 +11,25 @@ import toolsData from '@/data/tools.json';
 import AppDownloadSection from '@/components/AppDownloadSection';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/context/AuthContext';
-import type { ToolWithId } from '@/types/tools';
+import type { ToolDefinition, ToolWithId } from '@/types/tools';
 
 const tools: ToolWithId[] = Object.entries(toolsData).map(([id, data]) => ({
   id,
-  ...(data as ToolWithId)
+  ...(data as ToolDefinition)
 }));
 
 const trendingIds = ['mpesa-to-pdf', 'pdf-to-word', 'background-remover', 'essay-generator', 'age-calculator', 'mp4-to-mp3'];
 const mpesaTool = tools.find((tool) => tool.id === 'mpesa-to-pdf');
 
 export default function Home() {
+  return (
+    <Suspense fallback={<main className={styles.main} />}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+function HomeContent() {
   const { isPremium } = useAuth();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');

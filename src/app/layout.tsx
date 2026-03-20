@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 
@@ -59,7 +60,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <GoogleAnalytics GA_MEASUREMENT_ID={GA_ID} />
         <AuthProvider>
-          <Nav />
+          <Suspense fallback={null}>
+            <Nav />
+          </Suspense>
           <main style={{ minHeight: '100vh' }}>
             {children}
           </main>
