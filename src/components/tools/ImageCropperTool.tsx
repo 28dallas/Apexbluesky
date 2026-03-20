@@ -10,9 +10,10 @@ import { Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
+import type { ToolDefinition } from '@/types/tools';
 
-export default function ImageCropperTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
-    const { user, isPremium } = useAuth();
+export default function ImageCropperTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [imgSrc, setImgSrc] = useState('');
     const imgRef = useRef<HTMLImageElement>(null);
     const [crop, setCrop] = useState<Crop>();
@@ -20,7 +21,8 @@ export default function ImageCropperTool({ tool, id, credits }: { tool: any, id:
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
     const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,6 +130,11 @@ export default function ImageCropperTool({ tool, id, credits }: { tool: any, id:
                         {credits && (
                             <div className={styles.creditCost}>
                                 Cost: <strong>{credits} Credits</strong>
+                                {!isPremium && (
+                                    <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                    </span>
+                                )}
                             </div>
                         )}
 

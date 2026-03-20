@@ -3,28 +3,32 @@
 import { useState } from 'react';
 import ToolCard from '@/components/ToolCard';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Shield, Search, MessageSquarePlus } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Search } from 'lucide-react';
 import styles from './page.module.css';
 
 import toolsData from '@/data/tools.json';
 import AppDownloadSection from '@/components/AppDownloadSection';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/context/AuthContext';
+import type { ToolWithId } from '@/types/tools';
 
-const tools = Object.entries(toolsData).map(([id, data]) => ({
+const tools: ToolWithId[] = Object.entries(toolsData).map(([id, data]) => ({
   id,
-  ...(data as any)
+  ...(data as ToolWithId)
 }));
 
-const categories = ['All', 'BlueSky', 'PDF', 'Images', 'Writing', 'Video/Social', 'Technical', 'Education', 'Health'];
-
-const trendingIds = ['mpesa-statement', 'pdf-to-word', 'background-remover', 'essay-generator'];
+const trendingIds = ['mpesa-to-pdf', 'pdf-to-word', 'background-remover', 'essay-generator', 'age-calculator', 'mp4-to-mp3'];
+const mpesaTool = tools.find((tool) => tool.id === 'mpesa-to-pdf');
 
 export default function Home() {
-  const { user, isPremium, credits, signOut } = useAuth();
-  const [activeCategory, setActiveCategory] = useState('All');
+  const { isPremium } = useAuth();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
+  const activeCategory = searchParams.get('category') || 'All';
+  const trendingTools = trendingIds
+    .map((id) => tools.find((tool) => tool.id === id))
+    .filter((tool): tool is ToolWithId => Boolean(tool));
 
   const filteredTools = tools.filter(t => {
     const matchesCategory = activeCategory === 'All' || t.category.includes(activeCategory);
@@ -36,24 +40,6 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-<header className={styles.header}>
-        <div className="container">
-          {/* Category pills only on home */}
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-            {categories.map(cat => (
-              <button
-                key={cat}
-                className={`${styles.navPill} ${activeCategory === cat ? styles.activeNavPill : ''}`}
-                onClick={() => setActiveCategory(cat)}
-                style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
-
       <section className={styles.hero}>
         <div className="container">
           <h1 className={styles.heroTitle}>Every tool you need to work with files in one place</h1>
@@ -71,6 +57,27 @@ export default function Home() {
               className={styles.searchInput}
             />
           </div>
+
+          {mpesaTool && (
+            <div className="glass" style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid rgba(34, 197, 94, 0.25)' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                <div style={{ maxWidth: '720px' }}>
+                  <p style={{ margin: 0, color: '#4ade80', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.8rem' }}>
+                    Kenya Spotlight
+                  </p>
+                  <h2 style={{ margin: '0.5rem 0', color: '#fff', fontSize: '1.7rem' }}>
+                    {mpesaTool.icon} M-Pesa Statement PDF
+                  </h2>
+                  <p style={{ margin: 0, color: '#cbd5e1', lineHeight: 1.7 }}>
+                    Convert pasted M-Pesa SMS messages or monthly statement PDFs into a clean downloadable document. It is one of the most locally useful tools on the platform and built specifically for real workflows in Kenya.
+                  </p>
+                </div>
+                <Link href={`/tools/${mpesaTool.id}`} className="btn-primary" style={{ whiteSpace: 'nowrap' }}>
+                  Open M-Pesa Tool
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -81,7 +88,7 @@ export default function Home() {
             <div className={styles.trendingSection}>
               <h2 className={styles.sectionTitle}>🔥 Trending Tools</h2>
               <div className={styles.grid}>
-                {tools.filter(t => trendingIds.includes(t.id)).map(t => (
+                {trendingTools.map(t => (
                   <ToolCard key={`trend-${t.id}`} {...t} />
                 ))}
               </div>

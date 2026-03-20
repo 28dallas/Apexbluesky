@@ -8,9 +8,10 @@ import { essayGenerator } from '@/lib/tools';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
+import type { ToolDefinition } from '@/types/tools';
 
-export default function EssayGeneratorTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
-    const { user, isPremium } = useAuth();
+export default function EssayGeneratorTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [topic, setTopic] = useState('');
     const [level, setLevel] = useState('University');
     const [tone, setTone] = useState('Analytical');
@@ -21,7 +22,8 @@ export default function EssayGeneratorTool({ tool, id, credits }: { tool: any, i
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
     const handleGenerate = async () => {
@@ -44,8 +46,9 @@ export default function EssayGeneratorTool({ tool, id, credits }: { tool: any, i
                 includeCitations: citations
             });
             setResult(res as string);
-        } catch (e: any) {
-            setResult(`Error: ${e.message}`);
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Failed to generate essay.';
+            setResult(`Error: ${message}`);
         }
         setLoading(false);
     };
@@ -152,6 +155,11 @@ export default function EssayGeneratorTool({ tool, id, credits }: { tool: any, i
                 {credits && (
                     <div className={styles.creditCost}>
                         Cost: <strong>{credits} Credits</strong>
+                        {!isPremium && (
+                            <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                            </span>
+                        )}
                     </div>
                 )}
 

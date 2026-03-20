@@ -1,12 +1,12 @@
 {
     "merge-pdf": {
         "title": "Merge PDF",
-        "description": "Combine multiple PDF files into one seamlessly. Browser-based, no uploads needed.",
-        "icon": "\ud83d\udcc4",
+        "description": "Merge multiple PDF files into a single document in seconds.",
+        "icon": "📎",
         "category": "PDF",
         "buttonText": "Merge PDFs",
         "action": "mergePDFs",
-        "inputPlaceholder": "Select PDF files to merge",
+        "inputPlaceholder": "Upload 2+ PDFs to merge...",
         "seo": {
             "title": "Free PDF Merger Online \u2013 Combine PDF Files Instantly",
             "description": "Merge multiple PDF files into a single document in seconds. Fast, free, and secure \u2013 all processing done in your browser.",
@@ -944,25 +944,25 @@
     },
     "citation-gen": {
         "title": "Citation Generator",
-        "description": "Generate citations in APA, MLA, Chicago, and Harvard formats.",
+        "description": "Organize verified source details before formatting citations in your required academic style.",
         "icon": "\ud83d\udd16",
         "category": "Education",
-        "buttonText": "Generate Citation",
+        "buttonText": "Review Citation Checklist",
         "action": "citationGenerator",
         "initialValue": "Doe, John, The Art of Code, 2021",
-        "inputPlaceholder": "Author, Title, Year (comma-separated)",
+        "inputPlaceholder": "Paste the source details you want to verify before formatting",
         "seo": {
-            "title": "Free Citation Generator \u2013 APA, MLA, Harvard Reference Tool",
-            "description": "Instantly generate properly formatted citations for books, articles, and websites. Perfect for essays and research papers.",
-            "howTo": "Enter the author name, title, and year of publication and click 'Generate Citation'. Copy the citation into your paper.",
+            "title": "Citation Checklist Tool \u2013 Verify Source Details Before Formatting",
+            "description": "Use a simple source checklist before building APA, MLA, Chicago, or Harvard citations from verified references.",
+            "howTo": "Paste the source details you already have, review the checklist, then format the final citation using your required style guide or academic database.",
             "faqs": [
                 {
                     "q": "Which citation styles are supported?",
-                    "a": "APA, MLA, and Harvard citation formats are generated."
+                    "a": "This tool is style-agnostic and helps you verify source details before formatting them in APA, MLA, Chicago, Harvard, or another required style."
                 },
                 {
-                    "q": "Can I cite websites?",
-                    "a": "Yes, include the URL as part of the author field and the tool will format it correctly."
+                    "q": "Does this generate final citations automatically?",
+                    "a": "No. It intentionally avoids fabricating final academic citations. Use the checklist output with your institution's style guide or library tools."
                 }
             ]
         },
@@ -1628,7 +1628,7 @@
     },
     "followers-analysis": {
         "title": "Followers Analysis",
-        "description": "Analyze social media follower growth and engagement trends.",
+        "description": "Analyze a public Bluesky profile using real follower, posting, and recent engagement signals.",
         "icon": "\ud83d\udcca",
         "category": "BlueSky",
         "buttonText": "Analyze Followers",
@@ -1637,12 +1637,16 @@
         "inputPlaceholder": "Enter your BlueSky handle...",
         "seo": {
             "title": "Free BlueSky Followers Analysis \u2013 Track Growth & Engagement",
-            "description": "Get deep insights into your BlueSky audience. Monitor follower trends, engagement rates, and top follower segments for free.",
-            "howTo": "Enter your BlueSky handle (e.g. @name.bsky.social) and click 'Analyze Followers'. Your data will be processed instantly.",
+            "description": "Review a public Bluesky profile with live follower counts, posting cadence, and recent public engagement signals.",
+            "howTo": "Enter your Bluesky handle or profile URL (for example @name.bsky.social), then click 'Analyze Followers' to fetch a live public profile report.",
             "faqs": [
                 {
                     "q": "Is my BlueSky password required?",
-                    "a": "No. This tool only requires your public handle to perform basic profile analysis."
+                    "a": "No. This tool only reads public Bluesky profile and post data from the public AppView API."
+                },
+                {
+                    "q": "Does it show private follower demographics?",
+                    "a": "No. It estimates account performance from public profile counts and recent public post metrics only."
                 }
             ]
         }

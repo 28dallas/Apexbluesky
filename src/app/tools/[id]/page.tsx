@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import styles from '../../page.module.css';
 import ToolClient from '@/components/ToolClient';
 import AdSense from '@/components/AdSense';
@@ -9,6 +8,7 @@ import AffiliateDisclosure from '@/components/AffiliateDisclosure';
 import toolsData from '@/data/tools.json';
 import { SITE_URL } from '@/lib/site';
 import Footer from '@/components/Footer';
+import type { ToolCatalog, ToolDefinition, ToolFaq } from '@/types/tools';
 
 // Replace these with your actual AdSense Ad Unit IDs from your AdSense dashboard
 const AD_SLOTS = {
@@ -21,9 +21,61 @@ type Props = {
     params: { id: string };
 };
 
+const toolCatalog = toolsData as ToolCatalog;
+
+function getTool(id: string): ToolDefinition | undefined {
+    return toolCatalog[id];
+}
+
+function getProcessingSummary(tool: ToolDefinition, id: string) {
+    const aiActions = new Set([
+        'essayGenerator',
+        'paraphraseText',
+        'grammarChecker',
+        'generateBlogTitles',
+        'generateBlogPost',
+        'generateProductDesc',
+        'draftEmail',
+        'generateStory',
+        'generateInstaCaption',
+        'generateYTDescription',
+        'generateLinkedInPost',
+        'generateTweet',
+        'generateSEOKeywords',
+        'generateMetaTagsAI',
+        'generateBlogOutline',
+        'generateBusinessName',
+        'generateValueProp',
+        'generateImagePrompt',
+        'generateCoverLetter',
+        'generateResumeSummary',
+        'reviewCode',
+        'generateRegex',
+        'generateFlashcards',
+        'generateSlogan',
+        'generateAltText',
+        'generateSQL',
+        'generateStudyPlan'
+    ]);
+
+    if (id === 'background-remover') {
+        return `${tool.description} This tool runs an AI model locally in your browser, so your image stays on your device while processing.`;
+    }
+
+    if (id === 'mpesa-statement') {
+        return `${tool.description} This tool formats statement data locally in your browser and does not upload or store your records on our servers.`;
+    }
+
+    if (aiActions.has(tool.action)) {
+        return `${tool.description} This tool uses secure cloud AI processing to generate results. Submitted text is processed for the request and is not presented as local-only browser processing.`;
+    }
+
+    return `${tool.description} Processing happens in your browser where possible, so you can finish the job quickly without heavyweight desktop software.`;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { id } = await params;
-    const tool = (toolsData as any)[id];
+    const tool = getTool(id);
 
     if (!tool) return { title: 'Tool Not Found - ApexBlueSky' };
 
@@ -63,7 +115,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ToolPage({ params }: Props) {
     const { id } = await params;
-    const tool = (toolsData as any)[id];
+    const tool = getTool(id);
 
     if (!tool) {
         return (
@@ -77,6 +129,7 @@ export default async function ToolPage({ params }: Props) {
     const canonical = `${SITE_URL}/tools/${id}`;
     const pageTitle = tool.seo?.title || `${tool.title} | ApexBlueSky Tools`;
     const pageDescription = tool.seo?.description || tool.description;
+    const processingSummary = getProcessingSummary(tool, id);
 
     // JSON-LD: WebPage
     const ldWebPage = {
@@ -117,7 +170,7 @@ export default async function ToolPage({ params }: Props) {
     const ldFaq = tool.seo?.faqs && tool.seo.faqs.length > 0 ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: tool.seo.faqs.map((faq: any) => ({
+        mainEntity: tool.seo.faqs.map((faq: ToolFaq) => ({
             "@type": "Question",
             name: faq.q,
             acceptedAnswer: {
@@ -182,40 +235,19 @@ export default async function ToolPage({ params }: Props) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }}
             />
-            {ldFaq && (
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(ldFaq) }}
-                />
-            )}
-            {ldHowTo && (
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(ldHowTo) }}
-                />
-            )}
+	            {ldFaq && (
+	                <script
+	                    type="application/ld+json"
+	                    dangerouslySetInnerHTML={{ __html: JSON.stringify(ldFaq) }}
+	                />
+	            )}
 
-            <header className={styles.header}>
-                <div className="container">
-                    <nav className={styles.nav}>
-                        <Link href="/" className={styles.logo}>
-                            <Image
-                                src="/logo/logo.png"
-                                alt="ApexBlueSky"
-                                width={180}
-                                height={45}
-                                className={styles.logoImage}
-                                priority
-                                style={{ height: 'auto' }}
-                            />
-                        </Link>
-                        <div className={styles.auth}>
-                            <Link href="/login" className={styles.navLink}>LOGIN</Link>
-                            <Link href="/signup" className="btn-primary">SIGN UP</Link>
-                        </div>
-                    </nav>
-                </div>
-            </header>
+	            {ldHowTo && (
+	                <script
+	                    type="application/ld+json"
+	                    dangerouslySetInnerHTML={{ __html: JSON.stringify(ldHowTo) }}
+	                />
+	            )}
 
             <div className="container" style={{ flex: 1, padding: '2rem 1rem' }}>
                 {/* 1. Top Ad Banner */}
@@ -259,7 +291,7 @@ export default async function ToolPage({ params }: Props) {
                             <>
                                 <h3 style={{ color: '#fff', marginBottom: '1.5rem' }}>Frequently Asked Questions</h3>
                                 <div style={{ display: 'grid', gap: '1.5rem' }}>
-                                    {tool.seo.faqs.map((faq: any, idx: number) => (
+                                    {tool.seo.faqs.map((faq: ToolFaq, idx: number) => (
                                         <div key={idx}>
                                             <p style={{ fontWeight: 'bold', color: '#fff', marginBottom: '0.5rem' }}>Q: {faq.q}</p>
                                             <p>{faq.a}</p>
@@ -269,11 +301,10 @@ export default async function ToolPage({ params }: Props) {
                             </>
                         )}
 
-                        {/* Additional Content Blocks for "Density" */}
                         <div style={{ marginTop: '3rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2rem' }}>
-                            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>Why Use Our {tool.title}?</h3>
+                            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>Processing & Privacy</h3>
                             <p style={{ lineHeight: '1.8' }}>
-                                Our {tool.title} is built for speed, accuracy, and privacy. Whether processing happens locally in your browser or through secure cloud servers, your data is protected and never sold. Get results instantly without the complexity of desktop software.
+                                {processingSummary}
                             </p>
                         </div>
                     </div>
@@ -281,15 +312,15 @@ export default async function ToolPage({ params }: Props) {
 
                 {/* Related Tools Section */}
                 {(() => {
-                    const relatedTools = Object.entries(toolsData as any)
-                        .filter(([rid, rdata]: [string, any]) => rid !== id && rdata.category === tool.category)
+                    const relatedTools = Object.entries(toolCatalog)
+                        .filter(([rid, rdata]) => rid !== id && rdata.category === tool.category)
                         .slice(0, 4);
                     if (relatedTools.length === 0) return null;
                     return (
                         <section style={{ marginTop: '3rem' }}>
                             <h3 style={{ color: '#fff', marginBottom: '1.5rem', fontSize: '1.25rem' }}>Related Tools</h3>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                                {relatedTools.map(([rid, rdata]: [string, any]) => (
+                                {relatedTools.map(([rid, rdata]) => (
                                     <Link
                                         key={rid}
                                         href={`/tools/${rid}`}

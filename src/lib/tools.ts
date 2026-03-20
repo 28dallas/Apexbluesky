@@ -659,9 +659,28 @@ export async function calculateGPA(json: string) {
 }
 
 export async function citationGenerator(input: string) {
-  if (!input.includes(',')) return "Error: Use 'Author, Title, Year'";
-  const [a, t, y] = input.split(',').map(s => s.trim());
-  return `${a}. (${y}). ${t}. Retrieved from ApexTools.`;
+  const trimmed = input.trim();
+  if (!trimmed) {
+    return "Error: Enter your source details first.";
+  }
+
+  return [
+    "Citation generator safety notice:",
+    "",
+    "This tool does not create final academic citations automatically because fabricated references can be misleading.",
+    "",
+    "Use this checklist to build a verified citation from the original source:",
+    "1. Author or organization name",
+    "2. Publication year or last updated date",
+    "3. Exact title of the article, book, or page",
+    "4. Publisher or website name",
+    "5. URL or DOI",
+    "6. Access date if your style guide requires it",
+    "",
+    `Your source notes: ${trimmed}`,
+    "",
+    "Please verify the finished citation in your required style guide or library database before submitting academic work."
+  ].join('\n');
 }
 
 export async function studyPlanner(goal: string) {
@@ -1129,22 +1148,170 @@ export function generateStudyPlan(goal: string) {
   return `Study Plan for: "${goal}"\n\nWeek 1: Foundations\n- Introduction to core concepts of ${goal.split(' ')[0]}\n- Setting up your environment and tools\n- Learning basic syntax and terminology\n\nWeek 2: Core Implementation\n- Deep dive into functional patterns\n- Practical exercises and small projects\n- Reviewing best practices\n\nWeek 3: Advanced Topics\n- Optimization and performance tuning\n- Integrating with external systems\n- Solving complex edge cases\n\nWeek 4: Final Project & Review\n- Building a complete prototype\n- Peer review and final refinements\n- Planning for continued learning`;
 }
 // --- 13. BLUESKY TOOLS ---
-export async function followersAnalysis(input: string) {
-  if (!input || input.length < 3) return "Error: Please enter a BlueSky handle or profile URL.";
-  const handle = input.includes('@') ? input : `@${input}`;
+const BLUESKY_PUBLIC_API = 'https://public.api.bsky.app/xrpc';
 
-  return `📊 Followers Analysis for ${handle}\n\n` +
-    "Growth Trend: +12% this week 📈\n" +
-    "Engagement Rate: 4.8% (Above Average) ✨\n" +
-    "Top Follower Segments:\n" +
-    "• Tech & Developers (45%)\n" +
-    "• Digital Artists (30%)\n" +
-    "• Crypto/Web3 (15%)\n" +
-    "• Other (10%)\n\n" +
-    "Suggested Actions:\n" +
-    "1. Post more 'Work in Progress' (WIP) shots.\n" +
-    "2. Engage with the #ArtStation community.\n" +
-    "3. Use 2-3 niche hashtags per post.";
+interface BlueskyProfileView {
+  handle: string;
+  displayName?: string;
+  followersCount?: number;
+  followsCount?: number;
+  postsCount?: number;
+  description?: string;
+  createdAt?: string;
+}
+
+interface BlueskyFeedPost {
+  indexedAt?: string;
+  likeCount?: number;
+  repostCount?: number;
+  replyCount?: number;
+  quoteCount?: number;
+  record?: {
+    text?: string;
+  };
+}
+
+interface BlueskyFeedItem {
+  post?: BlueskyFeedPost;
+}
+
+function normalizeBlueskyActor(input: string) {
+  const trimmed = input.trim();
+  if (!trimmed) return '';
+
+  if (trimmed.includes('bsky.app/profile/')) {
+    const profilePart = trimmed.split('bsky.app/profile/')[1];
+    return profilePart?.split('/')[0]?.replace(/^@/, '') || '';
+  }
+
+  return trimmed.replace(/^@/, '');
+}
+
+function formatCompactNumber(value: number | undefined) {
+  return new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(value ?? 0);
+}
+
+function formatUtcDate(dateString?: string) {
+  if (!dateString) return 'Unknown';
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return 'Unknown';
+  return new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+}
+
+function average(values: number[]) {
+  if (values.length === 0) return 0;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function getPostingCadence(posts: BlueskyFeedPost[]) {
+  if (posts.length < 2) {
+    return 'Not enough recent posts to estimate cadence yet.';
+  }
+
+  const timestamps = posts
+    .map((post) => post.indexedAt ? new Date(post.indexedAt).getTime() : NaN)
+    .filter((value) => !Number.isNaN(value))
+    .sort((a, b) => b - a);
+
+  if (timestamps.length < 2) {
+    return 'Not enough recent posts to estimate cadence yet.';
+  }
+
+  const spanMs = timestamps[0] - timestamps[timestamps.length - 1];
+  const spanDays = Math.max(spanMs / (1000 * 60 * 60 * 24), 1 / 24);
+  const postsPerWeek = (timestamps.length / spanDays) * 7;
+
+  if (postsPerWeek >= 14) return 'Very active: posting multiple times per day.';
+  if (postsPerWeek >= 7) return 'Active: roughly daily posting cadence.';
+  if (postsPerWeek >= 3) return 'Steady: posting several times per week.';
+  return 'Light: posting less than every other day recently.';
+}
+
+export async function followersAnalysis(input: string) {
+  const actor = normalizeBlueskyActor(input);
+  if (!actor || actor.length < 3) return "Error: Please enter a Bluesky handle or profile URL.";
+
+  try {
+    const profileUrl = `${BLUESKY_PUBLIC_API}/app.bsky.actor.getProfile?${new URLSearchParams({ actor })}`;
+    const feedUrl = `${BLUESKY_PUBLIC_API}/app.bsky.feed.getAuthorFeed?${new URLSearchParams({ actor, limit: '20' })}`;
+
+    const [profileRes, feedRes] = await Promise.all([
+      fetch(profileUrl),
+      fetch(feedUrl),
+    ]);
+
+    if (!profileRes.ok) {
+      throw new Error('Profile not found or unavailable from the public Bluesky API.');
+    }
+
+    if (!feedRes.ok) {
+      throw new Error('Could not load recent posts from the public Bluesky API.');
+    }
+
+    const profile = await profileRes.json() as BlueskyProfileView;
+    const feedJson = await feedRes.json() as { feed?: BlueskyFeedItem[] };
+    const posts = (feedJson.feed || [])
+      .map((item) => item.post)
+      .filter((post): post is BlueskyFeedPost => Boolean(post));
+
+    const recentPosts = posts.slice(0, 10);
+    const followerCount = profile.followersCount ?? 0;
+    const postInteractions = recentPosts.map((post) => (
+      (post.likeCount ?? 0) +
+      (post.repostCount ?? 0) +
+      (post.replyCount ?? 0) +
+      (post.quoteCount ?? 0)
+    ));
+    const avgInteractions = average(postInteractions);
+    const engagementRate = followerCount > 0
+      ? (avgInteractions / followerCount) * 100
+      : 0;
+
+    const topPost = recentPosts.reduce<BlueskyFeedPost | null>((best, post) => {
+      const postScore = (post.likeCount ?? 0) + (post.repostCount ?? 0) + (post.replyCount ?? 0) + (post.quoteCount ?? 0);
+      const bestScore = best
+        ? (best.likeCount ?? 0) + (best.repostCount ?? 0) + (best.replyCount ?? 0) + (best.quoteCount ?? 0)
+        : -1;
+      return postScore > bestScore ? post : best;
+    }, null);
+
+    const topPostPreview = topPost?.record?.text
+      ? topPost.record.text.replace(/\s+/g, ' ').slice(0, 140)
+      : 'No recent public post text available.';
+
+    const followerRatio = profile.followsCount
+      ? (followerCount / Math.max(profile.followsCount, 1)).toFixed(2)
+      : 'N/A';
+
+    return [
+      `📊 Bluesky Public Profile Analysis for @${profile.handle}`,
+      '',
+      `${profile.displayName ? `${profile.displayName} • ` : ''}Joined ${formatUtcDate(profile.createdAt)}`,
+      `Followers: ${formatCompactNumber(followerCount)}`,
+      `Following: ${formatCompactNumber(profile.followsCount)}`,
+      `Posts: ${formatCompactNumber(profile.postsCount)}`,
+      `Follower / Following Ratio: ${followerRatio}`,
+      '',
+      'Recent public post signals:',
+      `Average interactions per recent post: ${avgInteractions.toFixed(1)}`,
+      `Estimated engagement per recent post: ${engagementRate.toFixed(2)}% of followers`,
+      `Posting cadence: ${getPostingCadence(recentPosts)}`,
+      '',
+      'Top recent post snapshot:',
+      `"${topPostPreview}${topPostPreview.length >= 140 ? '…' : ''}"`,
+      topPost
+        ? `Likes ${topPost.likeCount ?? 0} • Reposts ${topPost.repostCount ?? 0} • Replies ${topPost.replyCount ?? 0} • Quotes ${topPost.quoteCount ?? 0}`
+        : 'No recent post metrics available.',
+      '',
+      'Notes:',
+      '- This report uses public Bluesky AppView data only.',
+      '- It does not access private analytics, follower demographics, or hidden account insights.',
+      '- Growth trends require historical snapshots, so this version focuses on current public profile and recent-post signals.'
+    ].join('\n');
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to analyze this Bluesky account.';
+    return `Error: ${message}`;
+  }
 }
 
 export async function bulkActions(input: string) {

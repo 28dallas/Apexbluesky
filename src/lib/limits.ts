@@ -68,9 +68,10 @@ export function checkLimit(
             break;
         case 'credits':
             if (!status.isPremium && (status.credits === undefined || status.credits < value)) {
+                const balanceMessage = `Your current balance is ${status.credits ?? 0} credits.`;
                 return {
                     allowed: false,
-                    reason: `Insufficient credits. This tool requires ${value} credits. ${upgradeSuggestion}`
+                    reason: `Insufficient credits. This tool requires ${value} credits. ${balanceMessage} ${upgradeSuggestion}`
                 };
             }
             break;

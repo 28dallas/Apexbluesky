@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
@@ -11,13 +11,34 @@ import { checkLimit } from '@/lib/limits';
 export interface ToolField {
     id: string;
     label: string;
-    type: 'number' | 'text' | 'select' | 'range' | 'textarea';
+    type: 'number' | 'text' | 'select' | 'range' | 'textarea' | 'file';
     placeholder?: string;
     defaultValue?: string | number;
     options?: { label: string; value: string }[];
     min?: number;
     max?: number;
     step?: number;
+    accept?: string;
+}
+
+type ToolInput = string | File | File[] | Record<string, unknown> | null;
+type ToolOutput = string | number | Blob | null;
+type MaybePromise<T> = T | Promise<T>;
+
+function getLoadingSteps(inputType: ToolInterfaceProps['inputType'], isAI: boolean) {
+    if (isAI) {
+        return ['Sending prompt securely...', 'Generating response...', 'Finalizing your result...'];
+    }
+
+    if (inputType === 'files') {
+        return ['Reading your files...', 'Processing files in the browser...', 'Preparing download...'];
+    }
+
+    if (inputType === 'file') {
+        return ['Loading your file...', 'Processing content...', 'Preparing output...'];
+    }
+
+    return ['Validating input...', 'Running tool...', 'Preparing result...'];
 }
 
 interface ToolInterfaceProps {
@@ -27,7 +48,7 @@ interface ToolInterfaceProps {
     icon: string;
     inputPlaceholder: string;
     buttonText: string;
-    onAction: (input: any) => Promise<string | number | Blob | null>;
+    onAction: (input: ToolInput) => MaybePromise<ToolOutput>;
     onLimitReached?: (reason: string) => void;
     initialValue?: string;
     inputType?: 'text' | 'file' | 'files' | 'form';
@@ -56,11 +77,11 @@ export default function ToolInterface({
     disclaimer,
     credits
 }: ToolInterfaceProps) {
-    const { user, isPremium } = useAuth();
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [textInput, setTextInput] = useState(initialValue);
     const [fileInput, setFileInput] = useState<File | File[] | null>(null);
-    const [formInput, setFormInput] = useState<Record<string, any>>(() => {
-        const initialForm: Record<string, any> = {};
+    const [formInput, setFormInput] = useState<Record<string, unknown>>(() => {
+        const initialForm: Record<string, unknown> = {};
         fields.forEach(f => {
             initialForm[f.id] = f.defaultValue !== undefined ? f.defaultValue : (f.type === 'number' ? 0 : '');
         });
@@ -74,10 +95,26 @@ export default function ToolInterface({
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
-    const handleFormChange = (id: string, value: any) => {
+    useEffect(() => {
+        if (!loading) {
+            return;
+        }
+
+        const loadingSteps = getLoadingSteps(inputType, isAI);
+        let index = 1;
+        const interval = window.setInterval(() => {
+            setProgressSteps(loadingSteps[Math.min(index, loadingSteps.length - 1)]);
+            index += 1;
+        }, 1200);
+
+        return () => window.clearInterval(interval);
+    }, [inputType, isAI, loading]);
+
+    const handleFormChange = (id: string, value: unknown) => {
         setFormInput(prev => ({ ...prev, [id]: value }));
     };
 
@@ -108,20 +145,21 @@ export default function ToolInterface({
             }
         }
 
+        setProgressSteps(getLoadingSteps(inputType, isAI)[0]);
         setLoading(true);
         try {
-            let input: any;
+            let input: ToolInput;
             if (inputType === 'text') input = textInput;
             else if (inputType === 'form') input = formInput;
             else input = fileInput;
 
             const res = await onAction(input);
             setResult(res);
-        } catch (e: any) {
-            const errorMessage = e?.message || 'An unexpected error occurred. Please try again.';
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.';
             setError(errorMessage);
             setResult(null);
-            console.error('Tool error:', e);
+            console.error('Tool error:', error);
         }
         setLoading(false);
         setProgressSteps('');
@@ -207,7 +245,7 @@ export default function ToolInterface({
                                     {f.type === 'select' ? (
                                         <select
                                             className={styles.select}
-                                            value={formInput[f.id]}
+                                            value={String(formInput[f.id] ?? '')}
                                             onChange={(e) => handleFormChange(f.id, e.target.value)}
                                         >
                                             {f.options?.map(opt => (
@@ -218,15 +256,22 @@ export default function ToolInterface({
                                         <textarea
                                             className={styles.textareaSmall}
                                             placeholder={f.placeholder}
-                                            value={formInput[f.id]}
+                                            value={String(formInput[f.id] ?? '')}
                                             onChange={(e) => handleFormChange(f.id, e.target.value)}
+                                        />
+                                    ) : f.type === 'file' ? (
+                                        <input
+                                            type="file"
+                                            className={styles.input}
+                                            accept={f.accept}
+                                            onChange={(e) => handleFormChange(f.id, e.target.files?.[0] ?? null)}
                                         />
                                     ) : (
                                         <input
                                             type={f.type}
                                             className={styles.input}
                                             placeholder={f.placeholder}
-                                            value={formInput[f.id]}
+                                            value={typeof formInput[f.id] === 'number' ? Number(formInput[f.id]) : String(formInput[f.id] ?? '')}
                                             min={f.min}
                                             max={f.max}
                                             step={f.step}
@@ -280,6 +325,11 @@ export default function ToolInterface({
                 {credits && (
                     <div className={styles.creditCost}>
                         Cost: <strong>{credits} Credits</strong>
+                        {!isPremium && (
+                            <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                            </span>
+                        )}
                     </div>
                 )}
 

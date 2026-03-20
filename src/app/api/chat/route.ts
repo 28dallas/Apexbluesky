@@ -1,6 +1,7 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { streamText, generateText } from 'ai';
+import { streamText } from 'ai';
 import toolsData from '@/data/tools.json';
+import type { ToolCatalog } from '@/types/tools';
 
 export async function POST(req: Request) {
     try {
@@ -26,11 +27,11 @@ export async function POST(req: Request) {
         });
 
         // Build a concise knowledge base from tools.json
-        const toolsInfo = Object.values(toolsData).map(tool => ({
-            name: (tool as any).title,
-            category: (tool as any).category,
-            description: (tool as any).description,
-            affiliate: (tool as any).affiliate?.name
+        const toolsInfo = Object.values(toolsData as ToolCatalog).map(tool => ({
+            name: tool.title,
+            category: tool.category,
+            description: tool.description,
+            affiliate: tool.affiliate?.name
         }));
 
         const systemPrompt = `
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
     Your goal is to help users navigate the website and find the right tools for their tasks.
     
     WEBSITE CONTEXT:
-    - Founder: Nathan Krop (Phone: 0702605566, Email: apexbluesky6@gmail.com).
+    - Support: Contact users through the website contact page or support@apexblueskytools.online.
     - Tech Stack: Next.js, TypeScript.
     - Privacy: Most tools run locally in the browser (client-side).
     
@@ -63,11 +64,12 @@ export async function POST(req: Request) {
         });
 
         return result.toTextStreamResponse();
-    } catch (error: any) {
-        console.error('Chat API Error:', error.message);
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Chat API Error:', message);
         return new Response(JSON.stringify({
             error: 'Blue is currently busy. Please try again in a moment.',
-            details: error.message
+            details: message
         }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }

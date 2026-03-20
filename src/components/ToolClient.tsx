@@ -9,8 +9,13 @@ import MpesaStatementTool from './tools/MpesaStatementTool';
 import EssayGeneratorTool from './tools/EssayGeneratorTool';
 import BackgroundRemoverTool from './tools/BackgroundRemoverTool';
 import MergePdfTool from './tools/MergePdfTool';
+import { useSyncExternalStore } from 'react';
+import type { ToolField } from './ToolInterface';
+import type { ToolDefinition } from '@/types/tools';
 
-const actionMap: Record<string, any> = {
+type ToolAction = (input: unknown) => string | number | Blob | null | Promise<string | number | Blob | null>;
+
+const actionMap = {
     "mergePDFs": t.mergePDFs,
     "splitPDF": t.splitPDF,
     "pdfToWord": t.pdfToWord,
@@ -81,32 +86,52 @@ const actionMap: Record<string, any> = {
     "followersAnalysis": t.followersAnalysis,
     "bulkActions": t.bulkActions,
     "dataExports": t.dataExports
-};
+} as unknown as Record<string, ToolAction>;
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import LimitModal from './LimitModal';
 import TikTokPromoModal from './TikTokPromoModal';
 
 const TIKTOK_STORAGE_KEY = 'apexbs_tiktok_dismissed';
 
-export default function ToolClient({ tool, id }: { tool: any, id: string }) {
+function subscribeToTikTokDismissal(onChange: () => void) {
+    if (typeof window === 'undefined') {
+        return () => undefined;
+    }
+
+    const handleStorage = (event: StorageEvent) => {
+        if (event.key === TIKTOK_STORAGE_KEY) {
+            onChange();
+        }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+}
+
+function getTikTokDismissalSnapshot() {
+    if (typeof window === 'undefined') {
+        return '1';
+    }
+
+    return window.localStorage.getItem(TIKTOK_STORAGE_KEY);
+}
+
+export default function ToolClient({ tool, id }: { tool: ToolDefinition, id: string }) {
     const action = actionMap[tool.action];
     const [limitReason, setLimitReason] = useState<string | null>(null);
-    const [showTikTok, setShowTikTok] = useState(false);
-    const [tikTokDone, setTikTokDone] = useState(false);
-
-    // Show the TikTok modal once per browser session
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const dismissed = localStorage.getItem(TIKTOK_STORAGE_KEY);
-            if (!dismissed) setShowTikTok(true);
-            else setTikTokDone(true);
-        }
-    }, []);
+    const tikTokDismissed = useSyncExternalStore(
+        subscribeToTikTokDismissal,
+        getTikTokDismissalSnapshot,
+        () => '1'
+    );
+    const showTikTok = !tikTokDismissed;
 
     const handleTikTokContinue = () => {
-        setTikTokDone(true);
-        setShowTikTok(false);
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem(TIKTOK_STORAGE_KEY, '1');
+            window.dispatchEvent(new StorageEvent('storage', { key: TIKTOK_STORAGE_KEY, newValue: '1' }));
+        }
     };
 
     const creditCosts: Record<string, number> = {
@@ -121,13 +146,13 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
         'watermarkMaker': 2
     };
 
-    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} id={id} credits={creditCosts['imageCropper']} /></>;
+    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} credits={creditCosts['imageCropper']} /></>;
     if (id === 'color-picker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ColorPickerTool tool={tool} id={id} /></>;
-    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} id={id} credits={creditCosts['watermarkMaker']} /></>;
-    if (id === 'mpesa-statement') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} id={id} credits={creditCosts['mpesaToPDF']} disclaimer="This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." /></>;
-    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} id={id} credits={creditCosts['essayGenerator']} /></>;
-    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} id={id} credits={creditCosts[tool.action]} /></>;
-    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} id={id} credits={creditCosts['mergePDFs']} /></>;
+    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} credits={creditCosts['watermarkMaker']} /></>;
+    if (id === 'mpesa-to-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} credits={creditCosts['mpesaToPDF']} disclaimer="This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." /></>;
+    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} credits={creditCosts['essayGenerator']} /></>;
+    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} credits={creditCosts[tool.action]} /></>;
+    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} credits={creditCosts['mergePDFs']} /></>;
 
     const fileActions = new Set([
         'mergePDFs',
@@ -142,7 +167,7 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
         'mp4ToMp3',
     ]);
 
-    const formActions: Record<string, any[]> = {
+    const formActions: Record<string, ToolField[]> = {
         'splitPDF': [
             { id: 'file', label: 'Select PDF', type: 'file', accept: '.pdf' },
             { id: 'range', label: 'Page Range (e.g. 1, 3-5)', type: 'text', defaultValue: '1', placeholder: '1, 3-5' }
@@ -216,6 +241,7 @@ export default function ToolClient({ tool, id }: { tool: any, id: string }) {
             <ToolInterface
                 {...tool}
                 id={id}
+                inputPlaceholder={tool.inputPlaceholder ?? 'Enter your input above to get started.'}
                 onAction={action}
                 inputType={inputType}
                 accept={accept}

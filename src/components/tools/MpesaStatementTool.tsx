@@ -4,14 +4,15 @@ import { useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
-import { Lock, ShieldCheck, Mail, FileText, Shield } from 'lucide-react';
+import { Lock, Mail, FileText, Shield } from 'lucide-react';
 import { mpesaToPDF } from '@/lib/tools';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
+import type { ToolDefinition } from '@/types/tools';
 
-export default function MpesaStatementTool({ tool, id, credits, disclaimer }: { tool: any, id: string, credits?: number, disclaimer?: string }) {
-    const { user, isPremium } = useAuth();
+export default function MpesaStatementTool({ tool, credits, disclaimer }: { tool: ToolDefinition, credits?: number, disclaimer?: string }) {
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [smsText, setSmsText] = useState('');
     const [password, setPassword] = useState('');
     const [file, setFile] = useState<File | null>(null);
@@ -21,7 +22,8 @@ export default function MpesaStatementTool({ tool, id, credits, disclaimer }: { 
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
     const handleProcess = async () => {
@@ -48,8 +50,9 @@ export default function MpesaStatementTool({ tool, id, credits, disclaimer }: { 
         try {
             const res = await mpesaToPDF(file || smsText, password);
             setResult(res);
-        } catch (e: any) {
-            setResult(`Error: ${e.message}`);
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Failed to generate statement.';
+            setResult(`Error: ${message}`);
         }
         setLoading(false);
     };
@@ -141,6 +144,11 @@ export default function MpesaStatementTool({ tool, id, credits, disclaimer }: { 
                 {credits && (
                     <div className={styles.creditCost}>
                         Cost: <strong>{credits} Credits</strong>
+                        {!isPremium && (
+                            <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                            </span>
+                        )}
                     </div>
                 )}
 

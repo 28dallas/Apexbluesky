@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
@@ -9,38 +9,39 @@ import { removeBackground } from '@imgly/background-removal';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
+import type { ToolDefinition } from '@/types/tools';
 
-export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
-    const { user, isPremium } = useAuth();
+export default function BackgroundRemoverTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [image, setImage] = useState<File | null>(null);
     const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState('');
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [limitReason, setLimitReason] = useState<string | null>(null);
+    const previewUrlRef = useRef<string | null>(null);
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
-    useEffect(() => {
-        if (image) {
-            const url = URL.createObjectURL(image);
-            setPreviewUrl(url);
-            return () => URL.revokeObjectURL(url);
-        } else {
-            setPreviewUrl(null);
+    const updatePreviewUrl = (source: File | Blob | null) => {
+        if (previewUrlRef.current) {
+            URL.revokeObjectURL(previewUrlRef.current);
+            previewUrlRef.current = null;
         }
-    }, [image]);
 
-    useEffect(() => {
-        if (processedBlob) {
-            const url = URL.createObjectURL(processedBlob);
-            setPreviewUrl(url);
-            return () => URL.revokeObjectURL(url);
+        if (!source) {
+            setPreviewUrl(null);
+            return;
         }
-    }, [processedBlob]);
+
+        const url = URL.createObjectURL(source);
+        previewUrlRef.current = url;
+        setPreviewUrl(url);
+    };
 
     const handleInitialProcess = async () => {
         if (!image) return;
@@ -76,10 +77,12 @@ export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any
                 }
             });
             setProcessedBlob(blob);
+            updatePreviewUrl(blob);
             setProgress('');
-        } catch (e: any) {
-            console.error('Background removal failed:', e);
-            setProgress(`Error: ${e.message || 'Failed to remove background'}`);
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Failed to remove background';
+            console.error('Background removal failed:', error);
+            setProgress(`Error: ${message}`);
         }
         setLoading(false);
     };
@@ -113,7 +116,11 @@ export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                                onChange={(e) => {
+                                    const nextImage = e.target.files?.[0] || null;
+                                    setImage(nextImage);
+                                    updatePreviewUrl(nextImage);
+                                }}
                                 className={styles.fileInput}
                                 id="bg-upload"
                             />
@@ -141,12 +148,17 @@ export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any
                         {credits && (
                             <div className={styles.creditCost}>
                                 Cost: <strong>{credits} Credits</strong>
+                                {!isPremium && (
+                                    <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                    </span>
+                                )}
                             </div>
                         )}
 
                         <div className={styles.trustBadge}>
                             <Shield size={16} className={styles.aiIcon} />
-                            <span>AI Cloud Processing: Secured by cloud API. Images processed securely and never stored.</span>
+                            <span>Local AI Processing: the background model runs in your browser and your image is not uploaded to our servers.</span>
                         </div>
                     </div>
                 ) : (
@@ -167,7 +179,11 @@ export default function BackgroundRemoverTool({ tool, id, credits }: { tool: any
 
                         <div style={{ display: 'flex', gap: '15px' }}>
                             <button
-                                onClick={() => { setProcessedBlob(null); setImage(null); }}
+                                onClick={() => {
+                                    setProcessedBlob(null);
+                                    setImage(null);
+                                    updatePreviewUrl(null);
+                                }}
                                 className="btn-secondary"
                                 style={{ flex: 1 }}
                             >

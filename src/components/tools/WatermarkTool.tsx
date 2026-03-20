@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
@@ -8,9 +8,10 @@ import { Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
+import type { ToolDefinition } from '@/types/tools';
 
-export default function WatermarkTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
-    const { user, isPremium } = useAuth();
+export default function WatermarkTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [imgSrc, setImgSrc] = useState('');
     const [watermarkText, setWatermarkText] = useState('© ApexBlueSky Tools');
     const [previewUrl, setPreviewUrl] = useState('');
@@ -19,7 +20,8 @@ export default function WatermarkTool({ tool, id, credits }: { tool: any, id: st
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
     const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,10 +48,6 @@ export default function WatermarkTool({ tool, id, credits }: { tool: any, id: st
             reader.readAsDataURL(file);
         }
     };
-
-    useEffect(() => {
-        if (imgSrc && watermarkText) generatePreview();
-    }, [imgSrc, watermarkText, opacity]);
 
     const generatePreview = () => {
         const img = new Image();
@@ -78,6 +76,12 @@ export default function WatermarkTool({ tool, id, credits }: { tool: any, id: st
         };
         img.src = imgSrc;
     };
+
+    useEffect(() => {
+        if (imgSrc && watermarkText) {
+            generatePreview();
+        }
+    }, [imgSrc, opacity, watermarkText]);
 
     const handleDownload = () => {
         if (previewUrl) {
@@ -158,6 +162,11 @@ export default function WatermarkTool({ tool, id, credits }: { tool: any, id: st
                         {credits && (
                             <div className={styles.creditCost}>
                                 Cost: <strong>{credits} Credits</strong>
+                                {!isPremium && (
+                                    <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                    </span>
+                                )}
                             </div>
                         )}
 

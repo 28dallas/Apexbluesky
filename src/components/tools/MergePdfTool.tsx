@@ -9,6 +9,7 @@ import { PDFDocument } from 'pdf-lib';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
+import type { ToolDefinition } from '@/types/tools';
 
 interface PDFFile {
     id: string;
@@ -17,8 +18,8 @@ interface PDFFile {
     preview?: string;
 }
 
-export default function MergePdfTool({ tool, id, credits }: { tool: any, id: string, credits?: number }) {
-    const { user, isPremium } = useAuth();
+export default function MergePdfTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+    const { user, isPremium, credits: availableCredits } = useAuth();
     const [pdfs, setPdfs] = useState<PDFFile[]>([]);
     const [loading, setLoading] = useState(false);
     const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
@@ -27,7 +28,8 @@ export default function MergePdfTool({ tool, id, credits }: { tool: any, id: str
 
     const userStatus = {
         isLoggedIn: !!user,
-        isPremium: isPremium
+        isPremium: isPremium,
+        credits: availableCredits,
     };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,12 +103,14 @@ export default function MergePdfTool({ tool, id, credits }: { tool: any, id: str
 
             setProgress('Finalizing document...');
             const mergedPdfFile = await mergedPdf.save({ useObjectStreams: true });
-            const blob = new Blob([mergedPdfFile as any], { type: 'application/pdf' });
+            const pdfBytes = Uint8Array.from(mergedPdfFile);
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             setProcessedBlob(blob);
             setProgress('');
-        } catch (e) {
-            console.error('Merge failed:', e);
-            setProgress(`Error: ${(e as any)?.message || 'Failed to merge PDFs. Please try again.'}`);
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Failed to merge PDFs. Please try again.';
+            console.error('Merge failed:', error);
+            setProgress(`Error: ${message}`);
         }
         setLoading(false);
     };
@@ -201,6 +205,11 @@ export default function MergePdfTool({ tool, id, credits }: { tool: any, id: str
                         {credits && (
                             <div className={styles.creditCost} style={{ marginTop: '10px' }}>
                                 Cost: <strong>{credits} Credits</strong>
+                                {!isPremium && (
+                                    <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                    </span>
+                                )}
                             </div>
                         )}
 

@@ -78,7 +78,7 @@ export default function PricingPage() {
             <section className={styles.hero}>
                 <div className="container">
                     <h1 className={styles.title}>Simple, Transparent Pricing</h1>
-                    <p className={styles.subtitle}>Unlock the full power of 50+ tools with a professional plan.</p>
+                    <p className={styles.subtitle}>Unlock the full power of 50+ tools with a professional plan, or buy credits for pay-per-use tools.</p>
                 </div>
             </section>
 
@@ -130,6 +130,19 @@ export default function PricingPage() {
                             <h4>Instant Activation</h4>
                             <p>Your Pro limits are unlocked immediately after payment.</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className={styles.trustSection}>
+                <div className="container" style={{ maxWidth: '900px' }}>
+                    <div className="glass" style={{ padding: '2rem' }}>
+                        <h2 style={{ marginTop: 0, marginBottom: '1rem', color: '#fff' }}>How Credits Work</h2>
+                        <p style={{ margin: 0, lineHeight: 1.8, color: 'var(--text-secondary)' }}>
+                            Credits are only used on selected AI and premium processing tools. Guest users and free accounts start with
+                            {' '}<strong>0 credits</strong>. Pro members do not spend credits on supported tools and get unlimited access
+                            within their plan limits.
+                        </p>
                     </div>
                 </div>
             </section>
