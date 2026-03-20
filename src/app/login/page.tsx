@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
@@ -10,6 +11,7 @@ import { trackEvent } from '@/lib/analytics';
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +30,10 @@ export default function LoginPage() {
             trackEvent('login_error', {
                 message: error.message,
             });
-            setError(error.message);
+            const msg = error.message === 'Failed to fetch'
+                ? 'Authentication service is temporarily unavailable. Please try again in 5 minutes.'
+                : error.message;
+            setError(msg);
         } else {
             trackEvent('login_success');
             window.location.href = '/';
@@ -79,13 +84,23 @@ export default function LoginPage() {
                                     Forgot?
                                 </Link>
                             </div>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                required
-                            />
+                            <div className={styles.passwordWrapper}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="••••••••"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
                         </div>
 
                         <button type="submit" className="btn-primary" disabled={loading} style={{ width: '100%' }}>

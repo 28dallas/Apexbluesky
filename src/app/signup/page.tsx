@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
@@ -10,6 +11,7 @@ import { trackEvent } from '@/lib/analytics';
 export default function SignupPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
@@ -32,7 +34,10 @@ export default function SignupPage() {
             trackEvent('signup_error', {
                 message: error.message,
             });
-            setError(error.message);
+            const msg = error.message === 'Failed to fetch'
+                ? 'Authentication service is temporarily unavailable. Please try again in 5 minutes.'
+                : error.message;
+            setError(msg);
         } else {
             trackEvent('signup_success');
             setSuccess(true);
@@ -99,14 +104,24 @@ export default function SignupPage() {
                         </div>
                         <div className={styles.inputGroup}>
                             <label>Password</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Minimum 6 characters"
-                                minLength={6}
-                                required
-                            />
+                            <div className={styles.passwordWrapper}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Minimum 6 characters"
+                                    minLength={6}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
                         </div>
 
                         <p className={styles.terms}>
