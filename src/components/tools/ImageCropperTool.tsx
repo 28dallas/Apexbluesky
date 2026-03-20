@@ -12,7 +12,17 @@ import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
 import type { ToolDefinition } from '@/types/tools';
 
-export default function ImageCropperTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+export default function ImageCropperTool({
+    tool,
+    credits,
+    guestCreditsRemaining,
+    onActionComplete
+}: {
+    tool: ToolDefinition,
+    credits?: number,
+    guestCreditsRemaining?: number,
+    onActionComplete?: (spent: number) => void
+}) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [imgSrc, setImgSrc] = useState('');
     const imgRef = useRef<HTMLImageElement>(null);
@@ -23,6 +33,7 @@ export default function ImageCropperTool({ tool, credits }: { tool: ToolDefiniti
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +87,7 @@ export default function ImageCropperTool({ tool, credits }: { tool: ToolDefiniti
             canvas.toBlob((blob) => {
                 if (blob) {
                     saveAs(blob, 'cropped-image.jpg');
+                    if (credits) onActionComplete?.(credits);
                 }
             }, 'image/jpeg', 1);
         }
@@ -132,7 +144,11 @@ export default function ImageCropperTool({ tool, credits }: { tool: ToolDefiniti
                                 Cost: <strong>{credits} Credits</strong>
                                 {!isPremium && (
                                     <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                        {user ? (
+                                            <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                                        ) : (
+                                            <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                                        )}
                                     </span>
                                 )}
                             </div>

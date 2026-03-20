@@ -20,6 +20,7 @@ export interface UserStatus {
     isPremium: boolean;
     usageCount?: number;
     credits?: number;
+    guestCreditsRemaining?: number; // Trial credits for guests
 }
 
 /**
@@ -67,11 +68,27 @@ export function checkLimit(
             }
             break;
         case 'credits':
-            if (!status.isPremium && (status.credits === undefined || status.credits < value)) {
-                const balanceMessage = `Your current balance is ${status.credits ?? 0} credits.`;
+            // Allow if premium
+            if (status.isPremium) break;
+
+            // Allow if guest has trial credits remaining
+            if (!status.isLoggedIn && status.guestCreditsRemaining !== undefined && status.guestCreditsRemaining >= value) {
+                break;
+            }
+
+            // Otherwise check standard credits
+            if (status.credits === undefined || status.credits < value) {
+                const balanceMessage = status.isLoggedIn
+                    ? `Your current balance is ${status.credits ?? 0} credits.`
+                    : `You have exhausted your free guest credits for this tool.`;
+
+                const reason = status.isLoggedIn
+                    ? `Insufficient credits. This tool requires ${value} credits. ${balanceMessage} ${upgradeSuggestion}`
+                    : `Free trial ended. ${balanceMessage} Please create an account to get more credits.`;
+
                 return {
                     allowed: false,
-                    reason: `Insufficient credits. This tool requires ${value} credits. ${balanceMessage} ${upgradeSuggestion}`
+                    reason: reason
                 };
             }
             break;

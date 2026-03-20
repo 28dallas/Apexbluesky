@@ -18,7 +18,17 @@ interface PDFFile {
     preview?: string;
 }
 
-export default function MergePdfTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+export default function MergePdfTool({
+    tool,
+    credits,
+    guestCreditsRemaining,
+    onActionComplete
+}: {
+    tool: ToolDefinition,
+    credits?: number,
+    guestCreditsRemaining?: number,
+    onActionComplete?: (spent: number) => void
+}) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [pdfs, setPdfs] = useState<PDFFile[]>([]);
     const [loading, setLoading] = useState(false);
@@ -30,6 +40,7 @@ export default function MergePdfTool({ tool, credits }: { tool: ToolDefinition, 
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +104,7 @@ export default function MergePdfTool({ tool, credits }: { tool: ToolDefinition, 
                 const pdfObj = pdfs[i];
                 const arrayBuffer = await pdfObj.file.arrayBuffer();
                 const pdf = await PDFDocument.load(arrayBuffer);
-                
+
                 setProgress(`Processing ${pdfObj.name}...`);
                 const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                 copiedPages.forEach((page) => {
@@ -107,6 +118,7 @@ export default function MergePdfTool({ tool, credits }: { tool: ToolDefinition, 
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             setProcessedBlob(blob);
             setProgress('');
+            if (credits) onActionComplete?.(credits);
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : 'Failed to merge PDFs. Please try again.';
             console.error('Merge failed:', error);
@@ -207,7 +219,11 @@ export default function MergePdfTool({ tool, credits }: { tool: ToolDefinition, 
                                 Cost: <strong>{credits} Credits</strong>
                                 {!isPremium && (
                                     <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                        {user ? (
+                                            <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                                        ) : (
+                                            <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                                        )}
                                     </span>
                                 )}
                             </div>

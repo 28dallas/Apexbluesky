@@ -11,7 +11,17 @@ import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
 import type { ToolDefinition } from '@/types/tools';
 
-export default function BackgroundRemoverTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+export default function BackgroundRemoverTool({
+    tool,
+    credits,
+    guestCreditsRemaining,
+    onActionComplete
+}: {
+    tool: ToolDefinition,
+    credits?: number,
+    guestCreditsRemaining?: number,
+    onActionComplete?: (spent: number) => void
+}) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [image, setImage] = useState<File | null>(null);
     const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
@@ -25,6 +35,7 @@ export default function BackgroundRemoverTool({ tool, credits }: { tool: ToolDef
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     const updatePreviewUrl = (source: File | Blob | null) => {
@@ -79,6 +90,7 @@ export default function BackgroundRemoverTool({ tool, credits }: { tool: ToolDef
             setProcessedBlob(blob);
             updatePreviewUrl(blob);
             setProgress('');
+            if (credits) onActionComplete?.(credits);
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : 'Failed to remove background';
             console.error('Background removal failed:', error);
@@ -150,7 +162,11 @@ export default function BackgroundRemoverTool({ tool, credits }: { tool: ToolDef
                                 Cost: <strong>{credits} Credits</strong>
                                 {!isPremium && (
                                     <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                        {user ? (
+                                            <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                                        ) : (
+                                            <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                                        )}
                                     </span>
                                 )}
                             </div>

@@ -7,6 +7,8 @@ import { saveAs } from 'file-saver';
 import { Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
+import Script from 'next/script';
+import { SITE_URL } from '@/lib/site';
 
 export interface ToolField {
     id: string;
@@ -58,6 +60,8 @@ interface ToolInterfaceProps {
     isAI?: boolean;
     disclaimer?: string;
     credits?: number;
+    guestCreditsRemaining?: number;
+    onActionComplete?: (spent: number) => void;
 }
 
 export default function ToolInterface({
@@ -75,7 +79,10 @@ export default function ToolInterface({
     fields = [],
     isAI = false,
     disclaimer,
-    credits
+    credits,
+    guestCreditsRemaining,
+    onActionComplete,
+    category
 }: ToolInterfaceProps) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [textInput, setTextInput] = useState(initialValue);
@@ -97,6 +104,7 @@ export default function ToolInterface({
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     useEffect(() => {
@@ -121,7 +129,7 @@ export default function ToolInterface({
     const handleAction = async () => {
         setError(null);
         setResult(null);
-        
+
         // Final check before processing
         if (inputType === 'files' && Array.isArray(fileInput)) {
             const limitCheck = checkLimit(userStatus, 'batch_count', fileInput.length);
@@ -155,6 +163,7 @@ export default function ToolInterface({
 
             const res = await onAction(input);
             setResult(res);
+            if (credits) onActionComplete?.(credits);
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.';
             setError(errorMessage);
@@ -211,6 +220,26 @@ export default function ToolInterface({
 
     return (
         <div className={styles.wrapper}>
+            <Script
+                id={`json-ld-tool-${id}`}
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "SoftwareApplication",
+                        "name": title,
+                        "description": description,
+                        "applicationCategory": category || "Utility",
+                        "operatingSystem": "All",
+                        "url": `${SITE_URL}/tools/${id}`,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": "0",
+                            "priceCurrency": "USD"
+                        }
+                    })
+                }}
+            />
             <Link href="/" className={styles.backLink}>
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m15 18-6-6 6-6" />
@@ -322,16 +351,18 @@ export default function ToolInterface({
                     </div>
                 )}
 
-                {credits && (
-                    <div className={styles.creditCost}>
-                        Cost: <strong>{credits} Credits</strong>
-                        {!isPremium && (
-                            <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
-                            </span>
-                        )}
-                    </div>
-                )}
+                <div className={styles.creditCost}>
+                    Cost: <strong>{credits} Credits</strong>
+                    {!isPremium && (
+                        <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
+                            {user ? (
+                                <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                            ) : (
+                                <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                            )}
+                        </span>
+                    )}
+                </div>
 
                 {disclaimer && (
                     <div className={styles.disclaimer}>

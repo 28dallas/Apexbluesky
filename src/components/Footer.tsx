@@ -61,12 +61,19 @@ export default function Footer() {
                         <Link href="/login" className={styles.footerLink}>User Dashboard</Link>
                         <Link href="/signup" className={styles.footerLink}>Create Account</Link>
                     </div>
+
+                    <div className={styles.footerCol}>
+                        <h4>Developer Details</h4>
+                        <div className={styles.footerLink} style={{ cursor: 'default' }}>Name: Nate</div>
+                        <div className={styles.footerLink} style={{ cursor: 'default' }}>Contact: +254702605566</div>
+                        <a href="mailto:neithank47@gmail.com" className={styles.footerLink}>Email: neithank47@gmail.com</a>
+                    </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
                     <span>Engineered in Kenya 🇰🇪</span>
                 </div>
             </div>
-	        </footer>
-	    );
-	}
+        </footer>
+    );
+}

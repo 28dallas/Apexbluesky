@@ -9,7 +9,11 @@ import MpesaStatementTool from './tools/MpesaStatementTool';
 import EssayGeneratorTool from './tools/EssayGeneratorTool';
 import BackgroundRemoverTool from './tools/BackgroundRemoverTool';
 import MergePdfTool from './tools/MergePdfTool';
-import { useSyncExternalStore } from 'react';
+import { useSyncExternalStore, useEffect } from 'react';
+import { getGuestCreditsRemaining, consumeGuestCredits } from '@/lib/guestCredits';
+import { recordToolUsage } from '@/lib/usage';
+import { CREDIT_COSTS } from '@/config/toolConfig';
+import { useAuth } from '@/context/AuthContext';
 import type { ToolField } from './ToolInterface';
 import type { ToolDefinition } from '@/types/tools';
 
@@ -118,14 +122,23 @@ function getTikTokDismissalSnapshot() {
 }
 
 export default function ToolClient({ tool, id }: { tool: ToolDefinition, id: string }) {
+    const { user } = useAuth();
     const action = actionMap[tool.action];
     const [limitReason, setLimitReason] = useState<string | null>(null);
+    const [guestCreditsRemaining, setGuestCreditsRemaining] = useState(0);
+
+    useEffect(() => {
+        if (!user) {
+            setGuestCreditsRemaining(getGuestCreditsRemaining(id));
+        }
+    }, [user, id]);
+
     const tikTokDismissed = useSyncExternalStore(
         subscribeToTikTokDismissal,
         getTikTokDismissalSnapshot,
         () => '1'
     );
-    const showTikTok = !tikTokDismissed;
+    const showTikTok = !user && !tikTokDismissed && getGuestCreditsRemaining(id) <= 0;
 
     const handleTikTokContinue = () => {
         if (typeof window !== 'undefined') {
@@ -134,25 +147,26 @@ export default function ToolClient({ tool, id }: { tool: ToolDefinition, id: str
         }
     };
 
-    const creditCosts: Record<string, number> = {
-        'essayGenerator': 2,
-        'paraphraseText': 1,
-        'pdfToWord': 3,
-        'backgroundRemover': 3,
-        'mpesaToPDF': 5,
-        'splitPDF': 1,
-        'mergePDFs': 3,
-        'imageCropper': 1,
-        'watermarkMaker': 2
+    const handleActionComplete = (creditsSpent: number) => {
+        if (!user) {
+            consumeGuestCredits(id, creditsSpent);
+            setGuestCreditsRemaining(getGuestCreditsRemaining(id));
+        }
+        recordToolUsage(id);
     };
 
-    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} credits={creditCosts['imageCropper']} /></>;
-    if (id === 'color-picker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ColorPickerTool tool={tool} id={id} /></>;
-    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} credits={creditCosts['watermarkMaker']} /></>;
-    if (id === 'mpesa-to-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} credits={creditCosts['mpesaToPDF']} disclaimer="This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." /></>;
-    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} credits={creditCosts['essayGenerator']} /></>;
-    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} credits={creditCosts[tool.action]} /></>;
-    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} credits={creditCosts['mergePDFs']} /></>;
+    const commonProps = {
+        guestCreditsRemaining: !user ? guestCreditsRemaining : undefined,
+        onActionComplete: handleActionComplete
+    };
+
+    if (id === 'image-cropper') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><ImageCropperTool tool={tool} credits={CREDIT_COSTS['imageCropper']} {...commonProps} /></>;
+    if (id === 'color-picker') return <><ColorPickerTool tool={tool} id={id} /></>;
+    if (id === 'watermark-maker') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><WatermarkTool tool={tool} credits={CREDIT_COSTS['watermarkMaker']} {...commonProps} /></>;
+    if (id === 'mpesa-to-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MpesaStatementTool tool={tool} credits={CREDIT_COSTS['mpesaToPDF']} disclaimer="This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." {...commonProps} /></>;
+    if (id === 'essay-generator') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><EssayGeneratorTool tool={tool} credits={CREDIT_COSTS['essayGenerator']} {...commonProps} /></>;
+    if (id === 'background-remover') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><BackgroundRemoverTool tool={tool} credits={CREDIT_COSTS[tool.action]} {...commonProps} /></>;
+    if (id === 'merge-pdf') return <><TikTokPromoModal isOpen={showTikTok} onContinue={handleTikTokContinue} /><MergePdfTool tool={tool} credits={CREDIT_COSTS['mergePDFs']} {...commonProps} /></>;
 
     const fileActions = new Set([
         'mergePDFs',
@@ -247,9 +261,11 @@ export default function ToolClient({ tool, id }: { tool: ToolDefinition, id: str
                 accept={accept}
                 fields={formActions[tool.action]}
                 isAI={aiActions.has(tool.action)}
-                credits={creditCosts[tool.action]}
+                credits={CREDIT_COSTS[tool.action]}
                 disclaimer={tool.action === 'mpesaToPDF' ? "This is an unofficial statement. ApexBlueSky Tools is not affiliated with Safaricom M-Pesa. Use generated statements at your own discretion. Not for legal or bank verification use." : undefined}
                 onLimitReached={setLimitReason}
+                guestCreditsRemaining={!user ? guestCreditsRemaining : undefined}
+                onActionComplete={handleActionComplete}
             />
             <LimitModal
                 isOpen={!!limitReason}

@@ -10,7 +10,17 @@ import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
 import type { ToolDefinition } from '@/types/tools';
 
-export default function WatermarkTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+export default function WatermarkTool({
+    tool,
+    credits,
+    guestCreditsRemaining,
+    onActionComplete
+}: {
+    tool: ToolDefinition,
+    credits?: number,
+    guestCreditsRemaining?: number,
+    onActionComplete?: (spent: number) => void
+}) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [imgSrc, setImgSrc] = useState('');
     const [watermarkText, setWatermarkText] = useState('© ApexBlueSky Tools');
@@ -22,6 +32,7 @@ export default function WatermarkTool({ tool, credits }: { tool: ToolDefinition,
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +97,7 @@ export default function WatermarkTool({ tool, credits }: { tool: ToolDefinition,
     const handleDownload = () => {
         if (previewUrl) {
             saveAs(previewUrl, 'watermarked-image.jpg');
+            if (credits) onActionComplete?.(credits);
         }
     };
 
@@ -164,7 +176,11 @@ export default function WatermarkTool({ tool, credits }: { tool: ToolDefinition,
                                 Cost: <strong>{credits} Credits</strong>
                                 {!isPremium && (
                                     <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                        Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                        {user ? (
+                                            <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                                        ) : (
+                                            <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                                        )}
                                     </span>
                                 )}
                             </div>

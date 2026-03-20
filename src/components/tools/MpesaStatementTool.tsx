@@ -11,7 +11,19 @@ import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
 import type { ToolDefinition } from '@/types/tools';
 
-export default function MpesaStatementTool({ tool, credits, disclaimer }: { tool: ToolDefinition, credits?: number, disclaimer?: string }) {
+export default function MpesaStatementTool({
+    tool,
+    credits,
+    disclaimer,
+    guestCreditsRemaining,
+    onActionComplete
+}: {
+    tool: ToolDefinition,
+    credits?: number,
+    disclaimer?: string,
+    guestCreditsRemaining?: number,
+    onActionComplete?: (spent: number) => void
+}) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [smsText, setSmsText] = useState('');
     const [password, setPassword] = useState('');
@@ -24,6 +36,7 @@ export default function MpesaStatementTool({ tool, credits, disclaimer }: { tool
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     const handleProcess = async () => {
@@ -50,6 +63,7 @@ export default function MpesaStatementTool({ tool, credits, disclaimer }: { tool
         try {
             const res = await mpesaToPDF(file || smsText, password);
             setResult(res);
+            if (credits) onActionComplete?.(credits);
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : 'Failed to generate statement.';
             setResult(`Error: ${message}`);
@@ -146,7 +160,11 @@ export default function MpesaStatementTool({ tool, credits, disclaimer }: { tool
                         Cost: <strong>{credits} Credits</strong>
                         {!isPremium && (
                             <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                {user ? (
+                                    <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                                ) : (
+                                    <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                                )}
                             </span>
                         )}
                     </div>

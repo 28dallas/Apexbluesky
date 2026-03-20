@@ -59,6 +59,24 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <GoogleAnalytics GA_MEASUREMENT_ID={GA_ID} />
+        {/* structured data */}
+        <Script
+          id="json-ld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "ApexBlueSky Tools",
+              "url": SITE_URL,
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": `${SITE_URL}/?search={search_term_string}`,
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
         <AuthProvider>
           <Suspense fallback={null}>
             <Nav />

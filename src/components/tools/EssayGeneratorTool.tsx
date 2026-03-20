@@ -10,7 +10,17 @@ import { checkLimit } from '@/lib/limits';
 import LimitModal from '../LimitModal';
 import type { ToolDefinition } from '@/types/tools';
 
-export default function EssayGeneratorTool({ tool, credits }: { tool: ToolDefinition, credits?: number }) {
+export default function EssayGeneratorTool({
+    tool,
+    credits,
+    guestCreditsRemaining,
+    onActionComplete
+}: {
+    tool: ToolDefinition,
+    credits?: number,
+    guestCreditsRemaining?: number,
+    onActionComplete?: (spent: number) => void
+}) {
     const { user, isPremium, credits: availableCredits } = useAuth();
     const [topic, setTopic] = useState('');
     const [level, setLevel] = useState('University');
@@ -24,6 +34,7 @@ export default function EssayGeneratorTool({ tool, credits }: { tool: ToolDefini
         isLoggedIn: !!user,
         isPremium: isPremium,
         credits: availableCredits,
+        guestCreditsRemaining: guestCreditsRemaining,
     };
 
     const handleGenerate = async () => {
@@ -46,6 +57,7 @@ export default function EssayGeneratorTool({ tool, credits }: { tool: ToolDefini
                 includeCitations: citations
             });
             setResult(res as string);
+            if (credits) onActionComplete?.(credits);
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : 'Failed to generate essay.';
             setResult(`Error: ${message}`);
@@ -157,7 +169,11 @@ export default function EssayGeneratorTool({ tool, credits }: { tool: ToolDefini
                         Cost: <strong>{credits} Credits</strong>
                         {!isPremium && (
                             <span style={{ display: 'block', marginTop: '0.4rem', opacity: 0.8 }}>
-                                Balance: <strong>{availableCredits}</strong>. Free accounts start at 0 credits. Upgrade to Pro for unlimited access.
+                                {user ? (
+                                    <>Balance: <strong>{availableCredits}</strong>. Upgrade to Pro for unlimited access.</>
+                                ) : (
+                                    <>Trial: <strong>{guestCreditsRemaining} Free Credits</strong> remaining for this tool. <Link href="/signup" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>Sign up</Link> to get more.</>
+                                )}
                             </span>
                         )}
                     </div>

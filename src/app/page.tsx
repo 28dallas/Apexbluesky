@@ -9,8 +9,10 @@ import styles from './page.module.css';
 
 import toolsData from '@/data/tools.json';
 import AppDownloadSection from '@/components/AppDownloadSection';
+import RecentlyUsed from '@/components/RecentlyUsed';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/context/AuthContext';
+import { TRENDING_TOOL_IDS } from '@/config/toolConfig';
 import type { ToolDefinition, ToolWithId } from '@/types/tools';
 
 const tools: ToolWithId[] = Object.entries(toolsData).map(([id, data]) => ({
@@ -18,7 +20,7 @@ const tools: ToolWithId[] = Object.entries(toolsData).map(([id, data]) => ({
   ...(data as ToolDefinition)
 }));
 
-const trendingIds = ['mpesa-to-pdf', 'pdf-to-word', 'background-remover', 'essay-generator', 'age-calculator', 'mp4-to-mp3'];
+const trendingIds = TRENDING_TOOL_IDS;
 const mpesaTool = tools.find((tool) => tool.id === 'mpesa-to-pdf');
 
 export default function Home() {
@@ -94,6 +96,7 @@ function HomeContent() {
 
           {searchQuery === '' && activeCategory === 'All' && (
             <div className={styles.trendingSection}>
+              <RecentlyUsed />
               <h2 className={styles.sectionTitle}>🔥 Trending Tools</h2>
               <div className={styles.grid}>
                 {trendingTools.map(t => (
