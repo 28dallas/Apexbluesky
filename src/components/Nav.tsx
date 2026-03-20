@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { LogOut } from 'lucide-react';
 import styles from '@/app/page.module.css'; // Reuse existing styles
+import { trackEvent } from '@/lib/analytics';
 
 const homeCategories = ['All', 'BlueSky', 'PDF', 'Images', 'Writing', 'Video/Social', 'Technical', 'Education', 'Health'];
 
@@ -18,6 +19,9 @@ export default function Nav() {
     const activeCategory = searchParams.get('category') || 'All';
 
     const setCategory = (category: string) => {
+        trackEvent('category_filter_click', {
+            category,
+        });
         const params = new URLSearchParams(searchParams.toString());
 
         if (category === 'All') {
@@ -110,9 +114,18 @@ export default function Nav() {
                                         Credit-priced tools use your balance. Free accounts start at 0 credits.
                                     </span>
                                 )}
-                                <Link href="/pricing" style={{ color: '#3b82f6', fontWeight: 500 }}>Buy Credits</Link>
+                                <Link
+                                    href="/pricing"
+                                    style={{ color: '#3b82f6', fontWeight: 500 }}
+                                    onClick={() => trackEvent('pricing_page_click', { source: 'nav' })}
+                                >
+                                    Buy Credits
+                                </Link>
                                 <button 
-                                    onClick={signOut} 
+                                    onClick={() => {
+                                        trackEvent('logout_click');
+                                        signOut();
+                                    }}
                                     title="Logout"
                                     style={{
                                         background: 'none',
@@ -130,9 +143,17 @@ export default function Nav() {
                             </>
                         ) : (
                             <>
-                                <Link href="/login" className={styles.navLink} style={{ fontWeight: 500 }}>Login</Link>
+                                <Link
+                                    href="/login"
+                                    className={styles.navLink}
+                                    style={{ fontWeight: 500 }}
+                                    onClick={() => trackEvent('login_page_click', { source: 'nav' })}
+                                >
+                                    Login
+                                </Link>
                                 <Link href="/signup" 
                                     className="btn-primary" 
+                                    onClick={() => trackEvent('signup_page_click', { source: 'nav' })}
                                     style={{ 
                                         padding: '0.5rem 1rem',
                                         borderRadius: '6px',

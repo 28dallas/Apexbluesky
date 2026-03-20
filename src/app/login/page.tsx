@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import styles from './Auth.module.css';
+import { trackEvent } from '@/lib/analytics';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function LoginPage() {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        trackEvent('login_submit');
 
         const { error } = await supabase.auth.signInWithPassword({
             email,
@@ -23,8 +25,12 @@ export default function LoginPage() {
         });
 
         if (error) {
+            trackEvent('login_error', {
+                message: error.message,
+            });
             setError(error.message);
         } else {
+            trackEvent('login_success');
             window.location.href = '/';
         }
         setLoading(false);
@@ -65,7 +71,13 @@ export default function LoginPage() {
                         <div className={styles.inputGroup}>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <label>Password</label>
-                                <Link href="/forgot" className={styles.forgot}>Forgot?</Link>
+                                <Link
+                                    href="/forgot"
+                                    className={styles.forgot}
+                                    onClick={() => trackEvent('forgot_password_click')}
+                                >
+                                    Forgot?
+                                </Link>
                             </div>
                             <input
                                 type="password"
@@ -82,7 +94,7 @@ export default function LoginPage() {
                     </form>
 
                     <p className={styles.switch}>
-                        Don't have an account? <Link href="/signup">Sign Up for Free</Link>
+                        Don't have an account? <Link href="/signup" onClick={() => trackEvent('signup_page_click', { source: 'login_page' })}>Sign Up for Free</Link>
                     </p>
                 </div>
 

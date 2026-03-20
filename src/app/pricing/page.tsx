@@ -5,6 +5,7 @@ import { Check, Shield, Zap, Star } from 'lucide-react';
 import styles from './pricing.module.css';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
+import { trackEvent } from '@/lib/analytics';
 
 const plans = [
     {
@@ -108,7 +109,14 @@ export default function PricingPage() {
                                     ))}
                                 </ul>
 
-                                <Link href={plan.href} className={plan.highlight ? 'btn-primary' : styles.secondaryBtn}>
+                                <Link
+                                    href={plan.href}
+                                    className={plan.highlight ? 'btn-primary' : styles.secondaryBtn}
+                                    onClick={() => trackEvent('pricing_cta_click', {
+                                        plan_name: plan.name,
+                                        cta_label: plan.cta,
+                                    })}
+                                >
                                     {plan.cta}
                                 </Link>
                             </div>

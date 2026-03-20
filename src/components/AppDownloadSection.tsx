@@ -5,6 +5,7 @@ import Image from 'next/image';
 import QRCode from 'qrcode';
 import { Smartphone, Send, CheckCircle2 } from 'lucide-react';
 import styles from './AppDownloadSection.module.css';
+import { trackEvent } from '@/lib/analytics';
 
 export default function AppDownloadSection() {
     const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
@@ -36,12 +37,16 @@ export default function AppDownloadSection() {
     const handleSendLink = (e: React.FormEvent) => {
         e.preventDefault();
         if (!phoneNumber || phoneNumber.length < 9) return;
-        
+
+        trackEvent('app_link_sms_request', {
+            phone_length: phoneNumber.length,
+        });
         setIsLoading(true);
         // Mock SMS sending logic
         setTimeout(() => {
             setIsLoading(false);
             setIsSent(true);
+            trackEvent('app_link_sms_sent');
             setPhoneNumber('');
             setTimeout(() => setIsSent(false), 5000);
         }, 1500);
@@ -60,6 +65,9 @@ export default function AppDownloadSection() {
                         <div style={{ marginTop: '1.5rem' }}>
                             <button 
                                 onClick={() => {
+                                    trackEvent('app_install_click', {
+                                        location: 'app_download_section',
+                                    });
                                     // PWA install prompt would go here
                                     if ((window as any).deferredPrompt) {
                                         (window as any).deferredPrompt.prompt();

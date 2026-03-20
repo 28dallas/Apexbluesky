@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import styles from '../login/Auth.module.css';
+import { trackEvent } from '@/lib/analytics';
 
 export default function SignupPage() {
     const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ export default function SignupPage() {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        trackEvent('signup_submit');
 
         const { error } = await supabase.auth.signUp({
             email,
@@ -27,8 +29,12 @@ export default function SignupPage() {
         });
 
         if (error) {
+            trackEvent('signup_error', {
+                message: error.message,
+            });
             setError(error.message);
         } else {
+            trackEvent('signup_success');
             setSuccess(true);
         }
         setLoading(false);
@@ -45,7 +51,12 @@ export default function SignupPage() {
                             We sent a confirmation link to <strong>{email}</strong>.
                             Please click the link to activate your account.
                         </p>
-                        <Link href="/login" className="btn-primary" style={{ width: '100%', textAlign: 'center' }}>
+                        <Link
+                            href="/login"
+                            className="btn-primary"
+                            style={{ width: '100%', textAlign: 'center' }}
+                            onClick={() => trackEvent('login_page_click', { source: 'signup_success' })}
+                        >
                             Back to Login
                         </Link>
                     </div>
@@ -108,7 +119,7 @@ export default function SignupPage() {
                     </form>
 
                     <p className={styles.switch}>
-                        Already have an account? <Link href="/login">Sign In</Link>
+                        Already have an account? <Link href="/login" onClick={() => trackEvent('login_page_click', { source: 'signup_page' })}>Sign In</Link>
                     </p>
 
                     {/* TikTok follow prompt */}
@@ -131,6 +142,10 @@ export default function SignupPage() {
                         }}
                         onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,0,80,0.5)'; }}
                         onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,0,80,0.25)'; }}
+                        onClick={() => trackEvent('social_click', {
+                            platform: 'tiktok',
+                            source: 'signup_page',
+                        })}
                     >
                         <div style={{
                             width: '42px',
