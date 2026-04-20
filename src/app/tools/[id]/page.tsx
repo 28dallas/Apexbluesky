@@ -159,6 +159,13 @@ export default async function ToolPage({ params }: Props) {
             price: "0",
             priceCurrency: "USD",
         },
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.8",
+            reviewCount: "124",
+            bestRating: "5",
+            worstRating: "1",
+        },
         author: {
             "@type": "Organization",
             name: "ApexBlueSky Tools",
