@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  title: "ApexBlueSky Tools - Premium Utility Hub",
-  description: "High-performance, privacy-focused tool library for developers, students, and creators. 43+ tools built for speed.",
+  title: "Free Online Tools for Developers & Creators | ApexBlueSky",
+  description: "40+ free online tools for PDF, code, images & writing. No signup needed. Works in your browser. Built for developers, students & creators worldwide.",
   openGraph: {
-    title: "ApexBlueSky Tools",
-    description: "43+ High-performance web utilities for developers, students, and creators.",
+    title: "Free Online Tools for Developers & Creators | ApexBlueSky",
+    description: "40+ free online tools for PDF, code, images & writing. No signup needed. Works in your browser. Built for developers, students & creators worldwide.",
     url: SITE_URL,
     siteName: 'ApexBlueSky Tools',
     images: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: 'ApexBlueSky Tools Platform',
+        alt: 'ApexBlueSky Tools – 40+ Free Online Tools. Try Free →',
       },
     ],
     locale: 'en_US',
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ApexBlueSky Tools - Premium Utility Hub',
-    description: '43+ lighting-fast tools for developers, students, and creators.',
+    title: 'Free Online Tools for Developers & Creators | ApexBlueSky',
+    description: '40+ free online tools for PDF, code, images & writing. No signup. Works in your browser. Try free →',
     images: [`${SITE_URL}/og-image.jpg`],
   },
   other: {
