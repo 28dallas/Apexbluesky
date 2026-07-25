@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './ToolInterface.module.css';
 import Link from 'next/link';
 import { saveAs } from 'file-saver';
-import { Shield } from 'lucide-react';
+import { Minus, Plus, Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { checkLimit } from '@/lib/limits';
 import Script from 'next/script';
@@ -13,9 +13,9 @@ import { SITE_URL } from '@/lib/site';
 export interface ToolField {
     id: string;
     label: string;
-    type: 'number' | 'text' | 'select' | 'range' | 'textarea' | 'file';
+    type: 'number' | 'text' | 'select' | 'range' | 'textarea' | 'file' | 'grades';
     placeholder?: string;
-    defaultValue?: string | number;
+    defaultValue?: string | number | GradeRow[];
     options?: { label: string; value: string }[];
     min?: number;
     max?: number;
@@ -26,6 +26,7 @@ export interface ToolField {
 type ToolInput = string | File | File[] | Record<string, unknown> | null;
 type ToolOutput = string | number | Blob | null;
 type MaybePromise<T> = T | Promise<T>;
+type GradeRow = { course: string; grade: number };
 
 function getLoadingSteps(inputType: ToolInterfaceProps['inputType'], isAI: boolean) {
     if (isAI) {
@@ -90,7 +91,7 @@ export default function ToolInterface({
     const [formInput, setFormInput] = useState<Record<string, unknown>>(() => {
         const initialForm: Record<string, unknown> = {};
         fields.forEach(f => {
-            initialForm[f.id] = f.defaultValue !== undefined ? f.defaultValue : (f.type === 'number' ? 0 : '');
+            initialForm[f.id] = f.defaultValue !== undefined ? f.defaultValue : (f.type === 'number' ? 0 : f.type === 'grades' ? [{ course: '', grade: 0 }] : '');
         });
         return initialForm;
     });
@@ -124,6 +125,22 @@ export default function ToolInterface({
 
     const handleFormChange = (id: string, value: unknown) => {
         setFormInput(prev => ({ ...prev, [id]: value }));
+    };
+
+    const updateGradeRow = (id: string, index: number, field: keyof GradeRow, value: string) => {
+        const rows = Array.isArray(formInput[id]) ? [...(formInput[id] as GradeRow[])] : [];
+        rows[index] = { ...rows[index], [field]: field === 'grade' ? Number(value) : value };
+        handleFormChange(id, rows);
+    };
+
+    const addGradeRow = (id: string) => {
+        const rows = Array.isArray(formInput[id]) ? [...(formInput[id] as GradeRow[])] : [];
+        handleFormChange(id, [...rows, { course: '', grade: 0 }]);
+    };
+
+    const removeGradeRow = (id: string, index: number) => {
+        const rows = Array.isArray(formInput[id]) ? [...(formInput[id] as GradeRow[])] : [];
+        if (rows.length > 1) handleFormChange(id, rows.filter((_, rowIndex) => rowIndex !== index));
     };
 
     const handleAction = async () => {
@@ -295,6 +312,17 @@ export default function ToolInterface({
                                             accept={f.accept}
                                             onChange={(e) => handleFormChange(f.id, e.target.files?.[0] ?? null)}
                                         />
+                                    ) : f.type === 'grades' ? (
+                                        <div style={{ display: 'grid', gap: '0.5rem' }}>
+                                            {(Array.isArray(formInput[f.id]) ? formInput[f.id] as GradeRow[] : []).map((row, index) => (
+                                                <div key={`${f.id}-${index}`} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 7rem 2.5rem', gap: '0.5rem', alignItems: 'center' }}>
+                                                    <input className={styles.input} aria-label={`Course ${index + 1}`} placeholder="Course" value={row.course} onChange={(e) => updateGradeRow(f.id, index, 'course', e.target.value)} />
+                                                    <input className={styles.input} aria-label={`Grade point for ${row.course || `course ${index + 1}`}`} type="number" min="0" max="4" step="0.1" value={row.grade} onChange={(e) => updateGradeRow(f.id, index, 'grade', e.target.value)} />
+                                                    <button type="button" className={styles.input} aria-label={`Remove course ${index + 1}`} title="Remove course" onClick={() => removeGradeRow(f.id, index)} disabled={(formInput[f.id] as GradeRow[]).length <= 1}><Minus size={16} /></button>
+                                                </div>
+                                            ))}
+                                            <button type="button" className={styles.input} onClick={() => addGradeRow(f.id)} style={{ display: 'inline-flex', width: 'fit-content', alignItems: 'center', gap: '0.4rem' }}><Plus size={16} /> Add course</button>
+                                        </div>
                                     ) : (
                                         <input
                                             type={f.type}
@@ -375,7 +403,7 @@ export default function ToolInterface({
                     <span>
                         {isAI
                             ? "AI Cloud: Data processed securely via Gemini AI. No data is stored."
-                            : "Privacy Shield: 100% Local Browser Processing. Your data never leaves your device."}
+                            : "Instant local generation: this tool runs in your browser without AI processing."}
                     </span>
                 </div>
 

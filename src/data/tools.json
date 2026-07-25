@@ -500,8 +500,7 @@
         "category": "Technical",
         "buttonText": "Generate Meta Tags",
         "action": "metaTagGenerator",
-        "initialValue": "My Awesome Site, The best free tools online, tools, web tools, developer",
-        "inputPlaceholder": "Title, Description, Keywords (comma-separated)",
+        "inputPlaceholder": "Enter page details below",
         "seo": {
             "title": "SEO Meta Tag Generator \u2013 Create HTML Meta Tags Free",
             "description": "Generate complete HTML meta tags including title, description, Open Graph, and Twitter Card tags instantly.",
@@ -522,14 +521,14 @@
         }
     },
     "sitemap-gen": {
-        "title": "Sitemap Gen",
-        "description": "Create XML sitemaps to help search engines index your website.",
+        "title": "XML Sitemap Builder",
+        "description": "Create a multi-URL XML sitemap from URLs you provide, one per line.",
         "icon": "\ud83d\uddfa\ufe0f",
         "category": "Technical",
         "buttonText": "Generate Sitemap",
         "action": "sitemapGenerator",
-        "initialValue": "mywebsite.com",
-        "inputPlaceholder": "Enter your domain (e.g. mysite.com)",
+        "initialValue": "https://mywebsite.com/\nhttps://mywebsite.com/about",
+        "inputPlaceholder": "Enter URLs, one per line (e.g. https://example.com/about)",
         "seo": {
             "title": "XML Sitemap Generator \u2013 Free SEO Sitemap Tool",
             "description": "Create an XML sitemap for your website to help Google and other search engines find and index all your pages.",
@@ -911,12 +910,11 @@
         "category": "Education",
         "buttonText": "Calculate GPA",
         "action": "calculateGPA",
-        "initialValue": "{\"Mathematics\": 4.0, \"English\": 3.5, \"Physics\": 3.7}",
-        "inputPlaceholder": "Enter grades as JSON: {\"Subject\": grade_point}",
+        "inputPlaceholder": "Add courses and grade points below",
         "seo": {
             "title": "GPA Calculator Online \u2013 Calculate Your Grade Average Free",
             "description": "Calculate your semester GPA or cumulative GPA instantly. Enter your course grades and get your overall GPA score.",
-            "howTo": "Enter your subjects and grade points in JSON format (e.g. {\"Math\": 4.0, \"English\": 3.5}) and click 'Calculate GPA'.",
+            "howTo": "Add each course and its grade point, then click 'Calculate GPA'.",
             "faqs": [
                 {
                     "q": "What GPA scale does this use?",
@@ -943,7 +941,7 @@
         }
     },
     "citation-gen": {
-        "title": "Citation Generator",
+        "title": "Citation Checklist",
         "description": "Organize verified source details before formatting citations in your required academic style.",
         "icon": "\ud83d\udd16",
         "category": "Education",
@@ -1049,8 +1047,8 @@
         }
     },
     "logo-generator": {
-        "title": "Logo Generator",
-        "description": "Create simple text-based logos with customizable fonts and colors.",
+        "title": "Brand Starter Kit",
+        "description": "Get a practical brand palette, font pairing, and logo design direction.",
         "icon": "\ud83c\udfa8",
         "category": "Images",
         "buttonText": "Generate Logo Concept",
@@ -1647,27 +1645,6 @@
                 {
                     "q": "Does it show private follower demographics?",
                     "a": "No. It estimates account performance from public profile counts and recent public post metrics only."
-                }
-            ]
-        }
-    },
-    "bulk-actions": {
-        "title": "Bulk Actions",
-        "description": "Perform batch operations on multiple files simultaneously.",
-        "icon": "\ud83d\udee0\ufe0f",
-        "category": "BlueSky",
-        "buttonText": "Generate Plan",
-        "action": "bulkActions",
-        "initialValue": "Delete all posts from 2024",
-        "inputPlaceholder": "Describe the bulk action (e.g. Mute all followers of X)...",
-        "seo": {
-            "title": "BlueSky Bulk Actions \u2013 Automate & Manage Your Feed",
-            "description": "Save time on BlueSky by automating repetitive tasks. Easily manage followers, posts, and mutes in bulk with our smart assistant.",
-            "howTo": "Describe the task you want to automate and click 'Generate Plan'. Follow the step-by-step workflow provided.",
-            "faqs": [
-                {
-                    "q": "Are bulk actions safe?",
-                    "a": "The tool provides a plan for you to review. Always double-check batch actions before final execution."
                 }
             ]
         }

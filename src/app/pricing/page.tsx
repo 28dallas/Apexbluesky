@@ -6,6 +6,7 @@ import styles from './pricing.module.css';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { trackEvent } from '@/lib/analytics';
+import PaymentCheckout from '@/components/PaymentCheckout';
 
 const plans = [
     {
@@ -109,16 +110,7 @@ export default function PricingPage() {
                                     ))}
                                 </ul>
 
-                                <Link
-                                    href={plan.href}
-                                    className={plan.highlight ? 'btn-primary' : styles.secondaryBtn}
-                                    onClick={() => trackEvent('pricing_cta_click', {
-                                        plan_name: plan.name,
-                                        cta_label: plan.cta,
-                                    })}
-                                >
-                                    {plan.cta}
-                                </Link>
+                                {plan.highlight ? <PaymentCheckout /> : <Link href={plan.href} className={styles.secondaryBtn} onClick={() => trackEvent('pricing_cta_click', { plan_name: plan.name, cta_label: plan.cta })}>{plan.cta}</Link>}
                             </div>
                         ))}
                     </div>
@@ -151,6 +143,8 @@ export default function PricingPage() {
                             {' '}<strong>0 credits</strong>. Pro members do not spend credits on supported tools and get unlimited access
                             within their plan limits.
                         </p>
+                        <div style={{ marginTop: '1rem' }}><PaymentCheckout plan="credits_100" /></div>
+                        <Link href="/billing" style={{ display: 'inline-block', marginTop: '1rem' }}>View billing history</Link>
                     </div>
                 </div>
             </section>

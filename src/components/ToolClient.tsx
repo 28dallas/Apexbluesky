@@ -81,14 +81,10 @@ const actionMap = {
     "generateQRCode": t.generateQRCode,
     "generateUUID": t.generateUUID,
     "wordCount": t.wordCount,
-    "colorPicker": t.colorPicker,
     "pngToJpg": t.pngToJpg,
-    "cropImage": t.cropImage,
-    "addWatermark": t.addWatermark,
     "base64EncodeDecode": t.base64EncodeDecode,
     "urlEncodeDecode": t.urlEncodeDecode,
     "followersAnalysis": t.followersAnalysis,
-    "bulkActions": t.bulkActions,
     "dataExports": t.dataExports
 } as unknown as Record<string, ToolAction>;
 
@@ -189,7 +185,7 @@ export default function ToolClient({ tool, id }: { tool: ToolDefinition, id: str
         'imageResizer': [
             { id: 'file', label: 'Select Image', type: 'file', accept: 'image/*' },
             { id: 'width', label: 'Width (px)', type: 'number', defaultValue: 800 },
-            { id: 'height', label: 'Height (px)', type: 'number', placeholder: 'Optional' }
+            { id: 'height', label: 'Height (px)', type: 'number', defaultValue: 600 }
         ],
         'loanCalculator': [
             { id: 'principal', label: 'Principal Amount', type: 'number', defaultValue: 10000 },
@@ -202,18 +198,21 @@ export default function ToolClient({ tool, id }: { tool: ToolDefinition, id: str
         ],
         'ageCalculator': [
             { id: 'dob', label: 'Date of Birth', type: 'text', placeholder: 'YYYY-MM-DD' }
+        ],
+        'metaTagGenerator': [
+            { id: 'title', label: 'Page Title', type: 'text', placeholder: 'My Awesome Site' },
+            { id: 'description', label: 'Meta Description', type: 'textarea', placeholder: 'A short, accurate page description.' },
+            { id: 'keywords', label: 'Keywords', type: 'text', placeholder: 'tools, web tools, developer' }
+        ],
+        'calculateGPA': [
+            { id: 'grades', label: 'Courses and Grade Points', type: 'grades', defaultValue: [{ course: 'Mathematics', grade: 4 }, { course: 'English', grade: 3.5 }] }
         ]
     };
 
     const aiActions = new Set([
         'essayGenerator', 'paraphraseText', 'grammarChecker', 'generateBlogTitles',
-        'generateBlogPost', 'generateProductDesc', 'draftEmail', 'generateStory',
-        'generateInstaCaption', 'generateYTDescription', 'generateLinkedInPost',
-        'generateTweet', 'generateSEOKeywords', 'generateMetaTagsAI', 'generateBlogOutline',
-        'generateBusinessName', 'generateValueProp', 'generateImagePrompt',
-        'generateCoverLetter', 'generateResumeSummary', 'reviewCode',
-        'generateRegex', 'generateFlashcards', 'generateSlogan', 'generateAltText',
-        'generateSQL', 'generateStudyPlan'
+        'generateBlogPost', 'generateProductDesc', 'draftEmail', 'generateRegex',
+        'generateFlashcards', 'generateSQL'
     ]);
 
     const inputType = formActions[tool.action]

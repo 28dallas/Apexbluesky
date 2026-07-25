@@ -256,17 +256,33 @@ export async function imageCompressor(file: any) {
 
 export async function imageResizer(input: any) {
   const file = input instanceof File ? input : input?.file;
-  const width = input?.width || 800;
-  const height = input?.height;
+  const width = Number(input?.width);
+  const height = Number(input?.height);
 
   if (!file) return "Error: No image uploaded.";
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) {
+    return "Error: Please enter whole-number width and height values greater than zero.";
+  }
+  if (width > 8192 || height > 8192) {
+    return "Error: Width and height must not exceed 8192 pixels.";
+  }
+
   try {
-    const options = {
-      maxWidthOrHeight: height ? Math.max(width, height) : width,
-      useWebWorker: true
-    };
-    const resizedBlob = await imageCompression(file, options);
-    return resizedBlob;
+    const image = await fileToImage(file);
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    if (!context) return "Error: Canvas is not supported in this browser.";
+
+    // The tool promises exact dimensions. Drawing to this canvas deliberately
+    // stretches the source image when the supplied aspect ratio differs.
+    context.drawImage(image, 0, 0, width, height);
+
+    const type = ['image/jpeg', 'image/png', 'image/webp'].includes(file.type)
+      ? file.type
+      : 'image/png';
+    return await canvasToBlob(canvas, type, type === 'image/jpeg' ? 0.92 : undefined);
   } catch (e: any) { return `Error: ${e.message}`; }
 }
 
@@ -328,16 +344,12 @@ export async function essayGenerator(topic: string, options?: { level?: string, 
       const data = await res.json();
       return data.text;
     }
+    const error = await res.json().catch(() => ({}));
+    return `Error: ${error.error || 'Failed to generate essay.'}`;
   } catch (e) {
-    console.error("Gemini API call failed, falling back to template:", e);
+    console.error("Gemini API call failed:", e);
+    return 'Error: Could not connect to AI service.';
   }
-
-  // Fallback template
-  const level = options?.level || "University";
-  const tone = options?.tone || "Analytical";
-  const cite = options?.includeCitations ? "\n\nReferences:\n1. Smith, J. (2024). Digital Trends.\n2. Doe, A. (2025). The Future of " + topic + "." : "";
-
-  return `[${level} Level ${tone} Essay]\n\nTopic: ${topic}\n\nIntroduction: In ${level.toLowerCase()} studies, ${topic} is considered a pivotal theme. This ${tone.toLowerCase()} exploration will delve into its core implications...\n\nBody: Examining ${topic} from a ${tone.toLowerCase()} perspective reveals that several factors are at play. Most academic sources suggest that the intersection of technology and human interest in ${topic} creates a unique dynamic...\n\nConclusion: To conclude, understanding ${topic} requires a nuanced approach that takes into account both historical context and modern shifts.${cite}`;
 }
 
 export async function paraphraseText(text: string, options?: { tone?: string }) {
@@ -346,7 +358,7 @@ export async function paraphraseText(text: string, options?: { tone?: string }) 
   try {
     const res = await fetch('/api/tools/paraphraser', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await authenticatedHeaders(),
       body: JSON.stringify({ text, options })
     });
 
@@ -368,7 +380,7 @@ export async function grammarChecker(text: string) {
   try {
     const res = await fetch('/api/tools/grammar-checker', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await authenticatedHeaders(),
       body: JSON.stringify({ text })
     });
 
@@ -381,6 +393,21 @@ export async function grammarChecker(text: string) {
   } catch (e) {
     console.error("Grammar Checker API call failed:", e);
     return "Error: Could not connect to AI service.";
+  }
+}
+
+async function generateWithAiTool(tool: 'regex' | 'sql' | 'flashcards' | 'blogPost' | 'productDescription' | 'email' | 'blogTitles', input: string) {
+  try {
+    const res = await fetch('/api/tools/ai-assistant', {
+      method: 'POST',
+      headers: await authenticatedHeaders(),
+      body: JSON.stringify({ tool, input })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && typeof data.text === 'string') return data.text;
+    return `Error: ${data.error || 'The AI service could not generate a result.'}`;
+  } catch {
+    return 'Error: Could not connect to the AI service.';
   }
 }
 
@@ -440,6 +467,12 @@ import * as prettier from 'prettier/standalone';
 import * as parserBabel from 'prettier/parser-babel';
 import * as parserPostcss from 'prettier/parser-postcss';
 import * as parserHtml from 'prettier/parser-html';
+import { supabase } from '@/lib/supabase';
+
+async function authenticatedHeaders() {
+  const { data } = await supabase.auth.getSession();
+  return { 'Content-Type': 'application/json', ...(data.session ? { Authorization: `Bearer ${data.session.access_token}` } : {}) };
+}
 
 // --- 5. SEO TOOLS ---
 export async function keywordDensity(content: string, kw: string = "Next.js") {
@@ -448,14 +481,22 @@ export async function keywordDensity(content: string, kw: string = "Next.js") {
   return `Density for "${kw}": ${((count / words.length) * 100).toFixed(2)}% (${count} occurrences)`;
 }
 
-export async function metaTagGenerator(input: string) {
-  if (!input.includes(',')) return "Error: Use 'Title, Description, Keywords'";
-  const [t, d, k] = input.split(',').map(s => s.trim());
-  return `<title>${t}</title>\n<meta name="description" content="${d}">\n<meta name="keywords" content="${k}">`;
+export async function metaTagGenerator(input: unknown) {
+  const values = typeof input === 'string'
+    ? input.split(',').map((value) => value.trim())
+    : [input && typeof input === 'object' ? String((input as Record<string, unknown>).title ?? '').trim() : '', input && typeof input === 'object' ? String((input as Record<string, unknown>).description ?? '').trim() : '', input && typeof input === 'object' ? String((input as Record<string, unknown>).keywords ?? '').trim() : ''];
+  const [title, description, keywords] = values;
+  if (!title || !description || !keywords) return 'Error: Enter a title, description, and keywords.';
+  const escapeAttribute = (value: string) => value.replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]!));
+  return `<title>${escapeAttribute(title)}</title>\n<meta name="description" content="${escapeAttribute(description)}">\n<meta name="keywords" content="${escapeAttribute(keywords)}">`;
 }
 
-export async function sitemapGenerator(domain: string) {
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://${domain}/</loc></url>\n</urlset>`;
+export async function sitemapGenerator(input: string) {
+  const urls = input.split(/\r?\n|,/).map((value) => value.trim()).filter(Boolean)
+    .map((value) => /^https?:\/\//i.test(value) ? value : `https://${value}`);
+  if (!urls.length) return 'Error: Enter at least one URL, one per line.';
+  const escapeXml = (value: string) => value.replace(/[<>&'\"]/g, (char) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[char]!));
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...urls.map((url) => `  <url><loc>${escapeXml(url)}</loc></url>`), '</urlset>'].join('\n');
 }
 
 // --- 6. DEVELOPER TOOLS ---
@@ -649,13 +690,16 @@ export async function tiktokCaption(topic: string) {
 }
 
 // --- 10. STUDENT TOOLS ---
-export async function calculateGPA(json: string) {
-  try {
-    const grades = JSON.parse(json);
-    const vals = Object.values(grades).map(Number).filter(n => !isNaN(n));
-    if (vals.length === 0) return "Error: No valid grades provided.";
-    return (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2);
-  } catch (e) { return "Error: Invalid JSON format. Use {\"Math\": 4, \"English\": 3.5}"; }
+export async function calculateGPA(input: unknown) {
+  const gradeRows = input && typeof input === 'object' && !Array.isArray(input)
+    ? (input as Record<string, unknown>).grades
+    : undefined;
+  const values = Array.isArray(gradeRows)
+    ? gradeRows.map((row) => Number((row as Record<string, unknown>).grade)).filter((grade) => Number.isFinite(grade) && grade >= 0 && grade <= 4)
+    : [];
+
+  if (!values.length) return 'Error: Add at least one grade between 0.0 and 4.0.';
+  return (values.reduce((total, grade) => total + grade, 0) / values.length).toFixed(2);
 }
 
 export async function citationGenerator(input: string) {
@@ -983,61 +1027,38 @@ export async function urlEncodeDecode(input: string) {
   }
 }
 
-// Dummy functions for custom UI tools so ToolClient.tsx doesn't throw undefined exported member errors
-export async function colorPicker(input: string) {
-  const colors = ["#4f46e5", "#06b6d4", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"];
-  const random = colors[Math.floor(Math.random() * colors.length)];
-  return `Suggested Color Palette for "${input || 'Design'}":\n\nPrimary: ${random}\nSecondary: #f3f4f6\nAccent: #374151\n\nTip: Use these Hex codes in your CSS or design software.`;
-}
-export async function cropImage(file: any) {
-  if (!(file instanceof File)) return "Error: No image uploaded.";
-  try {
-    const img = await fileToImage(file);
-    const canvas = document.createElement('canvas');
-    const size = Math.min(img.width, img.height);
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return "Error: Canvas not supported.";
-    // Simple center crop to square
-    ctx.drawImage(img, (img.width - size) / 2, (img.height - size) / 2, size, size, 0, 0, size, size);
-    return await canvasToBlob(canvas, 'image/png');
-  } catch (e: any) { return `Error: ${e.message}`; }
-}
-export async function addWatermark(file: any) {
-  if (!(file instanceof File)) return "Error: No image uploaded.";
-  try {
-    const img = await fileToImage(file);
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return "Error: Canvas not supported.";
-    ctx.drawImage(img, 0, 0);
-    ctx.font = `${Math.round(img.width * 0.05)}px Arial`;
-    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-    ctx.textAlign = "right";
-    ctx.fillText("ApexBlueSky Tools", img.width - 20, img.height - 20);
-    return await canvasToBlob(canvas, 'image/png');
-  } catch (e: any) { return `Error: ${e.message}`; }
-}
-
 export function generateBlogTitles(topic: string) {
   if (!topic || topic.length < 3) return "Error: Topic too short.";
+  return generateWithAiTool('blogTitles', topic);
+  /*
   return `Option 1: The Ultimate Guide to ${topic} in 2026\nOption 2: 7 Proven Strategies for ${topic} That Work\nOption 3: What No One Tells You About ${topic}\nOption 4: How to Master ${topic} Without Losing Your Mind`;
+  */
 }
 
 export function generateBlogPost(outline: string) {
   if (!outline || outline.length < 3) return "Error: Outline too short.";
+  return generateWithAiTool('blogPost', outline);
+  /*
   return `[AI Draft for: ${outline}]\n\nIntroduction:\nWelcome to this comprehensive guide on ${outline}. In today's fast-paced world, understanding this topic is more critical than ever.\n\nKey Concepts:\n- First and foremost, we must consider the core principles behind ${outline}.\n- Secondly, implementing these strategies requires patience and consistency.\n- Finally, tracking your progress is the key to mastering ${outline}.\n\nConclusion:\nTo conclude, ${outline} is an essential subject that demands our attention, and by following these steps, you can achieve remarkable results.`;
+  */
 }
 
 export function generateProductDesc(features: string) {
+  if (!features || features.length < 3) return "Error: Features too short.";
+  return generateWithAiTool('productDescription', features);
+}
+
+function generateProductDescTemplate(features: string) {
   if (!features || features.length < 3) return "Error: Features too short.";
   return `Product Description:\n\nElevate your experience with this premium product featuring: ${features}.\n\nDesigned for maximum performance and unparalleled reliability, it's the perfect addition to your daily routine. Don't settle for less—upgrade today and feel the difference.`;
 }
 
 export function draftEmail(intent: string) {
+  if (!intent || intent.length < 3) return "Error: Intent too short.";
+  return generateWithAiTool('email', intent);
+}
+
+function draftEmailTemplate(intent: string) {
   if (!intent || intent.length < 3) return "Error: Intent too short.";
   return `Subject: Regarding your recent inquiry / ${intent.substring(0, 20)}...\n\nHi there,\n\nI'm writing to you today regarding: ${intent}.\n\nPlease let me know if you need any further information or if there's a good time for us to connect and discuss this in more detail.\n\nBest regards,\n[Your Name]`;
 }
@@ -1116,14 +1137,14 @@ export function reviewCode(code: string) {
   return `Code Review Analysis:\n\n1. Syntax & Logic: The code appears to be structurally valid, though you should ensure all edge cases are handled (e.g., null checks).\n2. Readability: Consider adding JSDoc comments to document the function parameters and return type.\n3. Best Practices: Use 'const' or 'let' instead of 'var', and ensure you are using strict equality (===) where applicable.\n\nOverall Rating: 8/10. Ready for testing!`;
 }
 
-export function generateRegex(description: string) {
+export async function generateRegex(description: string) {
   if (!description || description.length < 5) return "Error: Please describe the pattern.";
-  return `Regex Generation for: "${description}"\n\nSuggested Regular Expression:\n/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/g\n\nExplanation:\n- ^ asserts position at start of a line\n- [\\w-\\.]+ matches one or more word characters, hyphens, or dots\n- @ matches the literal @ symbol\n- ([\\w-]+\\.)+ matches the domain name\n- [\\w-]{2,4}$ matches the top-level domain (TLD) and asserts end of line.\n\nNote: This is a robust starting point, be sure to test it with your specific edge cases!`;
+  return generateWithAiTool('regex', description);
 }
 
-export function generateFlashcards(text: string) {
+export async function generateFlashcards(text: string) {
   if (!text || text.length < 10) return "Error: Please paste enough text to generate flashcards.";
-  return `Flashcards Generated from Notes:\n\nQ: What is the main concept discussed in the text?\nA: The text explains the core fundamentals and mechanisms of the topic.\n\nQ: What are the primary components involved?\nA: It involves several key elements that interact to produce the final outcome as described.\n\nQ: How does this process impact the broader system?\nA: It ensures efficiency, stability, and provides a foundation for further functional developments.\n\nTip: You can copy these Q&A pairs directly into Anki or Quizlet!`;
+  return generateWithAiTool('flashcards', text);
 }
 
 export function generateSlogan(desc: string) {
@@ -1138,9 +1159,9 @@ export function generateAltText(imageDesc: string) {
   return `Suggested Alt Text:\n\n1. (Descriptive): ${imageDesc}\n2. (SEO Optimized): Photograph of ${imageDesc.toLowerCase()} for professional web content.\n3. (Concise): ${imageDesc.split(',')[0]} in a clear, modern setting.`;
 }
 
-export function generateSQL(english: string) {
+export async function generateSQL(english: string) {
   if (!english || english.length < 5) return "Error: Description too short.";
-  return `Generated SQL Query:\n\nSELECT * FROM data_table \nWHERE condition_field = "result"\nAND timestamp > NOW() - INTERVAL "30 days"\nORDER BY priority DESC;\n\n/* Explanation:\n1. SELECT * picks all columns.\n2. WHERE filters based on your intent: "${english}".\n3. ORDER BY ensures you see the most important data first. */`;
+  return generateWithAiTool('sql', english);
 }
 
 export function generateStudyPlan(goal: string) {

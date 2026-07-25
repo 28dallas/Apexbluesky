@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
+import { consumeCredits } from '@/lib/server/billing';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY || '');
 
@@ -10,6 +11,7 @@ export async function POST(req: Request) {
         if (!topic || topic.length < 3) {
             return NextResponse.json({ error: 'Topic too short' }, { status: 400 });
         }
+        await consumeCredits(req, 2);
 
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
