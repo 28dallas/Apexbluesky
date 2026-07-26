@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  title: "Free Online Tools for Developers & Creators | ApexBlueSky",
-  description: "40+ free online tools for PDF, code, images & writing. No signup needed. Works in your browser. Built for developers, students & creators worldwide.",
+  title: "ApexBlueSky | Build smarter. Automate more. Ship faster.",
+  description: "Free tools, digital assets, AI apps, and custom automation for founders, creators, and growing teams.",
   openGraph: {
     title: "Free Online Tools for Developers & Creators | ApexBlueSky",
     description: "40+ free online tools for PDF, code, images & writing. No signup needed. Works in your browser. Built for developers, students & creators worldwide.",

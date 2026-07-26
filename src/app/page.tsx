@@ -1,122 +1,51 @@
-'use client';
-
-import { Suspense, useState } from 'react';
-import ToolCard from '@/components/ToolCard';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { Search } from 'lucide-react';
-import styles from './page.module.css';
-
-import toolsData from '@/data/tools.json';
-import AppDownloadSection from '@/components/AppDownloadSection';
-import RecentlyUsed from '@/components/RecentlyUsed';
+import { ArrowRight, Boxes, Code2, Layers3, Sparkles, WandSparkles } from 'lucide-react';
 import Footer from '@/components/Footer';
-import { useAuth } from '@/context/AuthContext';
-import { TRENDING_TOOL_IDS } from '@/config/toolConfig';
-import type { ToolDefinition, ToolWithId } from '@/types/tools';
+import styles from './ecosystem.module.css';
 
-const tools: ToolWithId[] = Object.entries(toolsData).map(([id, data]) => ({
-  id,
-  ...(data as ToolDefinition)
-}));
-
-const trendingIds = TRENDING_TOOL_IDS;
-const mpesaTool = tools.find((tool) => tool.id === 'mpesa-to-pdf');
+const paths = [
+  { icon: WandSparkles, eyebrow: 'Start free', title: 'Use a tool', text: 'Get instant help with files, images, writing, PDFs, and practical developer tasks.', href: '/tools', action: 'Explore tools' },
+  { icon: Layers3, eyebrow: 'Build faster', title: 'Buy assets & apps', text: 'Production-ready starters, automation assets, and focused AI applications.', href: '/store', action: 'Browse the store' },
+  { icon: Boxes, eyebrow: 'Scale your business', title: 'Work with us', text: 'Bring us your workflow, bottleneck, or product idea. We will help build the system behind it.', href: '/solutions', action: 'Explore solutions' },
+];
 
 export default function Home() {
   return (
-    <Suspense fallback={<main className={styles.main} />}>
-      <HomeContent />
-    </Suspense>
-  );
-}
-
-function HomeContent() {
-  const { isPremium } = useAuth();
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState('');
-  const activeCategory = searchParams.get('category') || 'All';
-  const trendingTools = trendingIds
-    .map((id) => tools.find((tool) => tool.id === id))
-    .filter((tool): tool is ToolWithId => Boolean(tool));
-
-  const filteredTools = tools.filter(t => {
-    const matchesCategory = activeCategory === 'All' || t.category.includes(activeCategory);
-    const matchesSearch = searchQuery === '' ||
-      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  return (
-    <main className={styles.main}>
+    <main className={styles.page}>
       <section className={styles.hero}>
         <div className="container">
-          <h1 className={styles.heroTitle}>Every tool you need to work with files in one place</h1>
-          <p className={styles.heroSub}>
-            53+ tools to use PDFs and other files, at your fingertips.
-            {isPremium ? ' Enjoy unlimited professional access.' : ' All are easy to use!'}
-          </p>
-          <div className={styles.searchContainer}>
-            <Search className={styles.searchIcon} size={20} />
-            <input
-              type="text"
-              placeholder="Search tools (e.g., PDF to Word, M-Pesa, JSON...)"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.searchInput}
-            />
+          <p className={styles.kicker}><Sparkles size={15} /> The ApexBlueSky ecosystem</p>
+          <h1>Build smarter.<br /><span>Automate more.</span> Ship faster.</h1>
+          <p className={styles.lead}>Free utilities, production-ready digital assets, AI apps, and custom automation for founders, creators, and growing teams.</p>
+          <div className={styles.heroActions}>
+            <Link className="btn-primary" href="/tools">Explore free tools <ArrowRight size={17} /></Link>
+            <Link className={styles.secondaryButton} href="/solutions">Build a custom solution</Link>
           </div>
-
-          {mpesaTool && (
-            <div className="glass" style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid rgba(34, 197, 94, 0.25)' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
-                <div style={{ maxWidth: '720px' }}>
-                  <p style={{ margin: 0, color: '#4ade80', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.8rem' }}>
-                    Kenya Spotlight
-                  </p>
-                  <h2 style={{ margin: '0.5rem 0', color: '#fff', fontSize: '1.7rem' }}>
-                    {mpesaTool.icon} M-Pesa Statement PDF
-                  </h2>
-                  <p style={{ margin: 0, color: '#cbd5e1', lineHeight: 1.7 }}>
-                    Convert pasted M-Pesa SMS messages or monthly statement PDFs into a clean downloadable document. It is one of the most locally useful tools on the platform and built specifically for real workflows in Kenya.
-                  </p>
-                </div>
-                <Link href={`/tools/${mpesaTool.id}`} className="btn-primary" style={{ whiteSpace: 'nowrap' }}>
-                  Open M-Pesa Tool
-                </Link>
-              </div>
-            </div>
-          )}
+          <div className={styles.proof}><span>Private by design</span><i /> <span>Built in Kenya, for everywhere</span><i /> <span>Made to remove busywork</span></div>
         </div>
       </section>
 
-      <section id="tools" className={styles.toolsSection}>
+      <section className={styles.paths}>
         <div className="container">
-
-          {searchQuery === '' && activeCategory === 'All' && (
-            <div className={styles.trendingSection}>
-              <RecentlyUsed />
-              <h2 className={styles.sectionTitle}>🔥 Trending Tools</h2>
-              <div className={styles.grid}>
-                {trendingTools.map(t => (
-                  <ToolCard key={`trend-${t.id}`} {...t} />
-                ))}
-              </div>
-              <h2 className={styles.sectionTitle} style={{ marginTop: '5rem' }}>Explore All Tools</h2>
-            </div>
-          )}
-
-          <div className={styles.grid}>
-            {filteredTools.map((tool) => (
-              <ToolCard key={tool.id} {...tool} />
+          <div className={styles.sectionIntro}><p>ONE PLATFORM, THREE WAYS TO MOVE</p><h2>Choose the fastest path from idea to outcome.</h2></div>
+          <div className={styles.pathGrid}>
+            {paths.map(({ icon: Icon, eyebrow, title, text, href, action }) => (
+              <Link href={href} className={styles.pathCard} key={title}>
+                <div className={styles.icon}><Icon size={24} /></div>
+                <p>{eyebrow}</p><h3>{title}</h3><span>{text}</span>
+                <strong>{action} <ArrowRight size={16} /></strong>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <AppDownloadSection />
-
+      <section className={styles.featured}>
+        <div className="container"><div className={styles.featuredPanel}>
+          <div><p className={styles.label}>THE FOUNDATION</p><h2>Useful tools today.<br />A stronger business tomorrow.</h2><p>Every tool is designed to solve a real problem quickly. As your needs grow, the same ecosystem gives you products, apps, and hands-on support.</p><Link href="/tools" className={styles.textLink}>See the free tool library <ArrowRight size={16} /></Link></div>
+          <div className={styles.toolStack}><div><Code2 size={19} /><span>Developer utilities</span></div><div><WandSparkles size={19} /><span>File &amp; content tools</span></div><div><Layers3 size={19} /><span>Automation-ready workflows</span></div></div>
+        </div></div>
+      </section>
       <Footer />
     </main>
   );

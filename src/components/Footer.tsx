@@ -20,7 +20,7 @@ export default function Footer() {
                             />
                         </Link>
                         <p className={styles.footerValueProp}>
-                            Privacy-first web tools for developers, students, and creators. Use free tools instantly, then upgrade for Pro access and credit-based features.
+                            Tools, automations, and products that help founders, creators, and growing teams build smarter and ship faster.
                         </p>
                         <div className={styles.footerSocials}>
                             <a href="https://github.com/NathanKrop" target="_blank" className={styles.socialIcon} title="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7a3.37 3.37 0 0 0-.94 2.58V22"></path></svg></a>
@@ -33,6 +33,14 @@ export default function Footer() {
                                 <strong>Privacy First.</strong> Files are processed locally in your browser where possible, or securely on cloud servers. Auto-deleted after use.
                             </span>
                         </div>
+                    </div>
+
+                    <div className={styles.footerCol}>
+                        <h4>Explore</h4>
+                        <Link href="/tools" className={styles.footerLink}>Free Tools</Link>
+                        <Link href="/apps" className={styles.footerLink}>Apps</Link>
+                        <Link href="/store" className={styles.footerLink}>Digital Store</Link>
+                        <Link href="/solutions" className={styles.footerLink}>Custom Solutions</Link>
                     </div>
 
                     <div className={styles.footerCol}>
@@ -63,10 +71,9 @@ export default function Footer() {
                     </div>
 
                     <div className={styles.footerCol}>
-                        <h4>Developer Details</h4>
-                        <div className={styles.footerLink} style={{ cursor: 'default' }}>Name: Nate</div>
-                        <div className={styles.footerLink} style={{ cursor: 'default' }}>Contact: +254702605566</div>
-                        <a href="mailto:neithank47@gmail.com" className={styles.footerLink}>Email: neithank47@gmail.com</a>
+                        <h4>Developers</h4>
+                        <Link href="/developers" className={styles.footerLink}>Developer Platform</Link>
+                        <Link href="/contact" className={styles.footerLink}>API Interest</Link>
                     </div>
                 </div>
 
