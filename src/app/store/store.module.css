@@ -144,6 +144,41 @@
 
 /* ── Responsive ── */
 @media (max-width:1100px){.dealGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.aeTrustStrip{grid-template-columns:repeat(2,1fr)}.aeTrustItem:nth-child(2){border-right:none}.aeTrustItem:nth-child(3){border-top:1px solid rgba(255,255,255,.07)}}
-@media (max-width:960px){.storeHeroInner{grid-template-columns:1fr}.dealGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.faqGrid{grid-template-columns:1fr}}
-@media (max-width:640px){.storeHero{padding:60px 0 48px}.storeHeroActions{flex-direction:column;align-items:flex-start}.dealGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.aeTrustStrip{grid-template-columns:1fr}.aeTrustItem{border-right:none;border-top:1px solid rgba(255,255,255,.07)}.aeTrustItem:first-child{border-top:none}.aeTopBar{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}}
-@media (max-width:420px){.dealGrid{grid-template-columns:1fr}}
+@media (max-width:960px){
+  .storeHeroInner{grid-template-columns:1fr}
+  .dealGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .faqGrid{grid-template-columns:1fr}
+  .featuredImg{height:260px}
+}
+@media (max-width:640px){
+  .storeHero{padding:48px 0 36px}
+  .storeHeroCopy h1{font-size:clamp(1.8rem,7vw,2.6rem)}
+  .storeHeroActions{flex-direction:column;align-items:stretch}
+  .storePrimaryCta,.storeSecondaryCta{justify-content:center;width:100%}
+  .storeTrustRow{gap:6px}
+  .storeTrustRow span{font-size:.75rem;padding:6px 10px}
+  .dealGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .dealImageWrap{height:150px}
+  .dealBody{padding:10px}
+  .salePrice{font-size:1rem}
+  .viewDealBtn{padding:9px;font-size:.8rem}
+  .aeTrustStrip{grid-template-columns:repeat(2,1fr)}
+  .aeTrustItem{padding:16px}
+  .aeTrustItem:nth-child(odd){border-right:1px solid rgba(255,255,255,.07)}
+  .aeTrustItem:nth-child(even){border-right:none}
+  .aeTrustItem:nth-child(3),.aeTrustItem:nth-child(4){border-top:1px solid rgba(255,255,255,.07)}
+  .aeTopBar{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;gap:8px;font-size:.75rem;padding:8px 16px}
+  .featuredImg{height:220px}
+  .featuredSalePrice{font-size:1.6rem}
+  .claimDealBtn{margin:4px 14px 14px;padding:13px}
+  .flashDealStrip{padding:8px 14px;gap:8px}
+  .faqSection{padding:40px 0 32px}
+  .filterBar{gap:7px}
+  .filterBtn,.filterBtnActive{padding:8px 14px;font-size:.8rem}
+  .breadcrumbList{font-size:.75rem}
+  .storeSection{padding:40px 0 28px}
+}
+@media (max-width:420px){
+  .dealGrid{grid-template-columns:1fr}
+  .dealImageWrap{height:200px}
+}

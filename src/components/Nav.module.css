@@ -1,0 +1,132 @@
+/* ── Hamburger button — mobile only ── */
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.hamburger:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* ── Hide desktop-only items on mobile ── */
+.desktopOnly { display: inline-flex; }
+
+/* ── Backdrop ── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  background: rgba(2, 8, 23, 0.7);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+/* ── Slide-in drawer ── */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  width: min(320px, 88vw);
+  height: 100dvh;
+  background: #0d1424;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+.drawerOpen { transform: translateX(0); }
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.drawerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  cursor: pointer;
+}
+
+.drawerLinks {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  gap: 4px;
+  flex: 1;
+}
+.drawerLink {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  min-height: 48px;
+}
+.drawerLink:hover { background: rgba(255, 255, 255, 0.06); color: #f1f5f9; }
+.drawerLinkActive { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; }
+
+.drawerActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.drawerActionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background 0.2s;
+}
+.drawerActionBtn:hover { background: rgba(255, 255, 255, 0.12); }
+.drawerSignOut { color: #fca5a5; }
+.drawerPrimary {
+  width: 100%;
+  justify-content: center;
+  border-radius: 12px !important;
+  min-height: 48px;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Show hamburger on mobile ── */
+@media (max-width: 760px) {
+  .hamburger { display: flex; }
+  .desktopOnly { display: none; }
+}
